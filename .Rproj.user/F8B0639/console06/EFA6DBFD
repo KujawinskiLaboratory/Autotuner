@@ -1,0 +1,133 @@
+]0;~/MIT/Research/Autotuner[?1034hdhcp-wifi-8021x-168-122-215-50:Autotuner craigmclean$ [Kdhcp-wifi-8021x-168-122-215-50:Autotuner craigmclean$ ls
+Autotuner.Rproj	NAMESPACE	inst
+DESCRIPTION	R		man
+]0;~/MIT/Research/Autotunerdhcp-wifi-8021x-168-122-215-50:Autotuner craigmclean$ cd ~/ 
+]0;~dhcp-wifi-8021x-168-122-215-50:~ craigmclean$ cd[K[Kls
+Applications
+CM_generals_presentation.key
+Creative Cloud Files
+CytoscapeConfiguration
+Desktop
+Documents
+Downloads
+Library
+MIT
+Movies
+Music
+Pictures
+Public
+Zotero
+cm_mvh_2018-10-05_meeting.txt
+combo
+craigmclean23@gmail.com Creative Cloud Files
+]0;~dhcp-wifi-8021x-168-122-215-50:~ craigmclean$ cd /Library/Frameworks/R.framework/Versions/3. 5/Resources/library/Autotuner
+]0;/Library/Frameworks/R.framework/Versions/3.5/Resources/library/Autotunerdhcp-wifi-8021x-168-122-215-50:Autotuner craigmclean$ ls
+DESCRIPTION	Meta		R		help
+INDEX		NAMESPACE	application	html
+]0;/Library/Frameworks/R.framework/Versions/3.5/Resources/library/Autotunerdhcp-wifi-8021x-168-122-215-50:Autotuner craigmclean$ ls application/
+app.R
+]0;~/MIT/Research/Autotuner[?1034hcraigs-mbp-2:Autotuner craigmclean$ ls
+Autotuner.Rproj	NAMESPACE	inst
+DESCRIPTION	R		man
+]0;~/MIT/Research/Autotunercraigs-mbp-2:Autotuner craigmclean$ cd[K[Krm R/hello.R 
+]0;~/MIT/Research/Autotunercraigs-mbp-2:Autotuner craigmclean$ rm R/Autotuner_class.R 
+]0;~/MIT/Research/Autotunercraigs-mbp-2:Autotuner craigmclean$ rm R/MSest_class.R 
+]0;~/MIT/Research/Autotunercraigs-mbp-2:Autotuner craigmclean$ rm R/R[KAutotuner
+Autotuner-class.R  Autotuner_class.R  
+craigs-mbp-2:Autotuner craigmclean$ rm R/Autotuner_class.R 
+]0;~/MIT/Research/Autotunercraigs-mbp-2:Autotuner craigmclean$ ls
+Autotuner.Rproj	NAMESPACE	inst
+DESCRIPTION	R		man
+]0;~/MIT/Research/Autotunercraigs-mbp-2:Autotuner craigmclean$ cd R
+]0;~/MIT/Research/Autotuner/Rcraigs-mbp-2:R craigmclean$ rm MS[K[K
+Autotuner-class.R         extract_peaks.R           peak_time_difference.R
+EICParams.R               fillPeaksModule.R         peakwidth_est.R
+ThresholdingAlgo.R        findPeakWidth.R           peakwidth_table.R
+checkBounds.R             findTruePeaks.R           plot_peaks.R
+checkEICFunctions.R       find_noise.R              plot_signals.R
+checkEICPeaks.R           fineParamsModule.R        recommended_params.R
+create_MSest.R            groupingModule.R          remove_noise.R
+dissectScans.R            launchAutotuner.R         retcorModule.R
+estimate_loess.R          loadDataModule.R          runXCMSModule.R
+estimate_threshold.R      peakPickingModule.R       signalProcessingModule.R
+exportPeaksModule.R       peakVisModule.R           
+craigs-mbp-2:R craigmclean$ rm create_MSest.R 
+]0;~/MIT/Research/Autotuner/Rcraigs-mbp-2:R craigmclean$ jls
+bash: jls: command not found
+]0;~/MIT/Research/Autotuner/Rcraigs-mbp-2:R craigmclean$ ls
+Autotuner-class.R		groupingModule.R
+EICParams.R			launchAutotuner.R
+ThresholdingAlgo.R		loadDataModule.R
+checkBounds.R			peakPickingModule.R
+checkEICFunctions.R		peakVisModule.R
+checkEICPeaks.R			peak_time_difference.R
+dissectScans.R			peakwidth_est.R
+estimate_loess.R		peakwidth_table.R
+estimate_threshold.R		plot_peaks.R
+exportPeaksModule.R		plot_signals.R
+extract_peaks.R			recommended_params.R
+fillPeaksModule.R		remove_noise.R
+findPeakWidth.R			retcorModule.R
+findTruePeaks.R			runXCMSModule.R
+find_noise.R			signalProcessingModule.R
+fineParamsModule.R
+]0;~/MIT/Research/Autotuner/Rcraigs-mbp-2:R craigmclean$ rm remove_noise.R 
+]0;~/MIT/Research/Autotuner/Rcraigs-mbp-2:R craigmclean$ ls
+Autotuner-class.R		fineParamsModule.R
+EICParams.R			groupingModule.R
+ThresholdingAlgo.R		launchAutotuner.R
+checkBounds.R			loadDataModule.R
+checkEICFunctions.R		peakPickingModule.R
+checkEICPeaks.R			peakVisModule.R
+dissectScans.R			peak_time_difference.R
+estimate_loess.R		peakwidth_est.R
+estimate_threshold.R		peakwidth_table.R
+exportPeaksModule.R		plot_peaks.R
+extract_peaks.R			plot_signals.R
+fillPeaksModule.R		recommended_params.R
+findPeakWidth.R			retcorModule.R
+findTruePeaks.R			runXCMSModule.R
+find_noise.R			signalProcessingModule.R
+]0;~/MIT/Research/Autotuner[?1034hCraigs-MacBook-Pro-2:Autotuner craigmclean$ ls
+Autotuner.Rproj	NAMESPACE	inst
+DESCRIPTION	R		man
+]0;~/MIT/Research/AutotunerCraigs-MacBook-Pro-2:Autotuner craigmclean$ rm [K[K[Kcr[Kd R
+]0;~/MIT/Research/Autotuner/RCraigs-MacBook-Pro-2:R craigmclean$ ls
+Autotuner-class.R		fineParamsModule.R
+EICParams.R			groupingModule.R
+TIC_params.R			launchAutotuner.R
+ThresholdingAlgo.R		loadDataModule.R
+checkBounds.R			peakPickingModule.R
+checkEICFunctions.R		peakVisModule.R
+checkEICPeaks.R			peak_time_difference.R
+dissectScans.R			peakwidth_est.R
+estimate_loess.R		peakwidth_table.R
+estimate_threshold.R		plot_peaks.R
+exportPeaksModule.R		plot_signals.R
+extract_peaks.R			recommended_params.R
+fillPeaksModule.R		retcorModule.R
+findPeakWidth.R			runXCMSModule.R
+findTruePeaks.R			signalProcessingModule.R
+find_noise.R
+]0;~/MIT/Research/Autotuner/RCraigs-MacBook-Pro-2:R craigmclean$ rm T[Kre
+recommended_params.R  retcorModule.R        
+Craigs-MacBook-Pro-2:R craigmclean$ rm re
+recommended_params.R  retcorModule.R        
+Craigs-MacBook-Pro-2:R craigmclean$ rm recommended_params.R 
+]0;~/MIT/Research/Autotuner/RCraigs-MacBook-Pro-2:R craigmclean$ ls
+Autotuner-class.R		find_noise.R
+EICParams.R			fineParamsModule.R
+TIC_params.R			groupingModule.R
+ThresholdingAlgo.R		launchAutotuner.R
+checkBounds.R			loadDataModule.R
+checkEICFunctions.R		peakPickingModule.R
+checkEICPeaks.R			peakVisModule.R
+dissectScans.R			peak_time_difference.R
+estimate_loess.R		peakwidth_est.R
+estimate_threshold.R		peakwidth_table.R
+exportPeaksModule.R		plot_peaks.R
+extract_peaks.R			plot_signals.R
+fillPeaksModule.R		retcorModule.R
+findPeakWidth.R			runXCMSModule.R
+findTruePeaks.R			signalProcessingModule.R
+]0;~/MIT/Research/Autotuner/RCraigs-MacBook-Pro-2:R craigmclean$ d[K

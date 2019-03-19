@@ -1,0 +1,131 @@
+#' Autotuner
+#'
+#' @description This file contains the skeleton to the Autotuner class used
+#' through out Autoutuner.
+#'
+#' @description This object is a generic object designed to run the different
+#' functions of the ms2sweeper package. The slots represent content or data
+#' that the package uses throughout the different functions.
+#'
+#' @slot time - A list containing vectors of scan time points from each sample.
+#' @slot intensity - A list containing vectors of scan intensity points from
+#' each sample.
+#' @slot peaks - Regions within each sample identified as peaks by sliding
+#' window analysis.
+#' @slot peak_table - A data.frame containing information on each peak after
+#' further processing is done to the data.
+#' @slot peak_difference - A data.frame containing information on how peaks
+#' are eluted differently over time.
+#' @slot metadata - A data.frame containing metadata for all samples to be
+#' run on Autotuner.
+#' @slot file_paths - A string path that leads to the samples to be run on
+#' Autotuner.
+#' @slot file_col - A string for the column name of the column within the
+#' metadata that has specific sample names.
+#' @slot factorCol - A string for the column name of the column within the
+#' metadata that has specific sample class names.
+#'
+#' @importFrom MSnbase readMSData
+#' @importFrom MSnbase filterFile
+#' @importFrom MSnbase rtime
+#' @importFrom MSnbase tic
+#'
+#'
+#' @export
+Autotuner <- setClass(
+    # Set the name for the class
+    Class = "Autotuner",
+
+    # Define the slots
+    slots = c(
+        time = "list",
+        intensity = "list",
+        peaks = "list",
+        peak_table = "data.frame",
+        peak_difference = "data.frame",
+        metadata = "data.frame",
+        file_paths = "character",
+        file_col = "character",
+        factorCol = "character"),
+
+    prototype = prototype(
+              time = list(),
+              intensity = list(),
+              peaks = list(),
+              peak_table = data.frame(),
+              peak_difference = data.frame(),
+              metadata = data.frame(),
+              file_paths = character(),
+              file_col = character(),
+              factorCol = character())
+)
+
+
+#' @description This method updates an \code{\linkS4class{Autotuner}}
+#'     object to the latest definition.
+#'
+#' @title Update an \code{\linkS4class{Autotuner}} object
+#'
+#' @param .Object - the \code{\linkS4class{Autotuner}} object to update.
+#' @param data_paths - A string path pointing at data files to load in Autotuner.
+#' @param runfile - a data.frame of sample metadata.
+#' @param file_col - Character string of the column name of the column within
+#' the runfile that contains sample names.
+#' @param factorCol - Character string of the column name of the column within
+#' the runfile that contains sample type factor.
+#'
+#' @return An updated \code{\linkS4class{Autotuner}} containing all data from
+#' the input object.
+#'
+#' @author Craig McLean
+setMethod(f = "initialize", signature = "Autotuner",
+          function(.Object, data_paths, runfile, file_col, factorCol) {
+
+              message("~~~ Autotuner: Initializator ~~~ \n")
+              message("~~~ Parsing Raw Data into R ~~~ \n")
+              raw <- MSnbase::readMSData(data_paths, msLevel. = 1,
+                                         mode = "onDisk")
+
+
+              # determining time and intensity data for each sample
+              time <- list()
+              intensity <- list()
+              message("~~~ Extracting the Raw Data from Individual Samples ~~~ \n")
+              for(index in 1:nrow(runfile)) {
+                  signal_data <- MSnbase::filterFile(raw, file = index)
+                  time[[index]] <- MSnbase::rtime(signal_data)
+                  intensity[[index]] <- MSnbase::tic(signal_data)
+              }
+
+              message("~~~ Storing Everything in Autotuner Object ~~~ \n")
+              .Object@time <- time
+              .Object@intensity <- intensity
+              .Object@metadata <- runfile
+              .Object@file_paths <- data_paths
+              .Object@file_col <- file_col
+              .Object@factorCol <- factorCol
+
+              message("~~~ The Autotuner Object has been Created ~~~ \n")
+              return(.Object)
+
+})
+
+#' @title createAutotuner
+#'
+#' @description This function will create a Autotuner used to extract ms2s.
+#'
+#' @param data_paths - A string path pointing at data files to load in Autotuner.
+#' @param runfile - a data.frame of sample metadata.
+#' @param file_col - Character string of the column name of the column within
+#' the runfile that contains sample names.
+#' @param factorCol - Character string of the column name of the column within
+#' the runfile that contains sample type factor.
+#'
+#' @export
+createAutotuner <- function(data_paths, runfile, file_col, factorCol) {
+    Autotuner <- methods::new(Class="Autotuner", data_paths,
+                               runfile,
+                               file_col,
+                               factorCol)
+    return(Autotuner)
+}

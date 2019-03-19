@@ -1,0 +1,8 @@
+"Parameters","estimates","Variability.Measure","Measure","max_width","min_width","group_diff"
+"ppm",1.759,0.6415,"Standard Deviation of all PPM Estimates",48.7825999999802,18.0912000000001,4.14484999998012
+"noise",900,29.5,"Standard Deviation of all noise Estimates",48.7825999999802,18.0912000000001,4.14484999998012
+"preIntensity",1415,180.1,"Standard Deviation of all prefileter Intensity Estimates",48.7825999999802,18.0912000000001,4.14484999998012
+"preScan",2,0,"Standard Deviation of all scan coung Estimates",48.7825999999802,18.0912000000001,4.14484999998012
+"snThresh",3.004,1.108,"Standard Deviation of all s/n threshold Estimates",48.7825999999802,18.0912000000001,4.14484999998012
+"Max Peakwidth",106.2,23.75,"Distance between two highest estimated peak widths",48.7825999999802,18.0912000000001,4.14484999998012
+"Min Peakwidth",4.982,0,"Distance between two lowest estimated peak widths",48.7825999999802,18.0912000000001,4.14484999998012
