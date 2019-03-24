@@ -50,4 +50,7 @@
 ~%2FMIT%2FResearch%2FxcmsAutotuner%2FDependencies.R="3B44CB13"
 ~%2FMIT%2FResearch%2FxcmsAutotuner%2Fbin%2F2018-05-31%2FInterpret_Bash_create_MSest.R="1EB01EB2"
 ~%2FMIT%2FResearch%2FxcmsAutotuner%2Fbin%2F2018-05-31%2Fsliding_window_visualizing_peaks.R="CF688A2D"
+~%2FMIT%2FResearch%2FxcmsAutotuner%2Fscr%2F2019-01-18%2Frpom_code%2Frpom_comparing_outputs.R="E69145B7"
+~%2FMIT%2FResearch%2FxcmsAutotuner%2Fscr%2F2019-01-23%2Frpom_neg_peakshape.R="F68CCBCC"
+~%2FMIT%2FResearch%2FxcmsAutotuner%2Fscr%2F2019-01-23%2Frpom_pos_peakshape.R="6703DDCE"
 ~%2FMIT%2FResearch%2FxcmsAutotuner%2Fscr%2F2019-01-30%2Fgather_xcms_params.R="12C38594"

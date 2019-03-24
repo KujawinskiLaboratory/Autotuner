@@ -19,7 +19,13 @@ dissectScans <- function(currentMsFile, observedPeak, sampleChrom) {
                            which(sampleChrom$retentionTime  < observedPeak$end))
     peakHead <- sampleChrom[scansOfPeak,]
     ms1 <- peakHead$msLevel == 1L
-    scansOfPeak <- as.numeric(sub(".* scan=", "", peakHead$spectrumId[ms1]))
+
+    # Added this on 2019-03-24 for cases where ms2 data is not within the
+    # ms convert file
+    if(!all(sampleChrom$msLevel == 1L)) {
+        scansOfPeak <- as.numeric(sub(".* scan=", "", peakHead$spectrumId[ms1]))
+    }
+
     rm(peakHead,ms1)
 
     scanCounter <- 1
@@ -29,6 +35,10 @@ dissectScans <- function(currentMsFile, observedPeak, sampleChrom) {
         scan <- scansOfPeak[i]
         dataMatchIndex <- scansOfPeak[i]
         peakMatrix <- mzR::peaks(currentMsFile,scan)
+        if(is.null(peakMatrix)) {
+            next
+        }
+
         colnames(peakMatrix) <- c("mz", "intensity")
 
         if(nrow(peakMatrix) == 0) {
