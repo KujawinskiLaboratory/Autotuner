@@ -24,7 +24,9 @@ checkEICPeaks <- function(currentMsFile,
     rate <- mean(scanDiff)
     rm(scanDiff)
 
-    sortedAllEIC <- dissectScans(currentMsFile, observedPeak, sampleChrom)
+    sortedAllEIC <- dissectScans(currentMsFile,
+                                 observedPeak = observedPeak,
+                                 sampleChrom = sampleChrom)
 
 
     assertthat::assert_that(nrow(sortedAllEIC) > 0,

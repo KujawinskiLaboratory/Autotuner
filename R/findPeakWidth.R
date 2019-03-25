@@ -35,7 +35,7 @@ findPeakWidth <- function(approvScorePeaks,
 
     # Added this on 2019-03-24 for cases where ms2 data is not within the
     # ms convert file
-    if(!all(sampleChrom$msLevel == 1L)) {
+    if(!all(sampleMetadata$msLevel == 1L)) {
         scans <- sub(".* scan=", "", sampleMetadata$spectrumId) %>% as.numeric()
     } else {
         scans <- 1:nrow(sampleMetadata)
