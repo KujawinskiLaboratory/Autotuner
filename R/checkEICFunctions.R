@@ -191,7 +191,7 @@ filterPpmError <- function(approvedPeaks, useGap, varExpThresh) {
 
     ppmObs <- approvedPeaks$meanPPM
     ppmObs <- strsplit(split = ";", x = as.character(ppmObs)) %>%
-        sapply(as.numeric) %>%
+        lapply(function(x) {mean(as.numeric(x))}) %>%
         unlist()
     totalPPM <- length(ppmObs)
 
@@ -211,7 +211,7 @@ filterPpmError <- function(approvedPeaks, useGap, varExpThresh) {
         ## estimating clustering based on hard coded 80% Vexp threshold
         clustCount <- 1
         varExp <- 0
-        while(varExp < .8 && clustCount < length(ppmObs)/2) {
+        while(varExp < varExpThresh && clustCount < length(ppmObs)/2) {
             kmeansPPM <- kmeans(ppmObs, clustCount)
             varExp <- kmeansPPM$betweenss/kmeansPPM$totss
             clustCount <- clustCount + 1
@@ -231,11 +231,16 @@ filterPpmError <- function(approvedPeaks, useGap, varExpThresh) {
     gauss <- function(x) 1/sqrt(2*pi) * exp(-(x^2)/2)
     gaussDKE <- function(a, x) gauss((x - a)/h)/(n * h)
 
+    ## this object is huge - 2.7 Gb
     bumps <- sapply(ppmObs[minCluster], gaussDKE, x)
 
-    OutlierScore <- sapply(1:n, function(xx) {
-        rowSums(bumps)[xx]/(sum(rowSums(bumps))/n)
-    })
+    ## This is the slow step
+    OutlierScore <- list()
+    for(i in 1:n) {
+        OutlierScore[[i]] <- rowSums(bumps)[i]/(sum(rowSums(bumps))/n)
+
+    }
+    OutlierScore <- unlist(OutlierScore)
 
     scoreSub <- which(OutlierScore > 1)
     ppmEst <- max(ppmObs[scoreSub])

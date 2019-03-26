@@ -56,11 +56,12 @@ findTruePeaks <- function(truePeaks, sortedAllEIC) {
                                          meanIntensity = mean(peakData$intensity),
                                          intensityDispersion = sd(peakData$intensity),
                                          minIntensity = min(peakData$intensity),
-                                         meanPPM = paste(obsPPM, collapse = ";"),
+                                         meanPPM = paste(signif(obsPPM), collapse = ";"),
                                          start = min(peakData$scanCounter),
                                          end = max(peakData$scanCounter),
                                          startMatch = min(peakData$dataMatchIndex),
-                                         endMatch = max(peakData$dataMatchIndex))
+                                         endMatch = max(peakData$dataMatchIndex),
+                                         stringsAsFactors = F)
 
         counter <- 1 + counter
 

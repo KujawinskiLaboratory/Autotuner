@@ -51,6 +51,7 @@ EICparams <- function(Autotuner, massThresh, peak_table, useGap = F,
         pickedParams <- list()
         for(curPeak in 1:nrow(currentTable)) {
 
+            message("--- Currently on peak: ", curPeak)
             start <- currentTable[curPeak,"Start_time"]
             end <- currentTable[curPeak,"End_time"]
             width <- currentTable$peak_width[curPeak]
