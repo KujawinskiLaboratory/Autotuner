@@ -4,11 +4,18 @@
 \alias{filterPpmError}
 \title{filterPpmError}
 \usage{
-filterPpmError(approvedPeaks)
+filterPpmError(approvedPeaks, useGap, varExpThresh)
 }
 \arguments{
 \item{approvedPeaks}{- This is a data.frame with information on bins retained
 after filtering with user input mz error threshold and continuity checks.}
+
+\item{useGap}{- Parameter carried into checkEICPeaks that tells Autotuner
+whether to use the gap statustic to determine the proper number of clusters
+to use during ppm parameter estimation.}
+
+\item{varExpThresh}{- Numeric value representing the variance explained
+threshold to use if useGap is false.}
 }
 \value{
 This function returns a scalar value representing ppm error estimate.

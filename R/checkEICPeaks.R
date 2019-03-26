@@ -9,11 +9,18 @@
 #' scalar values representing the calculated peak boundary points
 #' @param massThresh - A generous exact mass error threshold used to estimate
 #' PPM for features.
+#' @param useGap - Parameter carried into checkEICPeaks that tells Autotuner
+#' whether to use the gap statustic to determine the proper number of clusters
+#' to use during ppm parameter estimation.
+#' @param varExpThresh - Numeric value representing the variance explained
+#' threshold to use if useGap is false.
 #'
 #' @export
 checkEICPeaks <- function(currentMsFile,
                           observedPeak,
-                          massThresh = 0.01) {
+                          massThresh = 0.01,
+                          useGap,
+                          varExpThresh) {
 
 
     # extracting ms1 information for current peak -----------------------------
@@ -49,7 +56,7 @@ checkEICPeaks <- function(currentMsFile,
     }
 
     # Filtering data by variability and ppm checks ----------------------------
-    ppmEst <- filterPpmError(approvedPeaks)
+    ppmEst <- filterPpmError(approvedPeaks, useGap, varExpThresh)
     assertthat::assert_that(!is.na(ppmEst),
                             msg = "Output of filterPpmError function was NA. Something may have gone wrong here with input.")
 

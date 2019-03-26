@@ -174,6 +174,11 @@ estimateSNThresh <- function(no_match, sortedAllEIC, approvedPeaks) {
 #'
 #' @param approvedPeaks - This is a data.frame with information on bins retained
 #' after filtering with user input mz error threshold and continuity checks.
+#' @param useGap - Parameter carried into checkEICPeaks that tells Autotuner
+#' whether to use the gap statustic to determine the proper number of clusters
+#' to use during ppm parameter estimation.
+#' @param varExpThresh - Numeric value representing the variance explained
+#' threshold to use if useGap is false.
 #'
 #' @details A distribution is created from the set of all ppm values identified.
 #' The most dense peak of this distribution is assumed to represent the standard
@@ -182,7 +187,7 @@ estimateSNThresh <- function(no_match, sortedAllEIC, approvedPeaks) {
 #' @return This function returns a scalar value representing ppm error estimate.
 #'
 #' @export
-filterPpmError <- function(approvedPeaks) {
+filterPpmError <- function(approvedPeaks, useGap, varExpThresh) {
 
     ppmObs <- approvedPeaks$meanPPM
     ppmObs <- strsplit(split = ";", x = as.character(ppmObs)) %>%
@@ -190,19 +195,29 @@ filterPpmError <- function(approvedPeaks) {
         unlist()
     totalPPM <- length(ppmObs)
 
-    ## estimating clustering based on hard coded 80% Vexp threshold
-    clustCount <- 1
-    varExp <- 0
+    if(useGap) {
+        gapStat <- cluster::clusGap(x = as.matrix(ppmObs),
+                                    FUNcluster = kmeans,
+                                    K.max = 5,
+                                    B = 7,
+                                    verbose = F)
 
-    gapStat <- cluster::clusGap(x = as.matrix(ppmObs),
-                     FUNcluster = kmeans,
-                     K.max = 5,
-                     B = 10,
-                     verbose = F)
+        gapStat <- gapStat$Tab
+        clusters <- min(which(diff(-gapStat[,3]) > 0)) + 1
+        kmeansPPM <- kmeans(ppmObs, clusters)
 
-    gapStat <- gapStat$Tab
-    clusters <- min(which(diff(-gapStat[,3]) > 0)) + 1
-    kmeansPPM <- kmeans(ppmObs, clusters)
+    } else {
+
+        ## estimating clustering based on hard coded 80% Vexp threshold
+        clustCount <- 1
+        varExp <- 0
+        while(varExp < .8 && clustCount < length(ppmObs)/2) {
+            kmeansPPM <- kmeans(ppmObs, clustCount)
+            varExp <- kmeansPPM$betweenss/kmeansPPM$totss
+            clustCount <- clustCount + 1
+        }
+
+    }
 
     ## cluster which contains smallest ppm values
     clusterSize <- table(kmeansPPM$cluster) %>% sort(decreasing = T)

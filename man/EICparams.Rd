@@ -4,7 +4,8 @@
 \alias{EICparams}
 \title{EICparams}
 \usage{
-EICparams(Autotuner, massThresh, peak_table)
+EICparams(Autotuner, massThresh, peak_table, useGap = F,
+  varExpThresh = 0.8)
 }
 \arguments{
 \item{Autotuner}{- An Autotuner objected containing sample specific raw
@@ -15,6 +16,13 @@ PPM for features.}
 
 \item{peak_table}{- table of peak width values extracted with the function
 peak_width_table.}
+
+\item{useGap}{- Parameter carried into checkEICPeaks that tells Autotuner
+whether to use the gap statustic to determine the proper number of clusters
+to use during ppm parameter estimation.}
+
+\item{varExpThresh}{- Numeric value representing the variance explained
+threshold to use if useGap is false.}
 }
 \description{
 This function is designed to calculate the recommended

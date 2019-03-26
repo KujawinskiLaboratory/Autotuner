@@ -4,7 +4,8 @@
 \alias{checkEICPeaks}
 \title{checkEICPeaks}
 \usage{
-checkEICPeaks(currentMsFile, observedPeak, massThresh = 0.01)
+checkEICPeaks(currentMsFile, observedPeak, massThresh = 0.01, useGap,
+  varExpThresh)
 }
 \arguments{
 \item{currentMsFile}{- This is an mzR object containing sample specific
@@ -15,6 +16,13 @@ scalar values representing the calculated peak boundary points}
 
 \item{massThresh}{- A generous exact mass error threshold used to estimate
 PPM for features.}
+
+\item{useGap}{- Parameter carried into checkEICPeaks that tells Autotuner
+whether to use the gap statustic to determine the proper number of clusters
+to use during ppm parameter estimation.}
+
+\item{varExpThresh}{- Numeric value representing the variance explained
+threshold to use if useGap is false.}
 }
 \description{
 This function is the outer most function used to check for

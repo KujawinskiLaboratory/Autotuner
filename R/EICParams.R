@@ -10,13 +10,19 @@
 #' PPM for features.
 #' @param peak_table - table of peak width values extracted with the function
 #' peak_width_table.
+#' @param useGap - Parameter carried into checkEICPeaks that tells Autotuner
+#' whether to use the gap statustic to determine the proper number of clusters
+#' to use during ppm parameter estimation.
+#' @param varExpThresh - Numeric value representing the variance explained
+#' threshold to use if useGap is false.
 #'
 #' @details The function CheckEICPeaks handles all the peak specific
 #' computations.
 #'
 #' @export
 
-EICparams <- function(Autotuner, massThresh, peak_table) {
+EICparams <- function(Autotuner, massThresh, peak_table, useGap = F,
+                      varExpThresh = 0.8) {
 
     # Checking input ----------------------------------------------------------
     assertthat::assert_that(nrow(peak_table) > 0,
@@ -53,7 +59,9 @@ EICparams <- function(Autotuner, massThresh, peak_table) {
             ## currently here
             estimatedPeakParams <- checkEICPeaks(currentMsFile = currentMsFile,
                                                  observedPeak = observedPeak,
-                                                 massThresh)
+                                                 massThresh,
+                                                 useGap,
+                                                 varExpThresh)
 
             if(is.null(estimatedPeakParams)) {
                 next
