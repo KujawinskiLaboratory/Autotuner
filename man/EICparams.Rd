@@ -4,8 +4,8 @@
 \alias{EICparams}
 \title{EICparams}
 \usage{
-EICparams(Autotuner, massThresh, peak_table, useGap = F,
-  varExpThresh = 0.8)
+EICparams(Autotuner, massThresh, peak_table, useGap = T,
+  varExpThresh = 0.8, returnPpmPlots = T, plotDir = ".")
 }
 \arguments{
 \item{Autotuner}{- An Autotuner objected containing sample specific raw
@@ -23,6 +23,11 @@ to use during ppm parameter estimation.}
 
 \item{varExpThresh}{- Numeric value representing the variance explained
 threshold to use if useGap is false.}
+
+\item{returnPpmPlots}{- Boolean value that tells R to return plots for
+ppm distributions.}
+
+\item{plotDir}{- Path where to store plots.}
 }
 \description{
 This function is designed to calculate the recommended

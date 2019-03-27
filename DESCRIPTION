@@ -25,4 +25,5 @@ Imports:
     mzR,
     assertthat,
     scales,
-    methods
+    methods,
+    entropy

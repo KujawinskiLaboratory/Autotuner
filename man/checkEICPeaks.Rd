@@ -5,7 +5,7 @@
 \title{checkEICPeaks}
 \usage{
 checkEICPeaks(currentMsFile, observedPeak, massThresh = 0.01, useGap,
-  varExpThresh)
+  varExpThresh, returnPpmPlots, plotDir)
 }
 \arguments{
 \item{currentMsFile}{- This is an mzR object containing sample specific
@@ -23,6 +23,11 @@ to use during ppm parameter estimation.}
 
 \item{varExpThresh}{- Numeric value representing the variance explained
 threshold to use if useGap is false.}
+
+\item{returnPpmPlots}{- Boolean value that tells R to return plots for
+ppm distributions.}
+
+\item{plotDir}{- Path where to store plots.}
 }
 \description{
 This function is the outer most function used to check for
