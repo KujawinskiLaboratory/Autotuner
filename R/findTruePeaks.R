@@ -18,7 +18,7 @@ findTruePeaks <- function(truePeaks, sortedAllEIC) {
 
 
     # Checking if bin elements come from adj scans ----------------------------
-    for(i in 1:length(truePeaks)) {
+    for(i in seq_along(truePeaks)) {
 
         pickedPeak <- truePeaks[[i]]
 

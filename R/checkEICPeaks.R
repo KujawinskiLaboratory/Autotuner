@@ -49,6 +49,11 @@ checkEICPeaks <- function(currentMsFile,
     rm(noiseAndPeaks)
 
     approvedPeaks <- findTruePeaks(truePeaks, sortedAllEIC)
+    message("-------- ", signif(nrow(approvedPeaks)/length(truePeaks)*100, digits = 2),
+            " % of bins retained after findTruePeaks function.")
+    message("-------- pre findTruePeaks bin count: " , length(truePeaks))
+    message("-------- post findTruePeaks bin count: ", nrow(approvedPeaks))
+
 
     if(nrow(approvedPeaks) == 0) {
         message("No observed m/z value met was observed across adjacent scans below an error of massThresh.")

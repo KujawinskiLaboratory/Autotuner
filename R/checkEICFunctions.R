@@ -191,9 +191,54 @@ filterPpmError <- function(approvedPeaks, useGap, varExpThresh) {
 
     ppmObs <- approvedPeaks$meanPPM
     ppmObs <- strsplit(split = ";", x = as.character(ppmObs)) %>%
-        lapply(function(x) {mean(as.numeric(x))}) %>%
+        lapply(function(x) {as.numeric(x)}) %>%
         unlist()
-    totalPPM <- length(ppmObs)
+
+    message("-------- Number of ppm value across bins: ", length(ppmObs))
+    if(length(ppmObs) > 500) {
+
+        checkPpm <- length(ppmObs)/2
+        subsample <- T
+        while(subsample) {
+
+            origDist <- density(ppmObs, bw = 1)$y
+            set.seed(1)
+            newDist1 <-  density(sample(ppmObs, checkPpm), bw = 1)$y
+            set.seed(2)
+            newDist2 <-  density(sample(ppmObs, checkPpm), bw = 1)$y
+            set.seed(3)
+            newDist3 <-  density(sample(ppmObs, checkPpm), bw = 1)$y
+            set.seed(4)
+            newDist4 <-  density(sample(ppmObs, checkPpm), bw = 1)$y
+            set.seed(5)
+            newDist5 <-  density(sample(ppmObs, checkPpm), bw = 1)$y
+            set.seed(6)
+            newDist6 <-  density(sample(ppmObs, checkPpm), bw = 1)$y
+            set.seed(7)
+            newDist7 <-  density(sample(ppmObs, checkPpm), bw = 1)$y
+
+            klDistance <- list()
+            subSamples <- ls()[grep("newDist",ls())]
+            for(j in seq_along(subSamples)) {
+                klDistance[[j]] <- suppressWarnings(entropy::KL.empirical(origDist,
+                                                                          get(subSamples[j])))
+            }
+            klDistance <- unlist(klDistance)
+
+            if(mean(klDistance) >= 0.5) {
+                checkPpm <- checkPpm*2
+                subsample <- F
+            } else {
+                checkPpm <- checkPpm/2
+            }
+
+        }
+
+        ppmObs <- sample(ppmObs, checkPpm)
+        message("-------- Number of ppm value across bins after KL Distance Filtering: ",
+                length(ppmObs))
+
+    }
 
     if(useGap) {
         gapStat <- cluster::clusGap(x = as.matrix(ppmObs),
@@ -228,6 +273,7 @@ filterPpmError <- function(approvedPeaks, useGap, varExpThresh) {
     x <- ppmObs
     n <- length(x)
     h <- 1
+    ## delete this later
     gauss <- function(x) 1/sqrt(2*pi) * exp(-(x^2)/2)
     gaussDKE <- function(a, x) gauss((x - a)/h)/(n * h)
 
@@ -243,8 +289,15 @@ filterPpmError <- function(approvedPeaks, useGap, varExpThresh) {
     OutlierScore <- unlist(OutlierScore)
 
     scoreSub <- which(OutlierScore > 1)
+
+
     ppmEst <- max(ppmObs[scoreSub])
     ppmEst <- ppmEst + sd(ppmObs[scoreSub])*3
+
+    scoreDensity <- density(ppmObs[scoreSub])
+    plot(density(ppmObs), )
+    abline(v = max(scoreDensity$x))
+    abline(v = ppmEst)
 
     return(ppmEst)
 }
