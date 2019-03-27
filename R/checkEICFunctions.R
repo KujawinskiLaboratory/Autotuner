@@ -179,6 +179,11 @@ estimateSNThresh <- function(no_match, sortedAllEIC, approvedPeaks) {
 #' to use during ppm parameter estimation.
 #' @param varExpThresh - Numeric value representing the variance explained
 #' threshold to use if useGap is false.
+#' @param returnPpmPlots - Boolean value that tells R to return plots for
+#' ppm distributions.
+#' @param plotDir - Path where to store plots.
+#' @param observedPeak - A list with names 'start' and 'end' containing
+#' scalar values representing the calculated peak boundary points
 #'
 #' @details A distribution is created from the set of all ppm values identified.
 #' The most dense peak of this distribution is assumed to represent the standard
@@ -187,7 +192,9 @@ estimateSNThresh <- function(no_match, sortedAllEIC, approvedPeaks) {
 #' @return This function returns a scalar value representing ppm error estimate.
 #'
 #' @export
-filterPpmError <- function(approvedPeaks, useGap, varExpThresh) {
+filterPpmError <- function(approvedPeaks, useGap, varExpThresh,
+                           returnPpmPlots, plotDir, observedPeak,
+                           filename) {
 
     ppmObs <- approvedPeaks$meanPPM
     ppmObs <- strsplit(split = ";", x = as.character(ppmObs)) %>%
@@ -226,7 +233,6 @@ filterPpmError <- function(approvedPeaks, useGap, varExpThresh) {
             klDistance <- unlist(klDistance)
 
             if(mean(klDistance) >= 0.5) {
-                checkPpm <- checkPpm*2
                 subsample <- F
             } else {
                 checkPpm <- checkPpm/2
@@ -294,10 +300,40 @@ filterPpmError <- function(approvedPeaks, useGap, varExpThresh) {
     ppmEst <- max(ppmObs[scoreSub])
     ppmEst <- ppmEst + sd(ppmObs[scoreSub])*3
 
-    scoreDensity <- density(ppmObs[scoreSub])
-    plot(density(ppmObs), )
-    abline(v = max(scoreDensity$x))
-    abline(v = ppmEst)
+
+    if(returnPpmPlots) {
+
+
+        title <- paste(filename, 'pmm distribution:',
+              signif(observedPeak$start, digits = 4),
+              "-",
+              signif(observedPeak$end, digits = 4))
+
+        output <- file.path(plotDir,paste0(gsub(" ", "_", title), ".pdf"))
+        output <- sub(":", "", output)
+        scoreDensity <- density(ppmObs[scoreSub])
+
+        ## error here...
+        par(mar=c(1,1,1,1))
+        pdf(output, width = 8, height = 6)
+
+
+        plot(density(ppmObs), main = title) +
+        abline(v = max(scoreDensity$x), lty = 2, col = "red") +
+        abline(v = ppmEst, lty = 3, col = "blue")
+        # I had some issues ploting the legend
+        # "non binary arguement...
+        #+
+        #    legend(x = "topright",
+        #           legend = c(paste("Max ppm value:",
+        #                            as.character(signif(max(scoreDensity$x), 3))),
+        #                      paste("Including Sd to ppm:",
+        #                            as.character(signif(ppmEst, 3)))),
+        #           lty = c(2,3),
+        #           col = c(2,3))
+        dev.off()
+
+    }
 
     return(ppmEst)
 }

@@ -15,18 +15,30 @@
 #' to use during ppm parameter estimation.
 #' @param varExpThresh - Numeric value representing the variance explained
 #' threshold to use if useGap is false.
+#' @param returnPpmPlots - Boolean value that tells R to return plots for
+#' ppm distributions.
+#' @param plotDir - Path where to store plots.
 #'
 #' @details The function CheckEICPeaks handles all the peak specific
 #' computations.
 #'
 #' @export
 
-EICparams <- function(Autotuner, massThresh, peak_table, useGap = F,
-                      varExpThresh = 0.8) {
+EICparams <- function(Autotuner, massThresh, peak_table, useGap = T,
+                      varExpThresh = 0.8, returnPpmPlots = T,
+                      plotDir = ".") {
 
     # Checking input ----------------------------------------------------------
     assertthat::assert_that(nrow(peak_table) > 0,
                           msg = "Peak table with 0 rows was entered into EICparams function.")
+
+    if(returnPpmPlots) {
+        if(!dir.exists(plotDir)) {
+            message("Directory in plotDir did not exist. Using the current working directory instead.")
+            plotDir <- "."
+        }
+    }
+
 
     # itterating between samples ----------------------------------------------
     totalEstimates <- list()
@@ -61,8 +73,8 @@ EICparams <- function(Autotuner, massThresh, peak_table, useGap = F,
             estimatedPeakParams <- checkEICPeaks(currentMsFile = currentMsFile,
                                                  observedPeak = observedPeak,
                                                  massThresh,
-                                                 useGap,
-                                                 varExpThresh)
+                                                 useGap, varExpThresh,
+                                                 returnPpmPlots,plotDir)
 
             if(is.null(estimatedPeakParams)) {
                 next

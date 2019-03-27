@@ -14,19 +14,27 @@
 #' to use during ppm parameter estimation.
 #' @param varExpThresh - Numeric value representing the variance explained
 #' threshold to use if useGap is false.
+#' @param returnPpmPlots - Boolean value that tells R to return plots for
+#' ppm distributions.
+#' @param plotDir - Path where to store plots.
 #'
 #' @export
 checkEICPeaks <- function(currentMsFile,
                           observedPeak,
                           massThresh = 0.01,
                           useGap,
-                          varExpThresh) {
+                          varExpThresh,
+                          returnPpmPlots,
+                          plotDir) {
+
+
 
 
     # extracting ms1 information for current peak -----------------------------
     suppressWarnings(rm(no_match,approvedPeaks))
-
+    filename <- basename(currentMsFile@fileName)
     sampleChrom <- mzR::header(currentMsFile)
+
     scanDiff <- diff(sampleChrom$retentionTime[sampleChrom$msLevel == 1L])
     rate <- mean(scanDiff)
     rm(scanDiff)
@@ -61,7 +69,10 @@ checkEICPeaks <- function(currentMsFile,
     }
 
     # Filtering data by variability and ppm checks ----------------------------
-    ppmEst <- filterPpmError(approvedPeaks, useGap, varExpThresh)
+    ppmEst <- filterPpmError(approvedPeaks, useGap, varExpThresh,
+                             returnPpmPlots, plotDir, observedPeak,
+                             filename)
+    rm(filename)
     assertthat::assert_that(!is.na(ppmEst),
                             msg = "Output of filterPpmError function was NA. Something may have gone wrong here with input.")
 
