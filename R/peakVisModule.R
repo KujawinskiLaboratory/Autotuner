@@ -211,7 +211,14 @@ peakVis <- function(input, output, session, signalData, Autotuner) {
         prefilterIEst <- min(eicParamEsts$prefilterI, na.rm = T)
         prefilterScanEst <- min(eicParamEsts$prefilterScan, na.rm = T)
         snEst <- min(eicParamEsts$TenPercentQuanSN, na.rm = T)
-        maxPw <- max(eicParamEsts$maxPw)
+
+        ## added this heuristic when poor resoluti
+        if(any(ticParams$max_width*2 < eicParamEsts$maxPw)) {
+            maxPw <- prod(eicParamEsts$maxPw)^(1/length(eicParamEsts$maxPw))
+        } else {
+            maxPw <- max(eicParamEsts$maxPw)
+        }
+
         minPw <- min(eicParamEsts$minPw)
 
         estimates <- c(ppm = ppmEst,
