@@ -33,6 +33,7 @@ findPeakWidth <- function(approvScorePeaks,
     sampleMetadata <- mzR::header(currentMsFile)
     sampleMetadata <- sampleMetadata[sampleMetadata$msLevel == 1L,]
 
+
     # Added this on 2019-03-24 for cases where ms2 data is not within the
     # ms convert file
     if(!all(sampleMetadata$msLevel == 1L)) {
@@ -41,6 +42,11 @@ findPeakWidth <- function(approvScorePeaks,
         scans <- 1:nrow(sampleMetadata)
     }
 
+    ## adding this bandaid here to solve a problem I got with the FT data.
+    ##
+    if(max(filteredRange) > max(scans)) {
+        scans <- sub(".* scan=", "", sampleMetadata$spectrumId) %>% as.numeric()
+    }
 
 
     ## case 1 - there is a mz value spaning the range of the peak

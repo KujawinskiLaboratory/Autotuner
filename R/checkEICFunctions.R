@@ -202,7 +202,7 @@ filterPpmError <- function(approvedPeaks, useGap, varExpThresh,
         unlist()
 
     message("-------- Number of ppm value across bins: ", length(ppmObs))
-    if(length(ppmObs) > 500) {
+    if(length(ppmObs) > 750) {
 
         checkPpm <- length(ppmObs)/2
         subsample <- T
@@ -246,7 +246,15 @@ filterPpmError <- function(approvedPeaks, useGap, varExpThresh,
 
     }
 
-    if(useGap) {
+
+    ## 2019-04-09 added this here since it doesn't make sense to cluster too few
+    ## features
+    if(length(ppmObs) < 50) {
+
+        kmeansPPM <- kmeans(ppmObs, 1)
+
+    } else if(useGap) {
+
         gapStat <- cluster::clusGap(x = as.matrix(ppmObs),
                                     FUNcluster = kmeans,
                                     K.max = 5,
@@ -258,6 +266,7 @@ filterPpmError <- function(approvedPeaks, useGap, varExpThresh,
         kmeansPPM <- kmeans(ppmObs, clusters)
 
     } else {
+
 
         ## estimating clustering based on hard coded 80% Vexp threshold
         clustCount <- 1
@@ -321,16 +330,6 @@ filterPpmError <- function(approvedPeaks, useGap, varExpThresh,
         plot(density(ppmObs), main = title) +
         abline(v = max(scoreDensity$x), lty = 2, col = "red") +
         abline(v = ppmEst, lty = 3, col = "blue")
-        # I had some issues ploting the legend
-        # "non binary arguement...
-        #+
-        #    legend(x = "topright",
-        #           legend = c(paste("Max ppm value:",
-        #                            as.character(signif(max(scoreDensity$x), 3))),
-        #                      paste("Including Sd to ppm:",
-        #                            as.character(signif(ppmEst, 3)))),
-        #           lty = c(2,3),
-        #           col = c(2,3))
         dev.off()
 
     }
