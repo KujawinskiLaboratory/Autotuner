@@ -232,7 +232,7 @@ filterPpmError <- function(approvedPeaks, useGap, varExpThresh,
             }
             klDistance <- unlist(klDistance)
 
-            if(mean(klDistance) >= 0.5) {
+            if(any(klDistance >= 0.5)) {
                 subsample <- F
             } else {
                 checkPpm <- checkPpm/2
@@ -262,7 +262,13 @@ filterPpmError <- function(approvedPeaks, useGap, varExpThresh,
                                     verbose = F)
 
         gapStat <- gapStat$Tab
-        clusters <- min(which(diff(-gapStat[,3]) > 0)) + 1
+        gap <- diff(-gapStat[,3]) > 0
+        if(any(gap)) {
+            clusters <- max(which(gap)) + 1
+        } else {
+            clusters <- 1
+        }
+
         kmeansPPM <- kmeans(ppmObs, clusters)
 
     } else {
@@ -294,42 +300,45 @@ filterPpmError <- function(approvedPeaks, useGap, varExpThresh,
 
     ## this object is huge - 2.7 Gb
     bumps <- sapply(ppmObs[minCluster], gaussDKE, x)
+    wholeKDE <- sapply(ppmObs, gaussDKE, x)
 
-    ## This is the slow step
-    OutlierScore <- list()
-    for(i in 1:n) {
-        OutlierScore[[i]] <- rowSums(bumps)[i]/(sum(rowSums(bumps))/n)
-
-    }
-    OutlierScore <- unlist(OutlierScore)
+    ## calculating this ahead of time to avoid unnecessary downstream
+    ## math
+    cKdeMean <- sum(rowSums(bumps))/length(minCluster)
+    OutlierScore <- rowSums(wholeKDE)/(cKdeMean)
 
     scoreSub <- which(OutlierScore > 1)
 
 
     ppmEst <- max(ppmObs[scoreSub])
+    maxX <- ppmEst
     ppmEst <- ppmEst + sd(ppmObs[scoreSub])*3
 
 
     if(returnPpmPlots) {
 
 
-        title <- paste(filename, 'pmm distribution:',
+        title <- paste(filename, 'ppm distribution:',
               signif(observedPeak$start, digits = 4),
               "-",
               signif(observedPeak$end, digits = 4))
 
         output <- file.path(plotDir,paste0(gsub(" ", "_", title), ".pdf"))
         output <- sub(":", "", output)
-        scoreDensity <- density(ppmObs[scoreSub])
 
         ## error here...
         par(mar=c(1,1,1,1))
         pdf(output, width = 8, height = 6)
 
 
-        plot(density(ppmObs), main = title) +
-        abline(v = max(scoreDensity$x), lty = 2, col = "red") +
+        plot(density(ppmObs,bw = 1), main = title, cex.main = .7) +
+        abline(v = maxX, lty = 2, col = "red") +
         abline(v = ppmEst, lty = 3, col = "blue")
+        legend("topright",
+               legend = c(paste("score > 1:", signif(maxX,digits = 3)),
+                          paste("ppm estimate:", signif(ppmEst,digits = 3))),
+               col = c("red","blue"),
+               lty = c(2,3),cex = .7)
         dev.off()
 
     }

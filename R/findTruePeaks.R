@@ -1,7 +1,6 @@
 #' @title findTruePeaks
 #'
-#' @description This function is designed to filter out bins that either 1) have
-#' two or more peaks originating from a single scans or 2) don't come from
+#' @description This function is designed to filter out bins that don't come from
 #' continuous scans. The idea is that after this stage, the data is ready for
 #' parameter estimation.
 #'
@@ -30,21 +29,53 @@ findTruePeaks <- function(truePeaks, sortedAllEIC) {
             next()
         }
 
-        ## filtering out peaks that are not made up of consecutive scans
-        scanDiff <- sort(peakData$scanCounter) %>% diff()
+        ## checking to make sure features comes from adjacent scans
+        scanDiff <- sort(unique(peakData$scanCounter)) %>% diff()
 
         ## checking that binned peaks:
-        # 1) dont come from the same sample
-        # 2) are being picked up within consecutive scans
+        # are being picked up within consecutive scans
         peakDists <- (length(unique(scanDiff)) == 1 && unique(scanDiff) == 1)
         if(!peakDists) {
             next()
         }
+
+        ## checking to see if any binned masses come from the same scan
+        countsInScans <- table(peakData$scanCounter)
+        moreInAScan <- any(as.vector(countsInScans) > 1)
+
+        ## added check to handle case where 2+ masses are observed in one scan
         masses <- peakData[order(peakData$scanCounter),"mz"]
 
-        obsPPM <- sapply(2:length(masses), function(mz) {
-            estimatePPM(masses[(mz - 1)], masses[mz])
-        })
+        if(moreInAScan) {
+
+            peakData$index <- 1:nrow(peakData)
+            obsPPM <- list()
+            for(w in peakData$index) {
+                curScan <- peakData$scanCounter[w]
+                neighborScans <- which(peakData$scanCounter == curScan + 1)
+
+                adjPairs <- lapply(neighborScans, function(neighbor) {
+                    c(peakData$mz[w], peakData$mz[neighbor])
+                })
+
+                obsPPM[[w]] <- sapply(adjPairs, function(pair) {
+                    estimatePPM(pair[1], pair[2])
+                }) %>% unlist()
+
+
+            }
+            obsPPM <- unlist(obsPPM)
+
+            multipleInScan <- T
+
+        } else {
+
+            obsPPM <- sapply(2:length(masses), function(mz) {
+                estimatePPM(masses[(mz - 1)], masses[mz])
+            })
+
+            multipleInScan <- F
+        }
 
 
         # storing output ----------------------------------------------------------
@@ -61,6 +92,7 @@ findTruePeaks <- function(truePeaks, sortedAllEIC) {
                                          end = max(peakData$scanCounter),
                                          startMatch = min(peakData$dataMatchIndex),
                                          endMatch = max(peakData$dataMatchIndex),
+                                         multipleInScan,
                                          stringsAsFactors = F)
 
         counter <- 1 + counter

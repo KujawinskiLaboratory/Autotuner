@@ -52,7 +52,6 @@ findPeakWidth <- function(approvScorePeaks,
     ## case 1 - there is a mz value spaning the range of the peak
     if(any(checkBoundaries)) {
 
-
         checkFeatures <- maxPwTable[order(maxPwTable$Intensity),]
 
         # Narrowing down number of features to 50 -----------------------------

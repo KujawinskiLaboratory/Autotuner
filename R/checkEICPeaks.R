@@ -56,12 +56,15 @@ checkEICPeaks <- function(currentMsFile,
     truePeaks <- noiseAndPeaks[[2]]
     rm(noiseAndPeaks)
 
+    message("-------- Number of bins detected with absolute mass error threshold: " , length(truePeaks))
     approvedPeaks <- findTruePeaks(truePeaks, sortedAllEIC)
+    message("-------- Number of bins retained after checking that features within bins come from consecutive scans: ",
+            nrow(approvedPeaks))
     message("-------- ", signif(nrow(approvedPeaks)/length(truePeaks)*100, digits = 2),
-            " % of bins retained after findTruePeaks function.")
-    message("-------- pre findTruePeaks bin count: " , length(truePeaks))
-    message("-------- post findTruePeaks bin count: ", nrow(approvedPeaks))
+            " % of bins retained after checking that features come from consecutive scans")
 
+    overlappingScans <- sum(approvedPeaks$multipleInScan)
+    message("-------- Number of bins with scans with 2+ mass observations: ", overlappingScans)
 
     if(nrow(approvedPeaks) == 0) {
         message("No observed m/z value met was observed across adjacent scans below an error of massThresh.")
@@ -105,9 +108,6 @@ checkEICPeaks <- function(currentMsFile,
 
     ### Prefilter Intensity Estimate
     intensityEst <- approvScorePeaks$Intensity %>% min()/sqrt(2)
-    if(intensityEst < 0) {
-        intensityEst <- approvScorePeaks$Intensity %>% min()
-    }
 
     ### peakWidth Estimate
     maxPw <- findPeakWidth(approvScorePeaks = approvScorePeaks,

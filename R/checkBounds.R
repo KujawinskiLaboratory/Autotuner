@@ -96,12 +96,13 @@ checkBounds <- function(mass,
 
         # correlating peak shape  ---------------------------------------------
         ## checking if peak is increasing or decreasing monotonically
-        if(length(intensityStorage) > 3) {
+        if(length(intensityStorage) >= 3) {
 
-            if(!abs(cor(intensityStorage,
-                        seq_along(intensityStorage),
-                        method = "spearman")) > 0.9) {
+            fit <- lm(intensityStorage ~ seq_along(intensityStorage))
+            slope <- coef(fit)[2]
+            r2 <- summary(fit)$r.squared
 
+            if(abs(slope) < 0.75 | r2 < .75) {
                 return(currentIndex)
             }
 

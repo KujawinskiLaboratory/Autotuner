@@ -213,7 +213,7 @@ peakVis <- function(input, output, session, signalData, Autotuner) {
         snEst <- min(eicParamEsts$TenPercentQuanSN, na.rm = T)
 
         ## added this heuristic when poor resoluti
-        if(any(ticParams$max_width*2 < eicParamEsts$maxPw)) {
+        if(any(ticParams[1]*2 < eicParamEsts$maxPw)) {
             maxPw <- prod(eicParamEsts$maxPw)^(1/length(eicParamEsts$maxPw))
         } else {
             maxPw <- max(eicParamEsts$maxPw)
