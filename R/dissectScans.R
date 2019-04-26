@@ -15,8 +15,7 @@
 dissectScans <- function(currentMsFile, observedPeak, sampleChrom) {
 
 
-    scansOfPeak <- intersect(which(observedPeak$start < sampleChrom$retentionTime),
-                           which(sampleChrom$retentionTime  < observedPeak$end))
+    scansOfPeak <- which(observedPeak$start < sampleChrom$retentionTime & sampleChrom$retentionTime  < observedPeak$end)
     peakHead <- sampleChrom[scansOfPeak,]
     ms1 <- peakHead$msLevel == 1L
 
