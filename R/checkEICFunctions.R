@@ -202,6 +202,10 @@ filterPpmError <- function(approvedPeaks, useGap, varExpThresh,
         unlist()
 
     message("-------- Number of ppm value across bins: ", length(ppmObs))
+    if(length(ppmObs) > 10000) {
+        ppmObs <- ppmObs[sample(x = 1:length(ppmObs), n = 5000)]
+    }
+
     if(length(ppmObs) > 750) {
 
         checkPpm <- length(ppmObs)/2
