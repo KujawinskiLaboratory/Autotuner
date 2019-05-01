@@ -43,43 +43,66 @@ findTruePeaks <- function(truePeaks, sortedAllEIC) {
         countsInScans <- table(peakData$scanCounter)
         moreInAScan <- any(as.vector(countsInScans) > 1)
 
-        ## added check to handle case where 2+ masses are observed in one scan
-        masses <- peakData[order(peakData$scanCounter),"mz"]
-
         if(moreInAScan) {
 
-            peakData$index <- 1:nrow(peakData)
-            obsPPM <- list()
-            for(w in peakData$index) {
-                curScan <- peakData$scanCounter[w]
-                neighborScans <- which(peakData$scanCounter == curScan + 1)
+            for(w in 1:(length(unique(peakData$scan)) - 1)) {
 
-                adjPairs <- lapply(neighborScans, function(neighbor) {
-                    c(peakData$mz[w], peakData$mz[neighbor])
-                })
+                curScan <- unique(peakData$scan)[w]
+                nextScan <- unique(peakData$scan)[w+1]
 
-                obsPPM[[w]] <- sapply(adjPairs, function(pair) {
-                    estimatePPM(pair[1], pair[2])
-                }) %>% unlist()
+                ### add condition here for whenever it is the end of the scan
 
+                scanStates <- peakData[peakData$scan == curScan,]
+                nextStates <- peakData[peakData$scan == nextScan,]
+                peakData <- peakData[peakData$scan != nextScan & peakData$scan != curScan,]
+
+
+                ## do this if there are two states in first scan
+                if(w == 1) {
+                    errorNext <- lapply(scanStates$mz, function(x) {
+                        obsError <- abs(x - nextStates$mz)/x * 10^6
+                    })
+
+                    checkMins <- sapply(errorNext, which.min)
+
+                    initialState <- sapply(seq_along(errorNext), function(x) {
+                        errorNext[[x]][checkMins[x]]
+                    }) %>% which.min()
+
+                    scanStates <- scanStates[initialState,]
+                }
+
+                nextStateIndex <- sapply(scanStates$mz, function(x) {
+                    obsError <- abs(x - nextStates$mz)/x * 10^6
+                    intensityProb <- nextStates$intensity/sum(nextStates$intensity)
+                    errorInverse <- 1/obsError
+                    nextStateProb <- errorInverse/sum(errorInverse) * intensityProb
+                    nextStateProb/sum(nextStateProb)
+                }) %>% which.max()
+
+                nextStates <- nextStates[nextStateIndex,]
+
+                ## store new states
+                bestStates <- rbind(scanStates,nextStates)
+                peakData <- rbind(bestStates, peakData)
 
             }
-            obsPPM <- unlist(obsPPM)
 
             multipleInScan <- T
 
         } else {
 
-            obsPPM <- sapply(2:length(masses), function(mz) {
-                estimatePPM(masses[(mz - 1)], masses[mz])
-            })
-
             multipleInScan <- F
         }
 
+        peakData <- peakData[order(peakData$scan),]
+
+        obsPPM <- sapply(2:length(peakData$mz), function(mz) {
+            estimatePPM(peakData$mz[(mz - 1)], peakData$mz[mz])
+        })
 
         # storing output ----------------------------------------------------------
-        ppmData[[counter]] <- data.frame(meanMZ = mean(masses),
+        ppmData[[counter]] <- data.frame(meanMZ = mean(peakData$mz),
                                          startScan = min(peakData$scan),
                                          endScan = max(peakData$scan),
                                          scanCount = length(peakData$scanCounter),
