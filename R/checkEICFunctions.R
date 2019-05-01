@@ -236,7 +236,7 @@ filterPpmError <- function(approvedPeaks, useGap, varExpThresh,
             }
             klDistance <- unlist(klDistance)
 
-            if(any(klDistance >= 1)) {
+            if(any(klDistance >= 0.5)) {
                 subsample <- F
             } else {
                 checkPpm <- checkPpm/2

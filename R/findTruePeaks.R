@@ -54,10 +54,12 @@ findTruePeaks <- function(truePeaks, sortedAllEIC) {
 
                 scanStates <- peakData[peakData$scan == curScan,]
                 nextStates <- peakData[peakData$scan == nextScan,]
-                peakData <- peakData[peakData$scan != nextScan & peakData$scan != curScan,]
+                curObsRows <- peakData$scan == curScan | peakData$scan == nextScan
 
+                peakData <- peakData[!curObsRows,]
 
                 ## do this if there are two states in first scan
+
                 if(w == 1) {
                     errorNext <- lapply(scanStates$mz, function(x) {
                         obsError <- abs(x - nextStates$mz)/x * 10^6
@@ -85,6 +87,7 @@ findTruePeaks <- function(truePeaks, sortedAllEIC) {
                 ## store new states
                 bestStates <- rbind(scanStates,nextStates)
                 peakData <- rbind(bestStates, peakData)
+                peakData <- peakData[order(peakData$scan),]
 
             }
 
@@ -94,8 +97,6 @@ findTruePeaks <- function(truePeaks, sortedAllEIC) {
 
             multipleInScan <- F
         }
-
-        peakData <- peakData[order(peakData$scan),]
 
         obsPPM <- sapply(2:length(peakData$mz), function(mz) {
             estimatePPM(peakData$mz[(mz - 1)], peakData$mz[mz])
