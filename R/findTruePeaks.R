@@ -61,6 +61,7 @@ findTruePeaks <- function(truePeaks, sortedAllEIC) {
                 ## do this if there are two states in first scan
 
                 if(w == 1) {
+
                     errorNext <- lapply(scanStates$mz, function(x) {
                         obsError <- abs(x - nextStates$mz)/x * 10^6
                     })
@@ -76,6 +77,9 @@ findTruePeaks <- function(truePeaks, sortedAllEIC) {
 
                 nextStateIndex <- sapply(scanStates$mz, function(x) {
                     obsError <- abs(x - nextStates$mz)/x * 10^6
+                    if(any(obsError == 0)) {
+                        obsError[obsError == 0] <- min(obsError[obsError != 0])/10
+                    }
                     intensityProb <- nextStates$intensity/sum(nextStates$intensity)
                     errorInverse <- 1/obsError
                     nextStateProb <- errorInverse/sum(errorInverse) * intensityProb
@@ -117,12 +121,14 @@ findTruePeaks <- function(truePeaks, sortedAllEIC) {
                                          startMatch = min(peakData$dataMatchIndex),
                                          endMatch = max(peakData$dataMatchIndex),
                                          multipleInScan,
-                                         stringsAsFactors = F)
+                                         stringsAsFactors = F,
+                                         index = i)
 
         counter <- 1 + counter
 
     }
     approvedPeaks <- Reduce(rbind, ppmData)
 
+    approvedPeaks[grep("NA",approvedPeaks$meanPPM),]
     return(approvedPeaks)
 }
