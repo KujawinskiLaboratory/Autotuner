@@ -15,6 +15,8 @@
 #' instrument.
 #' @param origBound - The original scan bound location of the peak.
 #' @param scans - Set of all possible ms1 scans for the sample.
+#' @param sampleMetadata - sample metadata with specific information on each
+#' feature.
 #'
 #' @return This function returns the last index the feature is detected.
 #'
@@ -26,7 +28,8 @@ checkBounds <- function(mass,
                         intensityStorage,
                         ppmEst,
                         scans,
-                        origBound) {
+                        origBound,
+                        sampleMetadata) {
 
 
     # Check to make sure we havent reached the boundary -----------------------
@@ -59,11 +62,12 @@ checkBounds <- function(mass,
     }
 
     # next scan
-    scanIndex <- which(scans %in% currentIndex)
+    scanIndex <- grep(paste0("scan=","\\b",currentIndex, "\\b"), sampleMetadata$spectrumId)
     if(upper) {
-        nextIndex <- scans[scanIndex + 1]
+
+        nextIndex <- as.numeric(sub(".* scan=", "", sampleMetadata$spectrumId[scanIndex+1]))
     } else {
-        nextIndex <- scans[scanIndex - 1]
+        nextIndex <- as.numeric(sub(".* scan=", "", sampleMetadata$spectrumId[scanIndex-1]))
     }
     rm(scanIndex)
 
@@ -114,7 +118,7 @@ checkBounds <- function(mass,
                              intensityStorage,
                              ppmEst,
                              scans = scans,
-                             origBound)
+                             origBound, sampleMetadata = sampleMetadata)
         return(bound)
 
     } else {

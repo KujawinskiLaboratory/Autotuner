@@ -86,7 +86,8 @@ findPeakWidth <- function(approvScorePeaks,
                                           currentIndex = filteredRange[2],
                                           ppmEst = ppmEst,
                                           scans = scans,
-                                          origBound = filteredRange[2])
+                                          origBound = filteredRange[2],
+                                          sampleMetadata = sampleMetadata)
                 names(upperBound) <- "upper_bound"
                 lowerBound <- checkBounds(mass = mass,
                                           upper = F,
@@ -94,7 +95,8 @@ findPeakWidth <- function(approvScorePeaks,
                                           currentIndex = filteredRange[1],
                                           ppmEst = ppmEst,
                                           scans = scans,
-                                          origBound = filteredRange[1])
+                                          origBound = filteredRange[1],
+                                          sampleMetadata = sampleMetadata)
                 names(lowerBound) <- "lower_bound"
                 peakBounds[[massIndex]] <- c(lowerBound, upperBound)
 
@@ -109,7 +111,7 @@ findPeakWidth <- function(approvScorePeaks,
                     upperBound <- checkBounds(mass,
                                             currentMsFile = currentMsFile,
                                             currentIndex = filteredRange[2],
-                                            ppmEst = ppmEst)
+                                            ppmEst = ppmEst, sampleMetadata = sampleMetadata)
                     lowerBound <- checkTable$startMatch[massIndex]
 
                   ## case 2 - it is bounded from below
@@ -120,7 +122,7 @@ findPeakWidth <- function(approvScorePeaks,
                                             upper = F,
                                             currentMsFile = currentMsFile,
                                             currentIndex = filteredRange[1],
-                                            ppmEst = ppmEst)
+                                            ppmEst = ppmEst, sampleMetadata = sampleMetadata)
                     upperBound <- checkTable$endMatch[massIndex]
 
                 }
@@ -133,24 +135,19 @@ findPeakWidth <- function(approvScorePeaks,
 
         names(peakBounds) <- checkVals
 
-        # Checking peaks to make sure they have a single maxima -------------------
-        # make sure to run for loop before attempting to debug
-        prevRange <- checkTable[,grep("start|end", colnames(checkTable))]
-        maxPw <- peakBounds %>% sapply(function(curBounds) {
+        peakBounds <- unique(unlist(peakBounds))
+        peakBounds <- peakBounds[!is.na(peakBounds)]
 
+        if(length(peakBounds) == 1) {
+            maxPw <- 0
+        } else {
+            rtUpper <- sampleMetadata$retentionTime[grep(paste0("scan=","\\b",
+                                                                max(peakBounds), "\\b"),sampleMetadata$spectrumId)]
+            rtLower <- sampleMetadata$retentionTime[grep(paste0("scan=","\\b",
+                                                                min(peakBounds), "\\b"),sampleMetadata$spectrumId)]
+            maxPw <- rtUpper - rtLower
+        }
 
-
-            maxTime <- sampleMetadata$retentionTime[scans == max(curBounds)]
-            minTime <- sampleMetadata$retentionTime[scans == min(curBounds)]
-            bounds <- c(maxTime, minTime)
-            missBounds <- length(bounds) == 1
-            if(any(is.na(bounds)) || missBounds) {
-                return(0)
-            } else {
-                abs(maxTime - minTime)
-            }
-
-        }) %>% max()
 
     ## case 2 - all peaks are bounded within the range of the calculated TIC peak.
     } else {
