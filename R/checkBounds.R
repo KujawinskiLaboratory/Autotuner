@@ -119,6 +119,8 @@ checkBounds <- function(mass,
 
         }
 
+        rm(peakMatrix)
+
         bound <- checkBounds(mass,upper,
                              currentMsFile,
                              currentIndex = nextIndex,
@@ -133,6 +135,8 @@ checkBounds <- function(mass,
         if(length(intensityStorage) == 0) {
             intensityStorage <- NA
         }
+
+        rm(peakMatrix)
 
         return(currentIndex)
 

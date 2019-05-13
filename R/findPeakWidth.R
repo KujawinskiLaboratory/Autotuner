@@ -74,12 +74,10 @@ findPeakWidth <- function(approvScorePeaks,
 
         # checking the boundaries of peaks ------------------------------------
         ## looping through each of the features being checked
-        print(length(checkVals))
 
         peakBounds <- list()
         for(massIndex in seq_along(checkVals)) {
 
-            print(massIndex)
             mass <- checkVals[massIndex]
             # case 1 - the peak ends at both boundaries -----------------------
             if(length(checkBoundaries) == 2) {
@@ -114,18 +112,25 @@ findPeakWidth <- function(approvScorePeaks,
                     upperBound <- checkBounds(mass,
                                             currentMsFile = currentMsFile,
                                             currentIndex = filteredRange[2],
-                                            ppmEst = ppmEst, sampleMetadata = sampleMetadata)
+                                            ppmEst = ppmEst,
+                                            sampleMetadata = sampleMetadata,
+                                            origBound = filteredRange[2],
+                                            scans = scans)
                     lowerBound <- checkTable$startMatch[massIndex]
 
                   ## case 2 - it is bounded from below
                 } else {
+
                 # Case 2 - the peak is only bounded below ---------------------
 
                     lowerBound <- checkBounds(mass,
                                             upper = F,
                                             currentMsFile = currentMsFile,
                                             currentIndex = filteredRange[1],
-                                            ppmEst = ppmEst, sampleMetadata = sampleMetadata)
+                                            ppmEst = ppmEst,
+                                            sampleMetadata = sampleMetadata,
+                                            origBound = filteredRange[1],
+                                            scans = scans)
                     upperBound <- checkTable$endMatch[massIndex]
 
                 }
@@ -145,9 +150,13 @@ findPeakWidth <- function(approvScorePeaks,
             maxPw <- 0
         } else {
             rtUpper <- sampleMetadata$retentionTime[grep(paste0("scan=","\\b",
-                                                                max(peakBounds), "\\b"),sampleMetadata$spectrumId)]
+                                                                max(peakBounds),
+                                                                "\\b"),
+                                                         sampleMetadata$spectrumId)]
             rtLower <- sampleMetadata$retentionTime[grep(paste0("scan=","\\b",
-                                                                min(peakBounds), "\\b"),sampleMetadata$spectrumId)]
+                                                                min(peakBounds),
+                                                                "\\b"),
+                                                         sampleMetadata$spectrumId)]
             maxPw <- rtUpper - rtLower
         }
 
