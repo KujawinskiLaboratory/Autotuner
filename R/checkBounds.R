@@ -64,12 +64,19 @@ checkBounds <- function(mass,
     # next scan
     scanIndex <- grep(paste0("scan=","\\b",currentIndex, "\\b"), sampleMetadata$spectrumId)
     if(upper) {
-
-        nextIndex <- as.numeric(sub(".* scan=", "", sampleMetadata$spectrumId[scanIndex+1]))
+        adjIndex <- scanIndex+1
     } else {
-        nextIndex <- as.numeric(sub(".* scan=", "", sampleMetadata$spectrumId[scanIndex-1]))
+        adjIndex <- scanIndex-1
     }
     rm(scanIndex)
+
+    nextIndex <- suppressWarnings(as.numeric(sub(".* scan=", "",
+                                sampleMetadata$spectrumId[adjIndex])))
+    if(is.na(nextIndex)) {
+        ## hack for netCDF files
+        nextIndex <- suppressWarnings(as.numeric(sub("scan=", "",
+                                        sampleMetadata$spectrumId[adjIndex])))
+    }
 
     peakMatrix <- data.frame(mzR::peaks(currentMsFile, currentIndex))
     if(ncol(peakMatrix) == 0) {

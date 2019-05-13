@@ -74,9 +74,12 @@ findPeakWidth <- function(approvScorePeaks,
 
         # checking the boundaries of peaks ------------------------------------
         ## looping through each of the features being checked
+        print(length(checkVals))
+
         peakBounds <- list()
         for(massIndex in seq_along(checkVals)) {
 
+            print(massIndex)
             mass <- checkVals[massIndex]
             # case 1 - the peak ends at both boundaries -----------------------
             if(length(checkBoundaries) == 2) {

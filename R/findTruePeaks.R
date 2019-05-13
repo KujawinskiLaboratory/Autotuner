@@ -77,13 +77,24 @@ findTruePeaks <- function(truePeaks, sortedAllEIC) {
 
                 nextStateIndex <- sapply(scanStates$mz, function(x) {
                     obsError <- abs(x - nextStates$mz)/x * 10^6
+
+
                     if(any(obsError == 0)) {
-                        obsError[obsError == 0] <- min(obsError[obsError != 0])/10
+
+                        ## corner case - error is 0 and there are no other options
+                        if(length(x) == 1) {
+                            obsError <- 0.001
+                        } else {
+                            obsError[obsError == 0] <- min(obsError[obsError != 0])/10
+                        }
+
                     }
+
                     intensityProb <- nextStates$intensity/sum(nextStates$intensity)
                     errorInverse <- 1/obsError
                     nextStateProb <- errorInverse/sum(errorInverse) * intensityProb
                     nextStateProb/sum(nextStateProb)
+
                 }) %>% which.max()
 
                 nextStates <- nextStates[nextStateIndex,]
