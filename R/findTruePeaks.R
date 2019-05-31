@@ -129,8 +129,6 @@ findTruePeaks <- function(truePeaks, sortedAllEIC) {
                                          meanPPM = paste(signif(obsPPM), collapse = ";"),
                                          start = min(peakData$scanCounter),
                                          end = max(peakData$scanCounter),
-                                         startMatch = min(peakData$dataMatchIndex),
-                                         endMatch = max(peakData$dataMatchIndex),
                                          multipleInScan,
                                          stringsAsFactors = F,
                                          index = i)

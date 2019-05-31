@@ -25,7 +25,7 @@ findPeakWidth <- function(approvScorePeaks,
 
     maxScans <- max(approvScorePeaks$scanCount)
     maxPwTable <- approvScorePeaks[approvScorePeaks$scanCount == maxScans,]
-    filteredRange <- unlist(maxPwTable[1,c("startMatch","endMatch")])
+    filteredRange <- unlist(maxPwTable[1,c("startScan","endScan")])
 
     ## finding the true bounds of the peak
     checkBoundaries <- filteredRange %in% boundaries

@@ -379,13 +379,13 @@ countMaxima <- function(peakBounds, sortedAllEIC, prevRange) {
       next
     }
 
-    featInfoSub <- featInfoSub[order(featInfoSub$dataMatchIndex),]
+    featInfoSub <- featInfoSub[order(featInfoSub$scan),]
 
     curRange <- prevRange[peakIndex,]
 
-    curRange[,1] <= featInfoSub$dataMatchIndex && curRange[,2] >= featInfoSub$dataMatchIndex
+    curRange[,1] <= featInfoSub$scan && curRange[,2] >= featInfoSub$scan
 
-    correctEntries <- sapply(featInfoSub$dataMatchIndex, function(entry) {
+    correctEntries <- sapply(featInfoSub$scan, function(entry) {
             curRange[,1] <= entry && curRange[,2] >= entry
           })
 

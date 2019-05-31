@@ -29,10 +29,32 @@ dissectScans <- function(currentMsFile, observedPeak, sampleChrom) {
 
     scanCounter <- 1
     allEIC <- list()
+    ## potential solution to speed up computation: save everything to drive
+    ## by not using mzR we save space on the drive.
+
+    #cdf <- MSnbase::readMSData(files = data_paths[1], mode = "onDisk")
+    #j <- MSnbase::mz(cdf)
+    #k <- MSnbase::intensity(cdf)
+    #jj <- j[scansOfPeak]
+    #kk <- k[scansOfPeak]
+
+    #w <- list()
+    #for(i in seq_along(jj)) {
+    #    w[[i]] <- cbind(mz = jj[[i]],
+    #                    intensity = kk[[i]],
+    #                    scan = scansOfPeak[i])
+    #}
+    #eic2 <- Reduce(rbind, w)
+
+
     for(i in 1:length(scansOfPeak)) {
 
         scan <- scansOfPeak[i]
-        dataMatchIndex <- scansOfPeak[i]
+
+
+
+
+
         peakMatrix <- mzR::peaks(currentMsFile,scan)
         if(is.null(peakMatrix)) {
             next
@@ -45,7 +67,7 @@ dissectScans <- function(currentMsFile, observedPeak, sampleChrom) {
         }
 
         peakStorage <- data.frame(peakMatrix, scanCounter,
-                                  scan, dataMatchIndex)
+                                  scan)
         allEIC[[scanCounter]] <- peakStorage
         scanCounter <- scanCounter + 1
     }

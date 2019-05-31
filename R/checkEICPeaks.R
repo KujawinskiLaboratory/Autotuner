@@ -39,25 +39,25 @@ checkEICPeaks <- function(currentMsFile,
     rate <- mean(scanDiff)
     rm(scanDiff)
 
-    sortedAllEIC <- dissectScans(currentMsFile,
+    moo <- system.time(sortedAllEIC <- dissectScans(currentMsFile,
                                  observedPeak = observedPeak,
-                                 sampleChrom = sampleChrom)
+                                 sampleChrom = sampleChrom))
 
 
     assertthat::assert_that(nrow(sortedAllEIC) > 0,
                             msg = "Check dissectScans within checkEICPeaks. A table with 0 rows was returned. Make sure correct TIC peaks were selected.")
-    boundaries <- range(sortedAllEIC$dataMatchIndex)
+    boundaries <- range(sortedAllEIC$scan)
 
 
     # Checking if sorted scans pass mz error threshold ------------------------
     matchedMasses <- rle(diff(sortedAllEIC$mz) < massThresh)
-    noiseAndPeaks <- filterPeaksfromNoise(matchedMasses)
+    system.time(noiseAndPeaks <- filterPeaksfromNoise(matchedMasses))
     no_match <- noiseAndPeaks[[1]]
     truePeaks <- noiseAndPeaks[[2]]
     rm(noiseAndPeaks)
 
     message("-------- Number of bins detected with absolute mass error threshold: " , length(truePeaks))
-    approvedPeaks <- findTruePeaks(truePeaks, sortedAllEIC)
+    system.time(approvedPeaks <- findTruePeaks(truePeaks, sortedAllEIC))
     message("-------- Number of bins retained after checking that features within bins come from consecutive scans: ",
             nrow(approvedPeaks))
     message("-------- ", signif(nrow(approvedPeaks)/length(truePeaks)*100, digits = 2),
@@ -72,9 +72,9 @@ checkEICPeaks <- function(currentMsFile,
     }
 
     # Filtering data by variability and ppm checks ----------------------------
-    ppmEst <- filterPpmError(approvedPeaks, useGap, varExpThresh,
+    system.time(ppmEst <- filterPpmError(approvedPeaks, useGap, varExpThresh,
                              returnPpmPlots, plotDir, observedPeak,
-                             filename)
+                             filename))
     rm(filename)
     assertthat::assert_that(!is.na(ppmEst),
                             msg = "Output of filterPpmError function was NA. Something may have gone wrong here with input.")
@@ -89,8 +89,8 @@ checkEICPeaks <- function(currentMsFile,
     approvScorePeaks <- approvedPeaks[!noisyBin,]
 
     # Estimating PeakPicking Parameters ---------------------------------------
-    SNest <- estimateSNThresh(no_match,
-                              sortedAllEIC, approvScorePeaks) %>% min()
+    system.time(SNest <- estimateSNThresh(no_match,
+                              sortedAllEIC, approvScorePeaks) %>% min())
 
     assertthat::assert_that(!is.na(SNest),
                             msg = "Output of estimateSNThresh within checkEICPeaks was NA. Something went wrong here.")
@@ -110,11 +110,11 @@ checkEICPeaks <- function(currentMsFile,
     intensityEst <- approvScorePeaks$Intensity %>% min()/sqrt(2)
 
     ### peakWidth Estimate
-    maxPw <- findPeakWidth(approvScorePeaks = approvScorePeaks,
+    system.time(maxPw <- findPeakWidth(approvScorePeaks = approvScorePeaks,
                            currentMsFile = currentMsFile,
                            sortedAllEIC,
                            boundaries,
-                           ppmEst)
+                           ppmEst))
 
     minPw <- scanEst * rate
     if(max(maxPw) < min(maxPw)) {
