@@ -4,8 +4,8 @@
 \alias{checkBounds}
 \title{checkBounds}
 \usage{
-checkBounds(mass, upper = T, currentMsFile, currentIndex,
-  intensityStorage, ppmEst, scans, origBound)
+checkBounds(mass, upper = T, mzDb, currentIndex, intensityStorage,
+  ppmEst, scans, origBound, header)
 }
 \arguments{
 \item{mass}{- Specific mass being checked against adjacent scans.}
@@ -14,7 +14,8 @@ checkBounds(mass, upper = T, currentMsFile, currentIndex,
 greater than the entered one.  If false, it will check values less thant the
 entered one.}
 
-\item{currentMsFile}{- mzR link to one of the entered raw data files.}
+\item{mzDb}{- A list of data.frames containing the m/z and intensity values
+from each scan's mass spectra.}
 
 \item{currentIndex}{- Numerical index indicating which scan contains
 feature specific information.}
@@ -27,6 +28,9 @@ instrument.}
 \item{scans}{- Set of all possible ms1 scans for the sample.}
 
 \item{origBound}{- The original scan bound location of the peak.}
+
+\item{header}{- A data.fame containing metadata on the sample like
+spectra type (MS1 vs MS2), retention time, and scan count.}
 }
 \value{
 This function returns the last index the feature is detected.

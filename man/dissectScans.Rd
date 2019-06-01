@@ -4,16 +4,16 @@
 \alias{dissectScans}
 \title{dissectScans}
 \usage{
-dissectScans(currentMsFile, observedPeak, sampleChrom)
+dissectScans(mzDb, observedPeak, header)
 }
 \arguments{
-\item{currentMsFile}{- This is an mzR object is linked to the current sample
-being investigated.}
+\item{mzDb}{- This is a list of two column data frames containing information
+on each mass spectra within the data.}
 
 \item{observedPeak}{- A list with 'start' and 'stop' boundaries of the
 current peak.}
 
-\item{sampleChrom}{- This is the header file containing all the metadata
+\item{header}{- This is the header file containing all the metadata
 for the currently loaded sample.}
 }
 \description{

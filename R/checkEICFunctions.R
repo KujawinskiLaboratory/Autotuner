@@ -148,7 +148,7 @@ estimateSNThresh <- function(no_match, sortedAllEIC, approvedPeaks) {
         fixedNoise <- peakNoise[!(peakNoise %in% boxplot.stats(peakNoise)$out)]
 
         fixedNoiseMean <- mean(x = fixedNoise, na.rm = T)
-        fixedNoiseVar <-  var(x = fixedNoise, na.rm = T)
+        fixedNoiseVar <-  stats::var(x = fixedNoise, na.rm = T)
         N <- length(fixedNoise)
 
         fixedNoiseList[[scanID]] <- data.frame(fixedNoiseMean,fixedNoiseVar,N)
@@ -251,6 +251,8 @@ estimateSNThresh <- function(no_match, sortedAllEIC, approvedPeaks) {
 #' @param plotDir - Path where to store plots.
 #' @param observedPeak - A list with names 'start' and 'end' containing
 #' scalar values representing the calculated peak boundary points
+#' @param filename - A string containing the name of the current data file being
+#' analyzed.
 #'
 #' @details A distribution is created from the set of all ppm values identified.
 #' The most dense peak of this distribution is assumed to represent the standard
@@ -279,21 +281,21 @@ filterPpmError <- function(approvedPeaks, useGap, varExpThresh,
         subsample <- T
         while(subsample) {
 
-            origDist <- density(ppmObs, bw = 1)$y
+            origDist <- stats::density(ppmObs, bw = 1)$y
             set.seed(1)
-            newDist1 <-  density(sample(ppmObs, checkPpm), bw = 1)$y
+            newDist1 <-  stats::density(sample(ppmObs, checkPpm), bw = 1)$y
             set.seed(2)
-            newDist2 <-  density(sample(ppmObs, checkPpm), bw = 1)$y
+            newDist2 <-  stats::density(sample(ppmObs, checkPpm), bw = 1)$y
             set.seed(3)
-            newDist3 <-  density(sample(ppmObs, checkPpm), bw = 1)$y
+            newDist3 <-  stats::density(sample(ppmObs, checkPpm), bw = 1)$y
             set.seed(4)
-            newDist4 <-  density(sample(ppmObs, checkPpm), bw = 1)$y
+            newDist4 <-  stats::density(sample(ppmObs, checkPpm), bw = 1)$y
             set.seed(5)
-            newDist5 <-  density(sample(ppmObs, checkPpm), bw = 1)$y
+            newDist5 <-  stats::density(sample(ppmObs, checkPpm), bw = 1)$y
             set.seed(6)
-            newDist6 <-  density(sample(ppmObs, checkPpm), bw = 1)$y
+            newDist6 <-  stats::density(sample(ppmObs, checkPpm), bw = 1)$y
             set.seed(7)
-            newDist7 <-  density(sample(ppmObs, checkPpm), bw = 1)$y
+            newDist7 <-  stats::density(sample(ppmObs, checkPpm), bw = 1)$y
 
             klDistance <- list()
             subSamples <- ls()[grep("newDist",ls())]
@@ -399,10 +401,10 @@ filterPpmError <- function(approvedPeaks, useGap, varExpThresh,
 
         ## error here...
         par(mar=c(1,1,1,1))
-        pdf(output, width = 8, height = 6)
+        grDevices::pdf(output, width = 8, height = 6)
 
 
-        plot(density(ppmObs,bw = 1), main = title, cex.main = .7) +
+        plot(stats::density(ppmObs,bw = 1), main = title, cex.main = .7) +
         abline(v = maxX, lty = 2, col = "red") +
         abline(v = ppmEst, lty = 3, col = "blue")
         legend("topright",
@@ -410,7 +412,7 @@ filterPpmError <- function(approvedPeaks, useGap, varExpThresh,
                           paste("ppm estimate:", signif(ppmEst,digits = 3))),
                col = c("red","blue"),
                lty = c(2,3),cex = .7)
-        dev.off()
+        grDevices::dev.off()
 
     }
 

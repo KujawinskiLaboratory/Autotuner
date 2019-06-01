@@ -9,7 +9,7 @@
 #'
 #' @export
 findTruePeaks <- function(truePeaks, sortedAllEIC) {
-
+#
 
     # initializing storage ----------------------------------------------------
     ppmData <- list()

@@ -4,12 +4,15 @@
 \alias{checkEICPeaks}
 \title{checkEICPeaks}
 \usage{
-checkEICPeaks(currentMsFile, observedPeak, massThresh = 0.01, useGap,
-  varExpThresh, returnPpmPlots, plotDir)
+checkEICPeaks(mzDb, header, observedPeak, massThresh = 0.005, useGap,
+  varExpThresh, returnPpmPlots, plotDir, filename)
 }
 \arguments{
-\item{currentMsFile}{- This is an mzR object containing sample specific
-information to be loaded into Autotuner parameter estimation algorithm.}
+\item{mzDb}{- A list of data.frames containing the m/z and intensity values
+from each scan's mass spectra.}
+
+\item{header}{- A data.fame containing metadata on the sample like
+spectra type (MS1 vs MS2), retention time, and scan count.}
 
 \item{observedPeak}{- A list with names 'start' and 'end' containing
 scalar values representing the calculated peak boundary points}
@@ -28,6 +31,9 @@ threshold to use if useGap is false.}
 ppm distributions.}
 
 \item{plotDir}{- Path where to store plots.}
+
+\item{filename}{- A string containing the name of the current data file being
+analyzed.}
 }
 \description{
 This function is the outer most function used to check for

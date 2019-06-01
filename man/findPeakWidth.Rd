@@ -4,14 +4,18 @@
 \alias{findPeakWidth}
 \title{findPeakWidth}
 \usage{
-findPeakWidth(approvScorePeaks, currentMsFile, sortedAllEIC, boundaries,
+findPeakWidth(approvScorePeaks, mzDb, header, sortedAllEIC, boundaries,
   ppmEst)
 }
 \arguments{
 \item{approvScorePeaks}{- A data.frame containing information on the
 retained bins.}
 
-\item{currentMsFile}{- mzR link to one of the entered raw data files.}
+\item{mzDb}{- A list of data.frames containing the m/z and intensity values
+from each scan's mass spectra.}
+
+\item{header}{- A data.fame containing metadata on the sample like
+spectra type (MS1 vs MS2), retention time, and scan count.}
 
 \item{sortedAllEIC}{- a da}
 

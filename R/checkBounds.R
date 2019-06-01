@@ -110,7 +110,7 @@ checkBounds <- function(mass,
         if(length(intensityStorage) >= 3) {
 
             fit <- lm(intensityStorage ~ seq_along(intensityStorage))
-            slope <- coef(fit)[2]
+            slope <- stats::coef(fit)[2]
             r2 <- summary(fit)$r.squared
 
             if(abs(slope) < 0.75 | r2 < .75) {

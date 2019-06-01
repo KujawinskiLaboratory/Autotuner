@@ -25,6 +25,9 @@ ppm distributions.}
 
 \item{observedPeak}{- A list with names 'start' and 'end' containing
 scalar values representing the calculated peak boundary points}
+
+\item{filename}{- A string containing the name of the current data file being
+analyzed.}
 }
 \value{
 This function returns a scalar value representing ppm error estimate.

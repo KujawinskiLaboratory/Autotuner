@@ -51,7 +51,7 @@ EICparams <- function(Autotuner, massThresh, peak_table, useGap = T,
         # Adding msnbase functionality to replace mzR API
         msnObj <- MSnbase::readMSData(files = currentFile, mode = "onDisk")
 
-        header <- MSnbase::header(msnObj)
+        header <- suppressWarnings( MSnbase::header(msnObj))
         allMzs <- MSnbase::mz(msnObj)
         allInt <- MSnbase::intensity(msnObj)
 
@@ -60,7 +60,7 @@ EICparams <- function(Autotuner, massThresh, peak_table, useGap = T,
             mzDb[[i]] <- cbind(mz = allMzs[[i]],
                             intensity = allInt[[i]])
         }
-        rm(allMzs, allInt, msnObj)
+        rm(allMzs, allInt, msnObj, i)
 
         # going through each peak from a sample -----------------------------
         pickedParams <- list()
@@ -73,11 +73,13 @@ EICparams <- function(Autotuner, massThresh, peak_table, useGap = T,
             observedPeak <- list(start = start, end = end)
 
             ## currently here
-            estimatedPeakParams <- checkEICPeaks(currentMsFile = currentMsFile,
+            estimatedPeakParams <- checkEICPeaks(mzDb = mzDb,
+                                                 header = header,
                                                  observedPeak = observedPeak,
                                                  massThresh,
                                                  useGap, varExpThresh,
-                                                 returnPpmPlots,plotDir)
+                                                 returnPpmPlots, plotDir,
+                                                 filename = basename(currentFile))
 
             if(is.null(estimatedPeakParams)) {
                 next
@@ -95,7 +97,6 @@ EICparams <- function(Autotuner, massThresh, peak_table, useGap = T,
 
         totalEstimates[[j]] <- sampleParams
 
-        mzR::close(currentMsFile)
     }
 
     totalEstimates <- Reduce(rbind, totalEstimates)
