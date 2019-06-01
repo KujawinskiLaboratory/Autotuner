@@ -116,8 +116,8 @@ estimateSNThresh <- function(no_match, sortedAllEIC, approvedPeaks) {
     minScan <- min(scanCount, na.rm = T)
     scanCount <- scanCount[no_match]
 
-    SN <- list()
-    counter <- 1
+    ## generating index for subseting of fixed noise obj
+    scanIntervals <- list()
     for(peakID in 1:nrow(approvedPeaks)) {
 
         peakStart <- approvedPeaks[peakID,"startScan"]
@@ -134,21 +134,88 @@ estimateSNThresh <- function(no_match, sortedAllEIC, approvedPeaks) {
             upperBound <- maxScan
         }
 
-        peakNoise <- noise_noise[which(scanCount >= lowerBound & scanCount <= upperBound)]
-        fixedNoise <- peakNoise[-which(peakNoise %in% boxplot.stats(peakNoise)$out)]
+        scanIntervals[[peakID]] <- which(minScan:maxScan %in% c(lowerBound, upperBound))
 
-        if(length(fixedNoise) == 0) {
+
+    }
+
+    ## calculating all fixed noise values
+    scanRange <- (minScan:maxScan)
+    fixedNoiseList <- list()
+    for(scanID in seq_along(scanRange)) {
+
+        peakNoise <- noise_noise[scanCount == scanRange[scanID]]
+        fixedNoise <- peakNoise[!(peakNoise %in% boxplot.stats(peakNoise)$out)]
+
+        fixedNoiseMean <- mean(x = fixedNoise, na.rm = T)
+        fixedNoiseVar <-  var(x = fixedNoise, na.rm = T)
+        N <- length(fixedNoise)
+
+        fixedNoiseList[[scanID]] <- data.frame(fixedNoiseMean,fixedNoiseVar,N)
+
+    }
+    fixedNoiseList <- Reduce(rbind, fixedNoiseList)
+
+    ## calculating the sd and mean for each group
+    noiseIntDb <- list()
+    counter <- 1
+    for(row in seq_along(scanIntervals)) {
+
+        if(row == 1) {
+
+            new <- T
+
+        } else {
+
+            new <- sapply(noiseIntDb, function(noiseDb) {
+                if(!all(scanIntervals[[row]] == as.numeric(noiseDb[,c(1,2)]))) {
+                    return(TRUE)
+                } else {
+                    return(FALSE)
+                }
+            })
+            new <- all(new)
+        }
+
+
+        if(new) {
+            ## add check to see if cur row has already been looked at
+            curRow <- scanIntervals[[row]]
+            curStatDb <- fixedNoiseList[curRow[1]:curRow[2],]
+            eX2 <- sum((curStatDb$fixedNoiseMean^2 + curStatDb$fixedNoiseVar)*curStatDb$N)
+            eX2 <- eX2/sum(curStatDb$N)
+            groupMean <- mean(curStatDb$fixedNoiseMean)
+            groupVar <- eX2 - groupMean^2
+            groupSd <- sqrt(groupVar)
+
+            noiseIntDb[[counter]] <- data.frame(start = curRow[1], end = curRow[2], groupMean, groupSd)
+            counter <- counter + 1
+        }
+
+    }
+    noiseIntDb <- Reduce(rbind, noiseIntDb)
+    noiseIntDb$key <- apply(noiseIntDb[,c(1,2)], 1, paste, collapse = " ")
+    rm(curStatDb, eX2, groupSd, groupVar, groupMean,
+       curRow, fixedNoiseList)
+
+
+    SN <- list()
+    counter <- 1
+    for(peakID in seq_along(scanIntervals)) {
+
+        scanInt <- paste(scanIntervals[[peakID]], collapse = " ")
+        scanStats <- noiseIntDb[noiseIntDb$key == scanInt,]
+
+        if(nrow(scanStats) == 0) {
             next()
         }
 
-        fixedNoiseMean <- mean(x = fixedNoise, na.rm = T)
-        fixedNoiseSD <- sd(x = fixedNoise, na.rm = T)
         Peak <- approvedPeaks$Intensity[peakID]
 
-        if((Peak - fixedNoiseMean) > 3*fixedNoiseSD) {
+        if((Peak - scanStats$groupMean) > 3*scanStats$groupSd) {
 
             ## selects as true peak
-            SigNoiseThresh <- (Peak - fixedNoiseMean)/fixedNoiseSD
+            SigNoiseThresh <- (Peak - scanStats$groupMean)/scanStats$groupSd
             SN[[counter]] <- SigNoiseThresh
             counter <- counter + 1
 
@@ -163,8 +230,7 @@ estimateSNThresh <- function(no_match, sortedAllEIC, approvedPeaks) {
         return(NA)
     }
 
-
-    return(SN)
+    return(unlist(SN))
 }
 
 
