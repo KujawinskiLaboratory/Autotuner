@@ -7,7 +7,8 @@
 #' @param upper - A boolean value that tells the algorithm to check indices
 #' greater than the entered one.  If false, it will check values less thant the
 #' entered one.
-#' @param currentMsFile - mzR link to one of the entered raw data files.
+#' @param mzDb - A list of data.frames containing the m/z and intensity values
+#' from each scan's mass spectra.
 #' @param currentIndex - Numerical index indicating which scan contains
 #' feature specific information.
 #' @param intensityStorage - comming soon
@@ -15,21 +16,21 @@
 #' instrument.
 #' @param origBound - The original scan bound location of the peak.
 #' @param scans - Set of all possible ms1 scans for the sample.
-#' @param sampleMetadata - sample metadata with specific information on each
-#' feature.
+#' @param header - A data.fame containing metadata on the sample like
+#' spectra type (MS1 vs MS2), retention time, and scan count.
 #'
 #' @return This function returns the last index the feature is detected.
 #'
 #' @export
 checkBounds <- function(mass,
                         upper = T,
-                        currentMsFile,
+                        mzDb,
                         currentIndex,
                         intensityStorage,
                         ppmEst,
                         scans,
                         origBound,
-                        sampleMetadata) {
+                        header) {
 
 
     # Check to make sure we havent reached the boundary -----------------------
@@ -62,7 +63,7 @@ checkBounds <- function(mass,
     }
 
     # next scan
-    scanIndex <- grep(paste0("scan=","\\b",currentIndex, "\\b"), sampleMetadata$spectrumId)
+    scanIndex <- grep(paste0("scan=","\\b",currentIndex, "\\b"), header$spectrumId)
     if(upper) {
         adjIndex <- scanIndex+1
     } else {
@@ -71,14 +72,14 @@ checkBounds <- function(mass,
     rm(scanIndex)
 
     nextIndex <- suppressWarnings(as.numeric(sub(".* scan=", "",
-                                sampleMetadata$spectrumId[adjIndex])))
+                                header$spectrumId[adjIndex])))
     if(is.na(nextIndex)) {
         ## hack for netCDF files
         nextIndex <- suppressWarnings(as.numeric(sub("scan=", "",
-                                        sampleMetadata$spectrumId[adjIndex])))
+                                                     header$spectrumId[adjIndex])))
     }
 
-    peakMatrix <- data.frame(mzR::peaks(currentMsFile, currentIndex))
+    peakMatrix <- data.frame(mzDb[nextIndex])
     if(ncol(peakMatrix) == 0) {
         return(0)
     }
@@ -91,7 +92,6 @@ checkBounds <- function(mass,
 
     # updating the function to check next scan --------------------------------
     if(foundMass) {
-
 
         # adding intensity to storage variable --------------------------------
         # correcting for multiple matches
@@ -121,13 +121,15 @@ checkBounds <- function(mass,
 
         rm(peakMatrix)
 
-        bound <- checkBounds(mass,upper,
-                             currentMsFile,
+        bound <- checkBounds(mass = mass,
+                             upper = upper,
+                             mzDb = mzDb,
                              currentIndex = nextIndex,
-                             intensityStorage,
-                             ppmEst,
+                             intensityStorage = intensityStorage,
+                             ppmEst = ppmEst,
                              scans = scans,
-                             origBound, sampleMetadata = sampleMetadata)
+                             origBound = origBound,
+                             header = header)
         return(bound)
 
     } else {

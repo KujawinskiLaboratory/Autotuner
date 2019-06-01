@@ -6,7 +6,10 @@
 #'
 #' @param approvScorePeaks - A data.frame containing information on the
 #' retained bins.
-#' @param currentMsFile - mzR link to one of the entered raw data files.
+#' @param mzDb - A list of data.frames containing the m/z and intensity values
+#' from each scan's mass spectra.
+#' @param header - A data.fame containing metadata on the sample like
+#' spectra type (MS1 vs MS2), retention time, and scan count.
 #' @param sortedAllEIC - a da
 #' @param boundaries - A numeric vector with indicies representing the scans
 #' bounding the original TIC peak.
@@ -18,7 +21,8 @@
 #'
 #' @export
 findPeakWidth <- function(approvScorePeaks,
-                          currentMsFile,
+                          mzDb,
+                          header,
                           sortedAllEIC,
                           boundaries,
                           ppmEst) {
@@ -29,23 +33,20 @@ findPeakWidth <- function(approvScorePeaks,
 
     ## finding the true bounds of the peak
     checkBoundaries <- filteredRange %in% boundaries
-
-    sampleMetadata <- mzR::header(currentMsFile)
-    sampleMetadata <- sampleMetadata[sampleMetadata$msLevel == 1L,]
-
+    header <- header[header$msLevel == 1L,]
 
     # Added this on 2019-03-24 for cases where ms2 data is not within the
     # ms convert file
-    if(!all(sampleMetadata$msLevel == 1L)) {
-        scans <- sub(".* scan=", "", sampleMetadata$spectrumId) %>% as.numeric()
+    if(!all(header$msLevel == 1L)) {
+        scans <- sub(".* scan=", "", header$spectrumId) %>% as.numeric()
     } else {
-        scans <- 1:nrow(sampleMetadata)
+        scans <- 1:nrow(header)
     }
 
     ## adding this bandaid here to solve a problem I got with the FT data.
     ##
     if(max(filteredRange) > max(scans)) {
-        scans <- sub(".* scan=", "", sampleMetadata$spectrumId) %>% as.numeric()
+        scans <- sub(".* scan=", "", header$spectrumId) %>% as.numeric()
     }
 
 
@@ -71,7 +72,6 @@ findPeakWidth <- function(approvScorePeaks,
             checkVals <- checkTable$meanMZ
         }
 
-
         # checking the boundaries of peaks ------------------------------------
         ## looping through each of the features being checked
 
@@ -83,21 +83,21 @@ findPeakWidth <- function(approvScorePeaks,
             if(length(checkBoundaries) == 2) {
 
                 upperBound <- checkBounds(mass = mass,
-                                          currentMsFile = currentMsFile,
+                                          mzDb = mzDb,
                                           currentIndex = filteredRange[2],
                                           ppmEst = ppmEst,
                                           scans = scans,
                                           origBound = filteredRange[2],
-                                          sampleMetadata = sampleMetadata)
+                                          header = header)
                 names(upperBound) <- "upper_bound"
                 lowerBound <- checkBounds(mass = mass,
                                           upper = F,
-                                          currentMsFile = currentMsFile,
+                                          mzDb = mzDb,
                                           currentIndex = filteredRange[1],
                                           ppmEst = ppmEst,
                                           scans = scans,
                                           origBound = filteredRange[1],
-                                          sampleMetadata = sampleMetadata)
+                                          header = header)
                 names(lowerBound) <- "lower_bound"
                 peakBounds[[massIndex]] <- c(lowerBound, upperBound)
 
@@ -110,10 +110,10 @@ findPeakWidth <- function(approvScorePeaks,
                 if(which(checkBoundaries) == 2) {
 
                     upperBound <- checkBounds(mass,
-                                            currentMsFile = currentMsFile,
+                                            mzDb = mzDb,
                                             currentIndex = filteredRange[2],
                                             ppmEst = ppmEst,
-                                            sampleMetadata = sampleMetadata,
+                                            header = header,
                                             origBound = filteredRange[2],
                                             scans = scans)
                     lowerBound <- checkTable$startMatch[massIndex]
@@ -125,10 +125,10 @@ findPeakWidth <- function(approvScorePeaks,
 
                     lowerBound <- checkBounds(mass,
                                             upper = F,
-                                            currentMsFile = currentMsFile,
+                                            mzDb = mzDb,
                                             currentIndex = filteredRange[1],
                                             ppmEst = ppmEst,
-                                            sampleMetadata = sampleMetadata,
+                                            header = header,
                                             origBound = filteredRange[1],
                                             scans = scans)
                     upperBound <- checkTable$endMatch[massIndex]
@@ -149,14 +149,14 @@ findPeakWidth <- function(approvScorePeaks,
         if(length(peakBounds) == 1) {
             maxPw <- 0
         } else {
-            rtUpper <- sampleMetadata$retentionTime[grep(paste0("scan=","\\b",
+            rtUpper <- header$retentionTime[grep(paste0("scan=","\\b",
                                                                 max(peakBounds),
                                                                 "\\b"),
-                                                         sampleMetadata$spectrumId)]
-            rtLower <- sampleMetadata$retentionTime[grep(paste0("scan=","\\b",
+                                                         header$spectrumId)]
+            rtLower <- header$retentionTime[grep(paste0("scan=","\\b",
                                                                 min(peakBounds),
                                                                 "\\b"),
-                                                         sampleMetadata$spectrumId)]
+                                                         header$spectrumId)]
             maxPw <- rtUpper - rtLower
         }
 
@@ -165,8 +165,8 @@ findPeakWidth <- function(approvScorePeaks,
     } else {
 
         curBounds <- unlist(maxPwTable[1,grep("Match", colnames(maxPwTable))])
-        maxTime <- sampleMetadata$retentionTime[scans == max(curBounds)]
-        minTime <- sampleMetadata$retentionTime[scans == min(curBounds)]
+        maxTime <- header$retentionTime[scans == max(curBounds)]
+        minTime <- header$retentionTime[scans == min(curBounds)]
         maxPw <- maxTime - minTime
 
     }

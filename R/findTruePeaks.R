@@ -15,14 +15,13 @@ findTruePeaks <- function(truePeaks, sortedAllEIC) {
     ppmData <- list()
     counter <- 1
 
-
     # Checking if bin elements come from adj scans ----------------------------
     for(i in seq_along(truePeaks)) {
 
         pickedPeak <- truePeaks[[i]]
 
         peakData <- sortedAllEIC[pickedPeak,]
-        peakData <- peakData[order(peakData$scanCounter),]
+        peakData <- peakData[order(peakData$scan),]
 
         # remove features that are duplicated.  -------------------------------
         if(nrow(peakData) == 1) {
@@ -30,7 +29,7 @@ findTruePeaks <- function(truePeaks, sortedAllEIC) {
         }
 
         ## checking to make sure features comes from adjacent scans
-        scanDiff <- sort(unique(peakData$scanCounter)) %>% diff()
+        scanDiff <- sort(unique(peakData$scan)) %>% diff()
 
         ## checking that binned peaks:
         # are being picked up within consecutive scans
@@ -40,7 +39,7 @@ findTruePeaks <- function(truePeaks, sortedAllEIC) {
         }
 
         ## checking to see if any binned masses come from the same scan
-        countsInScans <- table(peakData$scanCounter)
+        countsInScans <- table(peakData$scan)
         moreInAScan <- any(as.vector(countsInScans) > 1)
 
         if(moreInAScan) {
@@ -121,14 +120,12 @@ findTruePeaks <- function(truePeaks, sortedAllEIC) {
         ppmData[[counter]] <- data.frame(meanMZ = mean(peakData$mz),
                                          startScan = min(peakData$scan),
                                          endScan = max(peakData$scan),
-                                         scanCount = length(peakData$scanCounter),
+                                         scanCount = length(peakData$scan),
                                          Intensity = sum(peakData$intensity),
                                          meanIntensity = mean(peakData$intensity),
                                          intensityDispersion = sd(peakData$intensity),
                                          minIntensity = min(peakData$intensity),
                                          meanPPM = paste(signif(obsPPM), collapse = ";"),
-                                         start = min(peakData$scanCounter),
-                                         end = max(peakData$scanCounter),
                                          multipleInScan,
                                          stringsAsFactors = F,
                                          index = i)
@@ -137,7 +134,5 @@ findTruePeaks <- function(truePeaks, sortedAllEIC) {
 
     }
     approvedPeaks <- Reduce(rbind, ppmData)
-
-    approvedPeaks[grep("NA",approvedPeaks$meanPPM),]
     return(approvedPeaks)
 }

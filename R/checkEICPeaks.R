@@ -3,8 +3,10 @@
 #' @description This function is the outer most function used to check for
 #' individual EIC peak specific parameters.
 #'
-#' @param currentMsFile - This is an mzR object containing sample specific
-#' information to be loaded into Autotuner parameter estimation algorithm.
+#' @param mzDb - A list of data.frames containing the m/z and intensity values
+#' from each scan's mass spectra.
+#' @param header - A data.fame containing metadata on the sample like
+#' spectra type (MS1 vs MS2), retention time, and scan count.
 #' @param observedPeak - A list with names 'start' and 'end' containing
 #' scalar values representing the calculated peak boundary points
 #' @param massThresh - A generous exact mass error threshold used to estimate
@@ -17,31 +19,31 @@
 #' @param returnPpmPlots - Boolean value that tells R to return plots for
 #' ppm distributions.
 #' @param plotDir - Path where to store plots.
+#' @param filename - A string containing the name of the current data file being
+#' analyzed.
 #'
 #' @export
-checkEICPeaks <- function(currentMsFile,
+checkEICPeaks <- function(mzDb,
+                          header,
                           observedPeak,
-                          massThresh = 0.01,
+                          massThresh = 0.005,
                           useGap,
                           varExpThresh,
                           returnPpmPlots,
-                          plotDir) {
-
-
-
+                          plotDir,
+                          filename) {
 
     # extracting ms1 information for current peak -----------------------------
+    ## msnObj
     suppressWarnings(rm(no_match,approvedPeaks))
-    filename <- basename(currentMsFile@fileName)
-    sampleChrom <- mzR::header(currentMsFile)
 
-    scanDiff <- diff(sampleChrom$retentionTime[sampleChrom$msLevel == 1L])
+    scanDiff <- diff(header$retentionTime[header$msLevel == 1L])
     rate <- mean(scanDiff)
     rm(scanDiff)
 
-    moo <- system.time(sortedAllEIC <- dissectScans(currentMsFile,
+    sortedAllEIC <- dissectScans(mzDb,
                                  observedPeak = observedPeak,
-                                 sampleChrom = sampleChrom))
+                                 header = header)
 
 
     assertthat::assert_that(nrow(sortedAllEIC) > 0,
@@ -51,13 +53,16 @@ checkEICPeaks <- function(currentMsFile,
 
     # Checking if sorted scans pass mz error threshold ------------------------
     matchedMasses <- rle(diff(sortedAllEIC$mz) < massThresh)
-    system.time(noiseAndPeaks <- filterPeaksfromNoise(matchedMasses))
+
+    ### THIS COULD BE PLACE TO ADD NOISE FILTER TO MAKE SPEED FASTER
+    noiseAndPeaks <- filterPeaksfromNoise(matchedMasses)
     no_match <- noiseAndPeaks[[1]]
     truePeaks <- noiseAndPeaks[[2]]
     rm(noiseAndPeaks)
 
     message("-------- Number of bins detected with absolute mass error threshold: " , length(truePeaks))
-    system.time(approvedPeaks <- findTruePeaks(truePeaks, sortedAllEIC))
+    approvedPeaks <- findTruePeaks(truePeaks, sortedAllEIC)
+
     message("-------- Number of bins retained after checking that features within bins come from consecutive scans: ",
             nrow(approvedPeaks))
     message("-------- ", signif(nrow(approvedPeaks)/length(truePeaks)*100, digits = 2),
@@ -75,7 +80,7 @@ checkEICPeaks <- function(currentMsFile,
     system.time(ppmEst <- filterPpmError(approvedPeaks, useGap, varExpThresh,
                              returnPpmPlots, plotDir, observedPeak,
                              filename))
-    rm(filename)
+
     assertthat::assert_that(!is.na(ppmEst),
                             msg = "Output of filterPpmError function was NA. Something may have gone wrong here with input.")
 
@@ -89,32 +94,31 @@ checkEICPeaks <- function(currentMsFile,
     approvScorePeaks <- approvedPeaks[!noisyBin,]
 
     # Estimating PeakPicking Parameters ---------------------------------------
-    system.time(SNest <- estimateSNThresh(no_match,
-                              sortedAllEIC, approvScorePeaks) %>% min())
+    SNest <- estimateSNThresh(no_match,
+                              sortedAllEIC, approvScorePeaks)
+    SNest <- min(SNest)
 
     assertthat::assert_that(!is.na(SNest),
                             msg = "Output of estimateSNThresh within checkEICPeaks was NA. Something went wrong here.")
 
-    scanEst <- approvScorePeaks$scanCount %>% min()
+    scanEst <- min(approvScorePeaks$scanCount)
 
     ### Noise Intensity Estimate
-    noiseEst <- approvScorePeaks$minIntensity %>%
-        min() - 100
-
+    noiseEst <- min(approvScorePeaks$minIntensity) - 100
     if(noiseEst < 0) {
-        noiseEst <- approvScorePeaks$minIntensity %>%
-            min() + 10
+        noiseEst <- min(approvScorePeaks$minIntensity) + 10
     }
 
     ### Prefilter Intensity Estimate
-    intensityEst <- approvScorePeaks$Intensity %>% min()/sqrt(2)
+    intensityEst <- min(approvScorePeaks$Intensity)/sqrt(2)
 
     ### peakWidth Estimate
-    system.time(maxPw <- findPeakWidth(approvScorePeaks = approvScorePeaks,
-                           currentMsFile = currentMsFile,
-                           sortedAllEIC,
-                           boundaries,
-                           ppmEst))
+    maxPw <- findPeakWidth(approvScorePeaks = approvScorePeaks,
+                           mzDb = mzDb,
+                           header = header,
+                           sortedAllEIC = sortedAllEIC,
+                           boundaries = boundaries,
+                           ppmEst = ppmEst)
 
     minPw <- scanEst * rate
     if(max(maxPw) < min(maxPw)) {

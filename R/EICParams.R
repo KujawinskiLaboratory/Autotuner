@@ -48,16 +48,19 @@ EICparams <- function(Autotuner, massThresh, peak_table, useGap = T,
         currentTable <- peak_table[peak_table$Sample == j,]
         currentFile <- Autotuner@file_paths[j]
 
-        # add API backend to make it work with netCDF files
-        # this is relevant to mzR package
-        if(grepl("CDF", currentFile)) {
-            back <- "netCDF"
-        } else {
-            back <- "pwiz"
-        }
+        # Adding msnbase functionality to replace mzR API
+        msnObj <- MSnbase::readMSData(files = currentFile, mode = "onDisk")
 
-        currentMsFile <- mzR::openMSfile(currentFile, backend = back)
-        rm(currentFile)
+        header <- MSnbase::header(msnObj)
+        allMzs <- MSnbase::mz(msnObj)
+        allInt <- MSnbase::intensity(msnObj)
+
+        mzDb <- list()
+        for(i in seq_along(allInt)) {
+            mzDb[[i]] <- cbind(mz = allMzs[[i]],
+                            intensity = allInt[[i]])
+        }
+        rm(allMzs, allInt, msnObj)
 
         # going through each peak from a sample -----------------------------
         pickedParams <- list()
