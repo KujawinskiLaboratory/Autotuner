@@ -111,15 +111,17 @@ estimateSNThresh <- function(no_match, sortedAllEIC, approvedPeaks) {
 
     noisePeakTable <- sortedAllEIC[no_match,]
     noise_noise <- noisePeakTable$intensity
-    scanCount <- sortedAllEIC$scanCounter
+    scanCount <- sortedAllEIC$scan
     maxScan <- max(scanCount, na.rm = T)
     minScan <- min(scanCount, na.rm = T)
     scanCount <- scanCount[no_match]
 
+    SN <- list()
+    counter <- 1
     for(peakID in 1:nrow(approvedPeaks)) {
 
-        peakStart <- approvedPeaks[peakID,"start"]
-        peakEnd <- approvedPeaks[peakID,"end"]
+        peakStart <- approvedPeaks[peakID,"startScan"]
+        peakEnd <- approvedPeaks[peakID,"endScan"]
         peakDist <- peakEnd - peakStart
         lowerBound <- peakStart - peakDist * 2
 
@@ -139,29 +141,28 @@ estimateSNThresh <- function(no_match, sortedAllEIC, approvedPeaks) {
             next()
         }
 
-        fixedNoiseMean <- fixedNoise %>% mean(na.rm = T)
-        fixedNoiseSD <- fixedNoise %>% sd(na.rm = T)
+        fixedNoiseMean <- mean(x = fixedNoise, na.rm = T)
+        fixedNoiseSD <- sd(x = fixedNoise, na.rm = T)
         Peak <- approvedPeaks$Intensity[peakID]
 
         if((Peak - fixedNoiseMean) > 3*fixedNoiseSD) {
 
             ## selects as true peak
             SigNoiseThresh <- (Peak - fixedNoiseMean)/fixedNoiseSD
-
-            if(exists("SN")) {
-                SN <- c(SN,SigNoiseThresh)
-            } else {
-                SN <- SigNoiseThresh
-            }
+            SN[[counter]] <- SigNoiseThresh
+            counter <- counter + 1
 
         } else {
-          next()
+
+            next()
+
         }
     }
 
     if(!exists("SN")) {
         return(NA)
     }
+
 
     return(SN)
 }
