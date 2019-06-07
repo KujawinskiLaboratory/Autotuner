@@ -46,7 +46,8 @@ findPeakWidth <- function(approvScorePeaks,
     ## adding this bandaid here to solve a problem I got with the FT data.
     ##
     if(max(filteredRange) > max(scans)) {
-        scans <- sub(".* scan=", "", header$spectrumId) %>% as.numeric()
+        scans <- sub("(.* )?scan=", "", header$spectrumId) %>% as.numeric()
+
     }
 
 
@@ -164,7 +165,7 @@ findPeakWidth <- function(approvScorePeaks,
     ## case 2 - all peaks are bounded within the range of the calculated TIC peak.
     } else {
 
-        curBounds <- unlist(maxPwTable[1,grep("Match", colnames(maxPwTable))])
+        curBounds <- unlist(maxPwTable[1,grep("(start|end)Scan", colnames(maxPwTable))])
         maxTime <- header$retentionTime[scans == max(curBounds)]
         minTime <- header$retentionTime[scans == min(curBounds)]
         maxPw <- maxTime - minTime

@@ -77,9 +77,9 @@ checkEICPeaks <- function(mzDb,
     }
 
     # Filtering data by variability and ppm checks ----------------------------
-    system.time(ppmEst <- filterPpmError(approvedPeaks, useGap, varExpThresh,
+    ppmEst <- filterPpmError(approvedPeaks, useGap, varExpThresh,
                              returnPpmPlots, plotDir, observedPeak,
-                             filename))
+                             filename)
 
     assertthat::assert_that(!is.na(ppmEst),
                             msg = "Output of filterPpmError function was NA. Something may have gone wrong here with input.")
@@ -121,9 +121,9 @@ checkEICPeaks <- function(mzDb,
                            ppmEst = ppmEst)
 
     minPw <- scanEst * rate
-    if(max(maxPw) < min(maxPw)) {
+    if(max(maxPw) < 10*min(maxPw)) {
 
-        message("One peak had a maximum peakwidth smaller than the minimum peakwidth estimate.")
+        message("Expanding Max Peakwidth")
         maxPw <- maxPw*2
 
     }
