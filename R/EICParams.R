@@ -49,7 +49,7 @@ EICparams <- function(Autotuner, massThresh, peak_table, useGap = T,
         currentFile <- Autotuner@file_paths[j]
 
         # Adding msnbase functionality to replace mzR API
-        msnObj <- MSnbase::readMSData(files = currentFile, mode = "onDisk")
+        msnObj <- suppressMessages(MSnbase::readMSData(files = currentFile, mode = "onDisk"))
 
         header <- suppressWarnings( MSnbase::header(msnObj))
         allMzs <- MSnbase::mz(msnObj)
