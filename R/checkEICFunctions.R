@@ -186,13 +186,13 @@ estimateSNThresh <- function(no_match, sortedAllEIC, approvedPeaks) {
             eX2 <- eX2/sum(curStatDb$N)
             groupMean <- mean(curStatDb$fixedNoiseMean)
             groupVar <- eX2 - groupMean^2
-            groupSd <- sqrt(groupVar)
-
+            groupSd <- suppressWarnings(sqrt(groupVar))
             noiseIntDb[[counter]] <- data.frame(start = curRow[1], end = curRow[2], groupMean, groupSd)
             counter <- counter + 1
         }
 
     }
+
     noiseIntDb <- Reduce(rbind, noiseIntDb)
     noiseIntDb$key <- apply(noiseIntDb[,c(1,2)], 1, paste, collapse = " ")
     rm(curStatDb, eX2, groupSd, groupVar, groupMean,
@@ -207,6 +207,11 @@ estimateSNThresh <- function(no_match, sortedAllEIC, approvedPeaks) {
         scanStats <- noiseIntDb[noiseIntDb$key == scanInt,]
 
         if(nrow(scanStats) == 0) {
+            next()
+        }
+
+        ## 2019-06-20 - added here to fix bug if noise calc is wrong
+        if(is.nan(scanStats$groupSd)) {
             next()
         }
 
