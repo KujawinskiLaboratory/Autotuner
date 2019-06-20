@@ -51,54 +51,69 @@ extract_peaks <- function(Autotuner,
         ## based on the distribution of TIC peaks within the sample
         threshold <- estimate_threshold(distance_vector = peak_dist)
 
-        ## checking for peaks that may come from the same peak.
-        run_length <- rle(peak_dist < threshold)
-        names(run_length$lengths)[length(run_length$lengths)] <-
-            names(run_length$values)[length(run_length$lengths)]
 
-        ## checking to make sure there are enough peaks to return
-        passed_threshold <- which(run_length$values == T)
-        if(length(passed_threshold) < returned_peaks) {
-            returned_peaks <- length(passed_threshold)
-        }
+        if(threshold > 0) {
 
-        # getting peaks that appear to come from single TIC peak
-        top_runs <- sort(run_length$lengths[passed_threshold],decreasing = T)
-        top_runs <- match(names(top_runs),
-                          names(run_length$lengths))[1:returned_peaks]
+            ## checking for peaks that may come from the same peak.
+            run_length <- rle(peak_dist < threshold)
+            names(run_length$lengths)[length(run_length$lengths)] <-
+                names(run_length$values)[length(run_length$lengths)]
 
-        peak_points <- list()
-
-        for(i in 1:length(top_runs)) { # extracting peak info between files
-
-            run <- top_runs[i]
-
-            # correcting for diff
-            end <- which(names(peaks) %in% names(run_length$values[run]))
-
-            if(length(run) > 0 && run == 1) {
-                start <- 1
-            } else {
-                start <- which(names(peaks) %in%
-                                   names(run_length$lengths[run-1]))
+            ## checking to make sure there are enough peaks to return
+            passed_threshold <- which(run_length$values == T)
+            if(length(passed_threshold) < returned_peaks) {
+                returned_peaks <- length(passed_threshold)
             }
-            peak_points[[i]] <- peaks[start:end]
+
+            # getting peaks that appear to come from single TIC peak
+            top_runs <- sort(run_length$lengths[passed_threshold],decreasing = T)
+            top_runs <- match(names(top_runs),
+                              names(run_length$lengths))[1:returned_peaks]
+
+            peak_points <- list()
+
+            for(i in 1:length(top_runs)) { # extracting peak info between files
+
+                run <- top_runs[i]
+
+                # correcting for diff
+                end <- which(names(peaks) %in% names(run_length$values[run]))
+
+                if(length(run) > 0 && run == 1) {
+                    start <- 1
+                } else {
+                    start <- which(names(peaks) %in%
+                                       names(run_length$lengths[run-1]))
+                }
+                peak_points[[i]] <- peaks[start:end]
+            }
+
+            ## store the data
+            max_peak_length <- max(sapply(peak_points, length))
+
+            peak_table <- data.frame(matrix(nrow = max_peak_length,
+                                            ncol = returned_peaks+1))
+            peak_table[,1] <- 1:max_peak_length
+            colnames(peak_table) <- c("peakLenth", paste("peak", 1:returned_peaks))
+
+            for(column in 2:ncol(peak_table)) {
+                peak <- peak_points[[column -1]]
+                peak_table[c(1:length(peak)),column] <- peak
+            }
+            peak_table$peakLenth <- NULL
+            peak_table_list[[index]] <- peak_table
+
+        } else {
+
+            #### corner case where all identified peaks are length one
+            temp <- data.frame(t(peaks))
+            colnames(temp) <- paste("peak", seq_along(peaks))
+            peak_table_list[[index]] <- temp
+            rm(temp)
+
         }
 
-        ## store the data
-        max_peak_length <- max(sapply(peak_points, length))
 
-        peak_table <- data.frame(matrix(nrow = max_peak_length,
-                                        ncol = returned_peaks+1))
-        peak_table[,1] <- 1:max_peak_length
-        colnames(peak_table) <- c("peakLenth", paste("peak", 1:returned_peaks))
-
-        for(column in 2:ncol(peak_table)) {
-            peak <- peak_points[[column -1]]
-            peak_table[c(1:length(peak)),column] <- peak
-        }
-        peak_table$peakLenth <- NULL
-        peak_table_list[[index]] <- peak_table
     }
 
     names(peak_table_list) <- sample_names

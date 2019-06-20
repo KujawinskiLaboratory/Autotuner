@@ -53,13 +53,14 @@ peakVis <- function(input, output, session, signalData, Autotuner) {
 
     # checks for completion of signal processing steps ------------------------
     # checks to make sure signal processing is run before peak visualization
-    check <- reactiveValues(miss = 0, paramEst = F, params = list())
+    check <- reactiveValues(miss = 0,
+                            paramEst = F,
+                            params = list())
 
     observe({
         req(signalData())
         check$miss <- 1
     })
-
 
     # all UI functions --------------------------------------------------------
     # Numeric input for max number of peaks to check
@@ -154,6 +155,8 @@ peakVis <- function(input, output, session, signalData, Autotuner) {
                                   returned_peaks = input$peaks,
                                   signalData())
 
+
+
         peak_table <- peakwidth_table(Autotuner,
                                       peakList,
                                       returned_peaks = input$peaks)
@@ -164,6 +167,9 @@ peakVis <- function(input, output, session, signalData, Autotuner) {
                     peak_diff = peak_diff))
 
     })
+
+
+
 
     totalPeaks <- reactive({
 
