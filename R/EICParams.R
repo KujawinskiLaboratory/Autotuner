@@ -18,6 +18,8 @@
 #' @param returnPpmPlots - Boolean value that tells R to return plots for
 #' ppm distributions.
 #' @param plotDir - Path where to store plots.
+#' @param verbose - Boolean value used to indicate whether checkEICPeaks function
+#' returns messages to the console.
 #'
 #' @details The function CheckEICPeaks handles all the peak specific
 #' computations.
@@ -26,7 +28,7 @@
 
 EICparams <- function(Autotuner, massThresh, peak_table, useGap = T,
                       varExpThresh = 0.8, returnPpmPlots = T,
-                      plotDir = ".") {
+                      plotDir = ".", verbose = T) {
 
     # Checking input ----------------------------------------------------------
     assertthat::assert_that(nrow(peak_table) > 0,
@@ -49,7 +51,9 @@ EICparams <- function(Autotuner, massThresh, peak_table, useGap = T,
         currentFile <- Autotuner@file_paths[j]
 
         # Adding msnbase functionality to replace mzR API
-        msnObj <- suppressMessages(MSnbase::readMSData(files = currentFile, mode = "onDisk"))
+        msnObj <- suppressMessages(MSnbase::readMSData(files = currentFile,
+                                                       mode = "onDisk",
+                                                       msLevel. = 1))
 
         header <- suppressWarnings( MSnbase::header(msnObj))
         allMzs <- MSnbase::mz(msnObj)
@@ -73,13 +77,24 @@ EICparams <- function(Autotuner, massThresh, peak_table, useGap = T,
             observedPeak <- list(start = start, end = end)
 
             ## currently here
-            estimatedPeakParams <- checkEICPeaks(mzDb = mzDb,
-                                                 header = header,
-                                                 observedPeak = observedPeak,
-                                                 massThresh,
-                                                 useGap, varExpThresh,
-                                                 returnPpmPlots, plotDir,
-                                                 filename = basename(currentFile))
+            if(verbose) {
+                estimatedPeakParams <- checkEICPeaks(mzDb = mzDb,
+                                                     header = header,
+                                                     observedPeak = observedPeak,
+                                                     massThresh,
+                                                     useGap, varExpThresh,
+                                                     returnPpmPlots, plotDir,
+                                                     filename = basename(currentFile))
+            } else {
+                estimatedPeakParams <- suppressMessages(checkEICPeaks(mzDb = mzDb,
+                                                     header = header,
+                                                     observedPeak = observedPeak,
+                                                     massThresh,
+                                                     useGap, varExpThresh,
+                                                     returnPpmPlots, plotDir,
+                                                     filename = basename(currentFile)))
+            }
+
 
             if(is.null(estimatedPeakParams)) {
                 next
