@@ -6,7 +6,7 @@
 #' @param mzDb - A list of data.frames containing the m/z and intensity values
 #' from each scan's mass spectra.
 #' @param header - A data.fame containing metadata on the sample like
-#' spectra type (MS1 vs MS2), retention time, and scan count.
+#' spectra type, retention time, and scan count.
 #' @param observedPeak - A list with names 'start' and 'end' containing
 #' scalar values representing the calculated peak boundary points
 #' @param massThresh - A generous exact mass error threshold used to estimate
@@ -48,7 +48,7 @@ checkEICPeaks <- function(mzDb,
 
     assertthat::assert_that(nrow(sortedAllEIC) > 0,
                             msg = "Check dissectScans within checkEICPeaks. A table with 0 rows was returned. Make sure correct TIC peaks were selected.")
-    boundaries <- range(sortedAllEIC$scan)
+    boundaries <- range(sortedAllEIC$scanID)
 
 
     # Checking if sorted scans pass mz error threshold ------------------------
@@ -85,8 +85,9 @@ checkEICPeaks <- function(mzDb,
                             msg = "Output of filterPpmError function was NA. Something may have gone wrong here with input.")
 
     ppmObs <- approvedPeaks$meanPPM
-    ppmObs <- strsplit(split = ";", x = as.character(ppmObs)) %>%
-        sapply(as.numeric)
+    ppmObs <- strsplit(split = ";", x = as.character(ppmObs))
+    ppmObs <- sapply(ppmObs, as.numeric)
+
 
     noisyBin <- lapply(ppmObs, function(ppm) {
         any(ppm > ppmEst)
@@ -121,7 +122,10 @@ checkEICPeaks <- function(mzDb,
                            ppmEst = ppmEst)
 
     minPw <- scanEst * rate
-    if(max(maxPw) < 10*min(maxPw)) {
+
+    ## 2019-06-19
+    ## fixed this since peakwidth estimate functions should return scalars
+    if(maxPw < 5*minPw) {
 
         message("Expanding Max Peakwidth")
         maxPw <- maxPw*2

@@ -27,28 +27,33 @@ findPeakWidth <- function(approvScorePeaks,
                           boundaries,
                           ppmEst) {
 
+
+    ## replacing traditional scan count index with actual scan index number
+    ## 2019-06-19
     maxScans <- max(approvScorePeaks$scanCount)
     maxPwTable <- approvScorePeaks[approvScorePeaks$scanCount == maxScans,]
     filteredRange <- unlist(maxPwTable[1,c("startScan","endScan")])
+    filteredRange[1] <- sortedAllEIC$scanID[filteredRange[1] == sortedAllEIC$scan][1]
+    filteredRange[2] <- sortedAllEIC$scanID[filteredRange[2] == sortedAllEIC$scan][1]
 
-    ## finding the true bounds of the peak
     checkBoundaries <- filteredRange %in% boundaries
-    header <- header[header$msLevel == 1L,]
+    #header <- header[header$msLevel == 1L,]
 
     # Added this on 2019-03-24 for cases where ms2 data is not within the
     # ms convert file
-    if(!all(header$msLevel == 1L)) {
-        scans <- sub(".* scan=", "", header$spectrumId) %>% as.numeric()
-    } else {
-        scans <- 1:nrow(header)
+    # 2019-06-18 - ISSUE HERE REGARDING MATCHING SCANS TO IDS - ALSO RELATED TO DISSECT SCANS FUNCTION
+    allScansInData <- as.numeric(sub(".* scan=", "", header$spectrumId))
+
+    if(length(allScansInData) == 0) {
+        stop("Error during findPeakWidth. allScansInData var is length 0. Check structure of raw data header file.")
     }
 
+    ## CENSORED THIS 2019-06-19
     ## adding this bandaid here to solve a problem I got with the FT data.
     ##
-    if(max(filteredRange) > max(scans)) {
-        scans <- sub("(.* )?scan=", "", header$spectrumId) %>% as.numeric()
-
-    }
+    #if(max(filteredRange) > max(scans)) {
+    #    scans <- sub("(.* )?scan=", "", header$spectrumId) %>% as.numeric()
+    #}
 
 
     ## case 1 - there is a mz value spaning the range of the peak
@@ -87,7 +92,7 @@ findPeakWidth <- function(approvScorePeaks,
                                           mzDb = mzDb,
                                           currentIndex = filteredRange[2],
                                           ppmEst = ppmEst,
-                                          scans = scans,
+                                          scans = allScansInData,
                                           origBound = filteredRange[2],
                                           header = header)
                 names(upperBound) <- "upper_bound"
@@ -96,7 +101,7 @@ findPeakWidth <- function(approvScorePeaks,
                                           mzDb = mzDb,
                                           currentIndex = filteredRange[1],
                                           ppmEst = ppmEst,
-                                          scans = scans,
+                                          scans = allScansInData,
                                           origBound = filteredRange[1],
                                           header = header)
                 names(lowerBound) <- "lower_bound"
@@ -116,7 +121,7 @@ findPeakWidth <- function(approvScorePeaks,
                                             ppmEst = ppmEst,
                                             header = header,
                                             origBound = filteredRange[2],
-                                            scans = scans)
+                                            scans = allScansInData)
                     lowerBound <- checkTable$startMatch[massIndex]
 
                   ## case 2 - it is bounded from below
@@ -131,7 +136,7 @@ findPeakWidth <- function(approvScorePeaks,
                                             ppmEst = ppmEst,
                                             header = header,
                                             origBound = filteredRange[1],
-                                            scans = scans)
+                                            scans = allScansInData)
                     upperBound <- checkTable$endMatch[massIndex]
 
                 }

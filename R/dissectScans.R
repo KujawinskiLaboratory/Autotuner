@@ -20,20 +20,20 @@ dissectScans <- function(mzDb, observedPeak, header) {
     peakHead <- header[scansOfPeak,]
     ms1 <- peakHead$msLevel == 1L
 
-    # Added this on 2019-03-24 for cases where ms2 data is not within the
-    # ms convert file
-    if(!all(header$msLevel == 1L)) {
-        scansOfPeak <- as.numeric(sub(".* scan=", "", peakHead$spectrumId[ms1]))
-    }
+    ## removing if statement here since everything is entered as MS1 spectra
+    ## from the get go 2019-06-19
+    scanID <- as.numeric(sub(".* scan=", "", peakHead$spectrumId[ms1]))
 
     rm(peakHead,ms1)
 
     peakMassSpectras <- mzDb[scansOfPeak]
     for(i in 1:length(scansOfPeak)) {
-        peakMassSpectras[[i]] <- cbind(peakMassSpectras[[i]], scansOfPeak[i])
+        peakMassSpectras[[i]] <- cbind(peakMassSpectras[[i]],
+                                       scansOfPeak[i],
+                                       scanID[i])
     }
     peakMassSpectras <- Reduce(rbind, peakMassSpectras)
-    colnames(peakMassSpectras) <- c("mz", "intensity", "scan")
+    colnames(peakMassSpectras) <- c("mz", "intensity", "scan", "scanID")
     peakMassSpectras <- data.frame(peakMassSpectras)
 
     peakMassSpectras <- peakMassSpectras[order(peakMassSpectras$mz),]

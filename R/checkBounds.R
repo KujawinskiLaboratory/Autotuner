@@ -63,7 +63,8 @@ checkBounds <- function(mass,
     }
 
     # next scan
-    scanIndex <- grep(paste0("scan=","\\b",currentIndex, "\\b"), header$spectrumId)
+
+    scanIndex <- which(scans %in% currentIndex)
     if(upper) {
         adjIndex <- scanIndex+1
     } else {
@@ -71,15 +72,15 @@ checkBounds <- function(mass,
     }
     rm(scanIndex)
 
-    nextIndex <- suppressWarnings(as.numeric(sub(".* scan=", "",
-                                header$spectrumId[adjIndex])))
+    nextIndex <- scans[adjIndex]
+
     if(is.na(nextIndex)) {
         ## hack for netCDF files
         nextIndex <- suppressWarnings(as.numeric(sub("scan=", "",
                                                      header$spectrumId[adjIndex])))
     }
 
-    peakMatrix <- data.frame(mzDb[nextIndex])
+    peakMatrix <- data.frame(mzDb[[adjIndex]])
     if(ncol(peakMatrix) == 0) {
         return(0)
     }
