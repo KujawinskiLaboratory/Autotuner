@@ -89,10 +89,10 @@ peakwidth_est <- function(peak_vector,
   }
 
   # recursive case - returns previously calculated model fit if improvement
-  if(old_r2 > new_r2 | 0.05 >= (1 - old_r2) | killSwitch == T) {
+  if((old_r2 > new_r2 & old_r2 > .75) | 0.05 >= (1 - old_r2) | killSwitch == T) {
 
     # make sure to return numerical index of fit - not the values being compared
-    peak_width <- c(peakStart = start-2, peakEnd = end+2)
+    peak_width <- c(peakStart = start-3, peakEnd = end+3)
     return(peak_width)
 
   } else {
