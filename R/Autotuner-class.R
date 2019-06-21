@@ -83,8 +83,8 @@ setMethod(f = "initialize", signature = "Autotuner",
 
               message("~~~ Autotuner: Initializator ~~~ \n")
               message("~~~ Parsing Raw Data into R ~~~ \n")
-              raw <- MSnbase::readMSData(data_paths, msLevel. = 1,
-                                         mode = "onDisk")
+              raw <- suppressMessages(MSnbase::readMSData(data_paths, msLevel. = 1,
+                                                          mode = "onDisk"))
 
 
               # determining time and intensity data for each sample
