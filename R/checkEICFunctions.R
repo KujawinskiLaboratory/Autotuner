@@ -275,6 +275,12 @@ filterPpmError <- function(approvedPeaks, useGap, varExpThresh,
         lapply(function(x) {as.numeric(x)}) %>%
         unlist()
 
+    ## 2019-06-19
+    ## corner case when all error measurements are identical.
+    if(diff(range(ppmObs)) < .Machine$double.eps ^ 0.5) {
+        stop("All calculated ppm values are identical. Error of data may be higher than the mass threshold value.")
+    }
+
     message("-------- Number of ppm value across bins: ", length(ppmObs))
     if(length(ppmObs) > 10000) {
         ppmObs <- ppmObs[sample(x = 1:length(ppmObs), size = 5000)]

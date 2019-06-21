@@ -45,9 +45,11 @@ checkEICPeaks <- function(mzDb,
                                  observedPeak = observedPeak,
                                  header = header)
 
-
     assertthat::assert_that(nrow(sortedAllEIC) > 0,
                             msg = "Check dissectScans within checkEICPeaks. A table with 0 rows was returned. Make sure correct TIC peaks were selected.")
+    assertthat::assert_that(!all(is.na(sortedAllEIC$scanID)),
+                            msg = "There was a problem finding spectrum IDs within header file for this data. Error occured after function 'dissectScans'.")
+
     boundaries <- range(sortedAllEIC$scanID)
 
 
