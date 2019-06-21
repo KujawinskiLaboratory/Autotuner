@@ -170,9 +170,10 @@ findPeakWidth <- function(approvScorePeaks,
     ## case 2 - all peaks are bounded within the range of the calculated TIC peak.
     } else {
 
+        ## 2019-06-20 - fixed bug related to matching scan indexes to retention time
         curBounds <- unlist(maxPwTable[1,grep("(start|end)Scan", colnames(maxPwTable))])
-        maxTime <- header$retentionTime[scans == max(curBounds)]
-        minTime <- header$retentionTime[scans == min(curBounds)]
+        maxTime <- header$retentionTime[curBounds[2]]
+        minTime <- header$retentionTime[curBounds[1]]
         maxPw <- maxTime - minTime
 
     }

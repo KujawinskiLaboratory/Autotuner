@@ -211,7 +211,11 @@ estimateSNThresh <- function(no_match, sortedAllEIC, approvedPeaks) {
         }
 
         ## 2019-06-20 - added here to fix bug if noise calc is wrong
-        if(is.nan(scanStats$groupSd)) {
+        if(is.nan(scanStats$groupSd) | is.na(scanStats$groupSd)) {
+            next()
+        }
+
+        if(is.nan(scanStats$groupMean)) {
             next()
         }
 
