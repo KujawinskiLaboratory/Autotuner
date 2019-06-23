@@ -27,6 +27,10 @@ addons:
 before_install:
   - if [[ "$TRAVIS_R_VERSION_STRING" = 'bioc-devel' ]]; then mkdir ~/.R && echo 'CXX1X=g++ -std=c++0x -g -O2 -fPIC' > ~/.R/Makevars; fi
 
+r_github_packages:
+  - crmclean/mmetspData
+
+
 jobs:
   include:
     - stage: "Build"
@@ -35,8 +39,6 @@ jobs:
         - testthat
         - knitr
         - roxygen2
-      r_github_packages:
-        - crmclean/mmetspData
       before_install:
         - mkdir -p ~/.R
         - echo -e 'MAKEFLAGS = -j2' > ~/.R/Makevars
