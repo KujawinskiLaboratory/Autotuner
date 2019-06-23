@@ -27,7 +27,8 @@ Imports:
     scales,
     methods,
     entropy,
-    cluster
+    cluster,
+    mmetspData
 Suggests: 
     testthat (>= 2.1.0),
     covr
