@@ -1,6 +1,5 @@
 
 # itterating between samples ----------------------------------------------
-system.file("peak_table.rda", package = "Autotuner")
 data("peak_table", package="Autotuner")
 data("peak_difference", package="Autotuner")
 data("Autotuner", package="Autotuner")

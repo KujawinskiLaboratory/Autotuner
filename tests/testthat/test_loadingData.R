@@ -1,5 +1,13 @@
 context("Preparing things for Autotuner")
 
+library(devtools)
+
+if(!require("mmetspData")) {
+    install_github("crmclean/mmetspData")
+}
+library(mmetspData)
+
+
 mmetspFiles <- c(system.file("mzMLs/mtab_mmetsp_ft_120815_24.mzML", package = "mmetspData"),
                  system.file("mzMLs/mtab_mmetsp_ft_120815_25.mzML", package = "mmetspData"),
                  system.file("mzMLs/mtab_mmetsp_ft_120815_26.mzML", package = "mmetspData"))

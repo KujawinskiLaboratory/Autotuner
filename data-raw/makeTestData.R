@@ -1,5 +1,10 @@
 library(testthat)
 library(magrittr)
+library(devtools)
+
+if(!require("mmetspData")) {
+    install_github("crmclean/mmetspData")
+}
 library(mmetspData)
 library(Autotuner)
 
