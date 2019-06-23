@@ -5,7 +5,8 @@
 \title{EICparams}
 \usage{
 EICparams(Autotuner, massThresh, peak_table, useGap = T,
-  varExpThresh = 0.8, returnPpmPlots = T, plotDir = ".")
+  varExpThresh = 0.8, returnPpmPlots = T, plotDir = ".",
+  verbose = T)
 }
 \arguments{
 \item{Autotuner}{- An Autotuner objected containing sample specific raw
@@ -28,6 +29,9 @@ threshold to use if useGap is false.}
 ppm distributions.}
 
 \item{plotDir}{- Path where to store plots.}
+
+\item{verbose}{- Boolean value used to indicate whether checkEICPeaks function
+returns messages to the console.}
 }
 \description{
 This function is designed to calculate the recommended

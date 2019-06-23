@@ -7,7 +7,7 @@
 peakwidth_table(Autotuner, peakList, returned_peaks = 10)
 }
 \arguments{
-\item{Autotuner}{-  An Autotuner objected containing sample specific raw
+\item{Autotuner}{- An Autotuner objected containing sample specific raw
 data.}
 
 \item{peakList}{- The list of data.frames containing information on each

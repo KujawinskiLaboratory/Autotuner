@@ -1,6 +1,6 @@
 language: r
 r: bioc-devel
-cache:
+cche:
   packages: true
 sudo: required
 warnings_are_errors: true
@@ -19,7 +19,7 @@ addons:
       - libgit2-dev # git2r
       - texlive-latex-recommended
       - texlive-fonts-extra
-
+  
 # Set CXX1X for R-devel, as R-devel does not detect CXX1X support for gcc 4.6.3,
 # this was causing mzR installation to fail
 # see https://bugs.r-project.org/bugzilla3/show_bug.cgi?id=17189
@@ -31,10 +31,12 @@ jobs:
   include:
     - stage: "Build"
       r_packages:
-        #        - covr
+        - covr
         - testthat
         - knitr
         - roxygen2
+      r_github_packages:
+        - crmclean/mmetspData
       before_install:
         - mkdir -p ~/.R
         - echo -e 'MAKEFLAGS = -j2' > ~/.R/Makevars

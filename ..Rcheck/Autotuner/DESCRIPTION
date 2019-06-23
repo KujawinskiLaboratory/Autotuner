@@ -11,25 +11,8 @@ Encoding: UTF-8
 Depends: R (>= 3.4)
 LazyData: true
 RoxygenNote: 6.1.1
-Imports: 
-    MSnbase,
-    DT,
-    devtools,
-    shinyFiles,
-    xcms,
-    RColorBrewer,
-    shiny,
-    PTXQC,
-    dplyr,
-    rlang,
-    plyr,
-    mzR,
-    assertthat,
-    scales,
-    methods,
-    entropy,
-    cluster,
-    mmetspData
-Suggests: 
-    testthat (>= 2.1.0),
-    covr
+Imports: MSnbase, DT, devtools, shinyFiles, xcms, RColorBrewer, shiny,
+        PTXQC, dplyr, rlang, plyr, mzR, assertthat, scales, methods,
+        entropy, cluster, mmetspData
+Suggests: testthat (>= 2.1.0), covr
+Built: R 3.5.2; ; 2019-06-23 11:49:16 UTC; unix

@@ -12,7 +12,7 @@ checkEICPeaks(mzDb, header, observedPeak, massThresh = 0.005, useGap,
 from each scan's mass spectra.}
 
 \item{header}{- A data.fame containing metadata on the sample like
-spectra type (MS1 vs MS2), retention time, and scan count.}
+spectra type, retention time, and scan count.}
 
 \item{observedPeak}{- A list with names 'start' and 'end' containing
 scalar values representing the calculated peak boundary points}
