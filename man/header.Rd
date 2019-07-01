@@ -6,9 +6,6 @@
 \title{header}
 \format{A data frame with 926 rows and 30 variables:
 \describe{
-  \item{spectrumId}{Speciic spectrum collected by data}
-  \item{spectrum}{Index for each spectrum}
-  ...
 }}
 \source{
 data-raw/makeAutotunerTestData.R

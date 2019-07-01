@@ -129,3 +129,18 @@ createAutotuner <- function(data_paths, runfile, file_col, factorCol) {
                                factorCol)
     return(Autotuner)
 }
+
+#' @title getAutoIntensity
+#'
+#' @description This function is designed to return the list intensities
+#' obtained from applying the sliding window analysis to the raw data stored
+#' within an AutoTuner object.
+#'
+#' @param Autotuner - An AutoTuner object.
+#'
+#' @export
+getAutoIntensity <- function(Autotuner) {
+
+    return(Autotuner@intensity)
+
+}

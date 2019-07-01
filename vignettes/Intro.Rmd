@@ -1,0 +1,154 @@
+---
+title: "Intro to AutoTuner"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Intro}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(Autotuner)
+library(devtools)
+if(!require("mmetspData")) {
+    install_github("crmclean/mmetspData")    
+    library(mmetspData)
+}
+```
+
+# Introduction
+
+AutoTuner is a parameter tuning algorithm for XCMS, mzMine2, and other 
+metabolomics data processing softwares. Using statistical inference, AutoTuner
+quickly finds estimates for nine distinct parameters. This guide provides
+an interactive example of how to use AutoTuner.
+
+## Set up:
+
+### Input - Raw Data
+
+AutoTuner is designed to work directly with raw mass spectral data that has 
+been processed by msconvert (). So far file types .mzML, .mzXML, .msData, and
+.netCDF have been tested to work well. 
+
+```{r loading mass spec data}
+mmetspFiles <- c(system.file("mzMLs/mtab_mmetsp_ft_120815_24.mzML", package = "mmetspData"),
+                 system.file("mzMLs/mtab_mmetsp_ft_120815_25.mzML", package = "mmetspData"),
+                 system.file("mzMLs/mtab_mmetsp_ft_120815_26.mzML", package = "mmetspData"))
+```
+Here are the filetypes that will be used within this tutorial:
+```{r filetype}
+print(basename(mmetspFiles))
+```
+
+### Input - Metadata
+
+AutoTuner also requires a metadata spreadsheet that has at least two columns 
+in order to derive estimates. One column should contain string matches to all
+the raw data files that will be processed. The second should contain information
+on the experimental factor each sample belongs to. If you are using Shiny to 
+run AutoTuner, the file have .csv formal. Future implementations of AutoTuner
+will feature a broader suite of acceptable file types. 
+
+```{r loading in metadata}
+metadata <- read.csv(system.file("mmetsp_metadata.csv", package = "mmetspData"),
+                    stringsAsFactors = F)
+
+metadata <- metadata[metadata$File.Name %in% 
+                         sub(pattern = ".mzML", "",basename(mmetspFiles)),]
+```
+
+This is what the metadata file should look like. In our case, the column 
+matching the raw data files is called "File.Name", while the one with 
+experimental factor information is called "Sample.Type".
+
+```{r}
+print(metadata)
+```
+
+## Setting up AutoTuner
+
+### Creating AutoTuner Object
+
+AutoTuner first requires that user create an AutoTuner object. All future
+computations will be contained within the object. 
+
+The file_col argument corresponds to the string column of the metadata that 
+matches raw data samples by name. The factorCol argument corresponds to the 
+specific factor column. 
+
+```{r}
+Autotuner <- createAutotuner(mmetspFiles,
+                             metadata,
+                             file_col = "File.Name",
+                             factorCol = "Sample.Type")
+```
+
+### Sliding Window Analysis
+
+Next comes the sliding window analysis. A sliding windown analysis is a simple
+time series analysis tool used to identify peaks over a time trace. More on 
+sliding window analyses can be found here: (wiki - sliding windown analysis)
+
+This analysis is used here to subset the sample into regions that the algorithm 
+assumes are enriched with a greater number of features. The only goal of this 
+part of the algorithm is to find where peaks *start*. Downstream steps actually 
+do a better job of estimating what the peaks bounds should be. 
+
+The user should play with three parameters to accomplish this task:
+lag - how big should the window be?
+threshold - how many standard deviations above the standard deviation of the
+window does a peak have to be to considered significant?
+influence - If a peak is identified as significant, how much should its value 
+contribute to the average value of the window?
+
+```{r}
+lag <- 30
+threshold<- 3.5
+influence <- 0.3
+signal <- lapply(getAutoIntensity(Autotuner), 
+                 ThresholdingAlgo, lag, threshold, influence)
+```
+
+The output of the sliding window can be displayed with the plot_signals
+function:
+
+```{r}
+plot_signals(Autotuner, 
+             threshold, 
+             ## index for which data files should be displayed
+             sample_index = 1:3, 
+             signals = signal)
+```
+
+```{r}
+peaks <- extract_peaks(Autotuner = Autotuner, returned_peaks = 10,
+                       signals = signal)
+
+
+peak_table <- peakwidth_table(Autotuner = Autotuner,
+                              peakList = peaks,
+                              returned_peaks = 7)
+peak_difference <- peak_time_difference(peak_table)
+```
+
+```{r}
+## error with plot 3... its going off the hinges
+for(i in 1:10) {
+    plot_peaks(Autotuner = Autotuner, 
+           boundary = 100, 
+           peak = i, 
+           peak_table = peak_table, 
+           peak_difference = peak_difference)    
+}
+
+```
+
+

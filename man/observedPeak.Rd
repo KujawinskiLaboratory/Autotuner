@@ -8,7 +8,6 @@
 \describe{
   \item{start}{56.18}
   \item{end}{97.73}
-  ...
 }}
 \source{
 data-raw/makeAutotunerTestData.R
