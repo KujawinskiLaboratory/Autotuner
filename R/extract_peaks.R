@@ -40,7 +40,28 @@ extract_peaks <- function(Autotuner,
     for(index in seq_along(sample_names)) { #making peak table for each sample
 
         ## identifying regions within TIC where peaks were identified
-        peaks <- Autotuner@time[[index]][signals[[index]]$signals == 1]
+
+        #### 2019-07-01: extending the window to make sure all peaks have
+        #### atleast two scans
+        peaks <- which(signals[[index]]$signals == 1)
+        x <- data.frame(peaks,
+                        diff = c(diff(peaks),1),
+                        index = 1:length(peaks))
+        xsub <- x[x$diff > 1,]
+        extendedBound <- peaks[xsub$index[(which(diff(xsub$index) == 1) +
+                                               1)]] + 1
+
+
+        peaks <- c(peaks, extendedBound)
+        peaks <- sort(peaks)
+
+        peaks <- Autotuner@time[[index]][peaks]
+        rm(x, xsub, extendedBound)
+
+
+        checkDiff <- diff(which(signals[[index]]$signals == 1)) > 1
+        checkDiffRle <- rle(checkDiff)
+        checkDiffRle$lengths[checkDiffRle$values] > 1
 
         peaks <- peaks[!is.na(peaks)]
         ## generating the distance between peaks
@@ -67,6 +88,9 @@ extract_peaks <- function(Autotuner,
 
             # getting peaks that appear to come from single TIC peak
             top_runs <- sort(run_length$lengths[passed_threshold],decreasing = T)
+
+            top_runs
+
             top_runs <- match(names(top_runs),
                               names(run_length$lengths))[1:returned_peaks]
 
@@ -85,6 +109,11 @@ extract_peaks <- function(Autotuner,
                     start <- which(names(peaks) %in%
                                        names(run_length$lengths[run-1]))
                 }
+
+                if(end == start) {
+                    end <- start + 1
+                }
+
                 peak_points[[i]] <- peaks[start:end]
             }
 
