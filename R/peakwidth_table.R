@@ -54,6 +54,12 @@ peakwidth_table <- function(Autotuner, peakList, returned_peaks = 10) {
                                             end = NULL,
                                             old_r2 = NULL)
 
+
+            #### ADD HARD CHECK HERE TO ENSURE PEAK DOESN'T GO ON FOREVER
+            if(length(time)/5 < diff(tempPeakWidthEst)) {
+                stop("One peak was over 1/5 of all scans in length. This is probably an error.")
+            }
+
             ## 2019-06-20
             ## Adding check to handle corner case when peak goes beyond
             ## boundary of TIC
