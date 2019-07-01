@@ -129,10 +129,9 @@ plot_signals(Autotuner,
 ```
 
 ```{r}
-peaks <- extract_peaks(Autotuner = Autotuner, returned_peaks = 10,
+peaks <- extract_peaks(Autotuner = Autotuner, 
+                       returned_peaks = 10,
                        signals = signal)
-
-
 peak_table <- peakwidth_table(Autotuner = Autotuner,
                               peakList = peaks,
                               returned_peaks = 7)
@@ -141,7 +140,7 @@ peak_difference <- peak_time_difference(peak_table)
 
 ```{r}
 ## error with plot 3... its going off the hinges
-for(i in 1:10) {
+for(i in unique(peak_difference$index)) {
     plot_peaks(Autotuner = Autotuner, 
            boundary = 100, 
            peak = i, 
