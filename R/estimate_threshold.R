@@ -3,7 +3,9 @@
 #' @param distance_vector - This vector contains the retention time differences
 #' between individual peaks identified within a single sample TIC.
 #'
-#' @description At a high level, this function is used to estimate appropriate
+#' @description AS OF 2019-07-02, THIS FUNCTION IS NO LONGER PART OF THE
+#' AUTOTUNER ALGORITHM SINCE IT IS NO LONGER CONSIDERED TO BE NECESSARY.
+#' At a high level, this function is used to estimate appropriate
 #' thresholds to required to distinguish between different peaks accross
 #' samples, and replicated ones that only vary due to retention time deviation.
 #' It assumes that duplicate peaks are a relatively short distance from one
