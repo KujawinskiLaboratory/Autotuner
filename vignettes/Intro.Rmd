@@ -130,20 +130,6 @@ rm(lag, influence, threshold)
 ```
 
 ```{r}
-## make these methods into internals
-isolatePeaks <- function(Autotuner, returned_peaks, signals) {
-    
-    Autotuner@peaks <- extract_peaks(Autotuner, 
-                       returned_peaks,
-                       signals)
-    
-    Autotuner@peak_table <- peakwidth_table(Autotuner, returned_peaks)
-    
-    Autotuner@peak_difference <- peak_time_difference(Autotuner@peak_table)
-    
-    return(Autotuner)
-    
-}
 Autotuner <- isolatePeaks(Autotuner, returned_peaks = 10, signals)
 ```
 
