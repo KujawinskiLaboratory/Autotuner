@@ -113,7 +113,7 @@ contribute to the average value of the window?
 lag <- 30
 threshold<- 3.5
 influence <- 0.3
-signal <- lapply(getAutoIntensity(Autotuner), 
+signals <- lapply(getAutoIntensity(Autotuner), 
                  ThresholdingAlgo, lag, threshold, influence)
 ```
 
@@ -125,13 +125,14 @@ plot_signals(Autotuner,
              threshold, 
              ## index for which data files should be displayed
              sample_index = 1:3, 
-             signals = signal)
+             signals = signals)
+rm(lag, influence, threshold)
 ```
 
 ```{r}
 peaks <- extract_peaks(Autotuner = Autotuner, 
                        returned_peaks = 10,
-                       signals = signal)
+                       signals = signals)
 peak_table <- peakwidth_table(Autotuner = Autotuner,
                               peakList = peaks,
                               returned_peaks = 7)
@@ -139,7 +140,6 @@ peak_difference <- peak_time_difference(peak_table)
 ```
 
 ```{r}
-## error with plot 3... its going off the hinges
 for(i in unique(peak_difference$index)) {
     plot_peaks(Autotuner = Autotuner, 
            boundary = 100, 
