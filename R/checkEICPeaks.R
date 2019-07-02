@@ -62,7 +62,8 @@ checkEICPeaks <- function(mzDb,
     truePeaks <- noiseAndPeaks[[2]]
     rm(noiseAndPeaks)
 
-    message("-------- Number of bins detected with absolute mass error threshold: " , length(truePeaks))
+    message("-------- Number of bins detected with absolute mass error threshold: ",
+            length(truePeaks))
     approvedPeaks <- findTruePeaks(truePeaks, sortedAllEIC)
 
     message("-------- Number of bins retained after checking that features within bins come from consecutive scans: ",
@@ -71,7 +72,8 @@ checkEICPeaks <- function(mzDb,
             " % of bins retained after checking that features come from consecutive scans")
 
     overlappingScans <- sum(approvedPeaks$multipleInScan)
-    message("-------- Number of bins with scans with 2+ mass observations: ", overlappingScans)
+    message("-------- Number of bins with scans with 2+ mass observations: ",
+            overlappingScans)
 
     if(nrow(approvedPeaks) == 0) {
         message("No observed m/z value met was observed across adjacent scans below an error of massThresh.")

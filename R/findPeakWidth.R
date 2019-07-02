@@ -63,20 +63,8 @@ findPeakWidth <- function(approvScorePeaks,
 
         # Narrowing down number of features to 50 -----------------------------
         ## getting subset of masses to check for peak width
-        if(nrow(checkFeatures) > 50) {
-            checkMe <- round(sqrt(nrow(checkFeatures))) + 50
-
-            if(checkMe > nrow(checkFeatures)) {
-                checkMe <- nrow(checkFeatures)
-            }
-
-            checkTable <- checkFeatures[1:checkMe,]
-            checkVals <- checkTable$meanMZ
-
-        } else {
-            checkTable <- checkFeatures
-            checkVals <- checkTable$meanMZ
-        }
+        checkTable <- checkFeatures
+        checkVals <- checkTable$meanMZ
 
         # checking the boundaries of peaks ------------------------------------
         ## looping through each of the features being checked
@@ -105,7 +93,10 @@ findPeakWidth <- function(approvScorePeaks,
                                           origBound = filteredRange[1],
                                           header = header)
                 names(lowerBound) <- "lower_bound"
-                peakBounds[[massIndex]] <- c(lowerBound, upperBound)
+                peakBounds[[massIndex]] <- data.frame(lowerBound,
+                                             upperBound,
+                                             total = (upperBound - lowerBound),
+                                             checkBounds = 2)
 
             } else {
 
@@ -141,26 +132,35 @@ findPeakWidth <- function(approvScorePeaks,
 
                 }
 
-                peakBounds[[massIndex]] <- c(lowerBound, upperBound)
+                peakBounds[[massIndex]] <- data.frame(lowerBound,
+                                                      upperBound,
+                                             total = (upperBound - lowerBound),
+                                             checkBounds = 1)
+
             }
 
         }
 
+        peakBounds <- Reduce(rbind, peakBounds)
+        boundTemp <- peakBounds[peakBounds$checkBounds == 2,]
 
-        names(peakBounds) <- checkVals
+        ## adding step to filter out outliers
+        boxStat <- boxplot(boundTemp$total, plot = F)
+        peakBounds <- boundTemp[!(boundTemp$total %in% boxStat$out),]
+        rm(boundTemp, boxStat)
 
-        peakBounds <- unique(unlist(peakBounds))
-        peakBounds <- peakBounds[!is.na(peakBounds)]
-
-        if(length(peakBounds) == 1) {
+        if(nrow(peakBounds) == 1) {
             maxPw <- 0
         } else {
+
+            checkThisBound <- peakBounds[which.max(peakBounds$total)[1],]
+
             rtUpper <- header$retentionTime[grep(paste0("scan=","\\b",
-                                                                max(peakBounds),
+                                                        checkThisBound$upperBound,
                                                                 "\\b"),
                                                          header$spectrumId)]
             rtLower <- header$retentionTime[grep(paste0("scan=","\\b",
-                                                                min(peakBounds),
+                                                        checkThisBound$lowerBound,
                                                                 "\\b"),
                                                          header$spectrumId)]
             maxPw <- rtUpper - rtLower
