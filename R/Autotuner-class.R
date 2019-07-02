@@ -123,10 +123,18 @@ setMethod(f = "initialize", signature = "Autotuner",
 #'
 #' @export
 createAutotuner <- function(data_paths, runfile, file_col, factorCol) {
+
+    if(nrow(runfile) == 0) {
+        stop('The entered metadata file does not contain any rows. Check the input.')
+    }
+
     Autotuner <- methods::new(Class="Autotuner", data_paths,
                                runfile,
                                file_col,
                                factorCol)
+
+
+
     return(Autotuner)
 }
 
