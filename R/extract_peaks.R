@@ -41,106 +41,110 @@ extract_peaks <- function(Autotuner,
 
         ## identifying regions within TIC where peaks were identified
 
-        #### 2019-07-01: extending the window to make sure all peaks have
+        #### 2019-07-02: extending the window to make sure all peaks have
         #### atleast two scans
-        peaks <- which(signals[[index]]$signals == 1)
-        x <- data.frame(peaks,
-                        diff = c(diff(peaks),1),
-                        index = 1:length(peaks))
-        xsub <- x[x$diff > 1,]
-        extendedBound <- peaks[xsub$index[(which(diff(xsub$index) == 1) +
-                                               1)]] + 1
+        # <- which(signals[[index]]$signals == 1)
+        peaks <- rle(signals[[index]]$signals)
+        counter <- 1
+        peakGroups <- list()
+        for(rleIndex in seq_along(peaks$lengths)) {
+
+            curValue <- peaks$values[rleIndex]
+            if(curValue == 1) {
+
+                peakGroups[[counter]] <- data.frame(index = (startPoint + 1),
+                                                    length = peaks$lengths[rleIndex])
+                startPoint <- startPoint + peaks$lengths[rleIndex]
+                counter <- counter + 1
+
+            } else {
+
+                if(rleIndex == 1) {
+                    startPoint <- peaks$lengths[rleIndex]
+                } else {
+                    startPoint <- startPoint + peaks$lengths[rleIndex]
+                }
 
 
-        peaks <- c(peaks, extendedBound)
-        peaks <- sort(peaks)
+            }
 
-        peaks <- Autotuner@time[[index]][peaks]
-        rm(x, xsub, extendedBound)
+        }
+        peakGroups <- Reduce(peakGroups, f = rbind)
+        signals[[index]]$signals[peakGroups$index[peakGroups$length == 1] + 1] <- 1
+
+        #peaks <- Autotuner@time[[index]][signals[[index]]$signals == 1]
+
+        #peaks <- peaks[!is.na(peaks)]
+
+        ## getting and extracting peaks
+        #peaks
+        findPeaks <- rle(signals[[index]]$signals == 1)
+        counter <- 1
+        peakGroups <- list()
+        for(rleIndex in seq_along(findPeaks$lengths)) {
+
+            curValue <- findPeaks$values[rleIndex]
+            if(curValue) {
+
+                start <- (startPoint + 1)
+                startPoint <- startPoint + findPeaks$lengths[rleIndex]
+                end <- startPoint
+                peakGroups[[counter]] <- data.frame(start,
+                                                    end,
+                                                    length = end - start + 1)
+                counter <- counter + 1
+
+            } else {
+
+                if(rleIndex == 1) {
+                    startPoint <- findPeaks$lengths[rleIndex]
+                } else {
+                    startPoint <- startPoint + findPeaks$lengths[rleIndex]
+                }
 
 
-        checkDiff <- diff(which(signals[[index]]$signals == 1)) > 1
-        checkDiffRle <- rle(checkDiff)
-        checkDiffRle$lengths[checkDiffRle$values] > 1
+            }
 
-        peaks <- peaks[!is.na(peaks)]
-        ## generating the distance between peaks
-        peak_dist <- diff(peaks)
-        # rle is done on the difference vector - missing first value
+        }
+
+        peakGroups <- Reduce(rbind, peakGroups)
 
         ## generating pseudo retention time correction threshold
         ## based on the distribution of TIC peaks within the sample
-        threshold <- estimate_threshold(distance_vector = peak_dist)
+
+        ### 2019-07-02 MOVING AWAY FROM THRESHOLDS SINCE THEY DON'T SEEM TO
+        ### APPLY ANY LONGER. SEEMS LIKE I USED THEM IN THE PAST TO ASIGN THINGS
+        ### THAT MAY NOT HAVE HAD ADJACENT SCANS. REMOVING IT WOUDL BE BETTER.
+        #threshold <- estimate_threshold(distance_vector = peak_dist)
 
 
-        if(threshold > 0) {
+        peakGroups
+        if(nrow(peakGroups) < returned_peaks) {
+            returned_peaks <- nrow(peakGroups)
+        }
+        peakGroups <- peakGroups[order(peakGroups$length, decreasing = T),]
 
-            ## checking for peaks that may come from the same peak.
-            run_length <- rle(peak_dist < threshold)
-            names(run_length$lengths)[length(run_length$lengths)] <-
-                names(run_length$values)[length(run_length$lengths)]
+        peak_times <- list()
+        for(j in 1:nrow(peakGroups)) {
 
-            ## checking to make sure there are enough peaks to return
-            passed_threshold <- which(run_length$values == T)
-            if(length(passed_threshold) < returned_peaks) {
-                returned_peaks <- length(passed_threshold)
-            }
-
-            # getting peaks that appear to come from single TIC peak
-            top_runs <- sort(run_length$lengths[passed_threshold],decreasing = T)
-
-            top_runs
-
-            top_runs <- match(names(top_runs),
-                              names(run_length$lengths))[1:returned_peaks]
-
-            peak_points <- list()
-
-            for(i in 1:length(top_runs)) { # extracting peak info between files
-
-                run <- top_runs[i]
-
-                # correcting for diff
-                end <- which(names(peaks) %in% names(run_length$values[run]))
-
-                if(length(run) > 0 && run == 1) {
-                    start <- 1
-                } else {
-                    start <- which(names(peaks) %in%
-                                       names(run_length$lengths[run-1]))
-                }
-
-                if(end == start) {
-                    end <- start + 1
-                }
-
-                peak_points[[i]] <- peaks[start:end]
-            }
-
-            ## store the data
-            max_peak_length <- max(sapply(peak_points, length))
-
-            peak_table <- data.frame(matrix(nrow = max_peak_length,
-                                            ncol = returned_peaks+1))
-            peak_table[,1] <- 1:max_peak_length
-            colnames(peak_table) <- c("peakLenth", paste("peak", 1:returned_peaks))
-
-            for(column in 2:ncol(peak_table)) {
-                peak <- peak_points[[column -1]]
-                peak_table[c(1:length(peak)),column] <- peak
-            }
-            peak_table$peakLenth <- NULL
-            peak_table_list[[index]] <- peak_table
-
-        } else {
-
-            #### corner case where all identified peaks are length one
-            temp <- data.frame(t(peaks))
-            colnames(temp) <- paste("peak", seq_along(peaks))
-            peak_table_list[[index]] <- temp
-            rm(temp)
+            peak_times[[j]] <- Autotuner@time[[index]][peakGroups$start[j]:peakGroups$end[j]]
 
         }
+
+
+        max_peak_length <- max(sapply(peak_times, length))
+        peak_table <- data.frame(matrix(nrow = max_peak_length,
+                                            ncol = returned_peaks+1))
+        peak_table[,1] <- 1:max_peak_length
+        colnames(peak_table) <- c("peakLenth", paste("peak", 1:returned_peaks))
+
+        for(column in 2:ncol(peak_table)) {
+            peak <- peak_times[[column -1]]
+            peak_table[c(1:length(peak)),column] <- peak
+        }
+
+        peak_table$peakLenth <- NULL
+        peak_table_list[[index]] <- peak_table
 
 
     }

@@ -74,8 +74,13 @@ peakwidth_est <- function(peak_vector,
   }
 
   # running smoothing spline on the data
-  splineOut <- smooth.spline(modelIndex, intensityObs)
-  splineObs <- splineOut$fit$coef
+  if(sum(!is.na(peak_vector)) > 1) {
+      splineOut <- smooth.spline(modelIndex, intensityObs)
+      splineObs <- splineOut$fit$coef
+      splineIndex <- 1:length(splineObs)
+  } else {
+      splineObs <- intensityObs
+  }
   splineIndex <- 1:length(splineObs)
 
   # running a linear model on the outcome of the spline
