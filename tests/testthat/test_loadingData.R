@@ -84,30 +84,29 @@ test_that(desc = "Signal Processing Output",
 })
 
 returned_peaks <- 10
-peaks <- extract_peaks(Autotuner = Autotuner,
+Autotuner@peaks <- extract_peaks(Autotuner = Autotuner,
                        returned_peaks = returned_peaks,
                        signals = signal)
 
 test_that(desc = "Checking Function to Return Peaks",
           code = {
 
-              nullCount <- sum(sapply(peaks, is.null))
+              nullCount <- sum(sapply(Autotuner@peaks, is.null))
               expect_equal(nullCount, 0)
-              expect_equal(ncol(peaks[[1]]) <= returned_peaks, TRUE)
+              expect_equal(ncol(Autotuner@peaks[[1]]) <= returned_peaks, TRUE)
 
 })
 
 returned_peaks <- 10
-peak_table <- peakwidth_table(Autotuner = Autotuner,
-                              peakList = peaks,
+Autotuner@peak_table <- peakwidth_table(Autotuner = Autotuner,
                               returned_peaks = returned_peaks)
 test_that(desc = "Checking Peakwidth_table",
           code = {
-                expect_equal(class(peak_table), "data.frame")
-                expect_equal(any(is.na(peak_table)), FALSE)
+                expect_equal(class(Autotuner@peak_table), "data.frame")
+                expect_equal(any(is.na(Autotuner@peak_table)), FALSE)
           })
 
-peak_difference <- peak_time_difference(peak_table)
+peak_difference <- peak_time_difference(Autotuner@peak_table)
 
 test_that(desc = "Checking peak_time_difference",
           code = {
