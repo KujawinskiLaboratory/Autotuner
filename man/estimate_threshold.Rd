@@ -15,6 +15,8 @@ A scalar value made up of the largest value predicted to come from
 peaks identical peaks plus 1.
 }
 \description{
+AS OF 2019-07-02, THIS FUNCTION IS NO LONGER PART OF THE
+AUTOTUNER ALGORITHM SINCE IT IS NO LONGER CONSIDERED TO BE NECESSARY.
 At a high level, this function is used to estimate appropriate
 thresholds to required to distinguish between different peaks accross
 samples, and replicated ones that only vary due to retention time deviation.
