@@ -4,7 +4,7 @@
 \alias{plot_peaks}
 \title{@title plot_peaks - this funciton plots the peak identified within chromatography.}
 \usage{
-plot_peaks(Autotuner, boundary = 10, peak, peak_difference, peak_table)
+plot_peaks(Autotuner, boundary = 10, peak)
 }
 \arguments{
 \item{Autotuner}{- An Autotuner objected containing sample specific raw
@@ -15,11 +15,6 @@ visualize it.}
 
 \item{peak}{- Numeric index obtained from UI that indicates which peak
 should be visualized.}
-
-\item{peak_difference}{- A data.frame containing peak overlap information.}
-
-\item{peak_table}{- A data.frame containing the sample specific peak
-information.}
 }
 \value{
 This function outputs plots that are meant to go into the peakVis

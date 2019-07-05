@@ -10,9 +10,6 @@
 #' visualize it.
 #' @param peak - Numeric index obtained from UI that indicates which peak
 #' should be visualized.
-#' @param peak_difference - A data.frame containing peak overlap information.
-#' @param peak_table - A data.frame containing the sample specific peak
-#' information.
 #'
 #' @importFrom rlang .data
 #'
@@ -20,13 +17,15 @@
 #' UI.
 #'
 #' @export
-plot_peaks <- function(Autotuner, boundary = 10, peak, peak_difference,
-                       peak_table) {
+plot_peaks <- function(Autotuner, boundary = 10, peak) {
 
 
     # extracting relevant values from input args ------------------------------
     factorCol <- Autotuner@factorCol
     metadata <- Autotuner@metadata
+    peak_difference <- Autotuner@peak_difference
+    peak_table <- Autotuner@peak_table
+
 
     peak_difference <- peak_difference %>%
         dplyr::filter(.data$index == peak)
