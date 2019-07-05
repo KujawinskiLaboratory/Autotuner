@@ -26,16 +26,17 @@ Autotuner <- createAutotuner(mmetspFiles,
 lag <- 20
 threshold<- 3
 influence <- 0.1
-signal <- lapply(Autotuner@intensity, ThresholdingAlgo, lag, threshold, influence)
+signals <- lapply(getAutoIntensity(Autotuner),
+                  ThresholdingAlgo, lag, threshold, influence)
 
 
-# setting table of peaks for each sample
-peaks <- extract_peaks(Autotuner = Autotuner, returned_peaks = 10,
-                       signals = signal)
+Autotuner <- isolatePeaks(Autotuner, returned_peaks = 10, signals)
 
 
-peak_table <- peakwidth_table(Autotuner = Autotuner,
-                              peakList = peaks,
-                              returned_peaks = 7)
-peak_difference <- peak_time_difference(peak_table)
+## object used to test whole dataset parameter return function
+eicParamEsts <- EICparams(Autotuner = Autotuner,
+                          massThresh = .005,
+                          verbose = F,
+                          returnPpmPlots = F,
+                          useGap = T)
 

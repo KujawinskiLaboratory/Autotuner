@@ -48,3 +48,13 @@
 #' @format A data frame with 7 rows and 9 columns
 #' @source data-raw/makeTestData.R
 "peak_difference"
+
+#' Autotuner
+#'
+#' Autouner object used to test functions contained within the package. The
+#' content of this object was made using the mmetspData package.
+#'
+#' @format An Autotuner object
+#' @source data-raw/makeTestData.R
+"Autotuner"
+

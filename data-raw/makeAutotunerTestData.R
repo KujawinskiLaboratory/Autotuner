@@ -1,7 +1,5 @@
 
 # itterating between samples ----------------------------------------------
-data("peak_table", package="Autotuner")
-data("peak_difference", package="Autotuner")
 data("Autotuner", package="Autotuner")
 
 currentTable <- peak_table[peak_table$Sample == 1,]
