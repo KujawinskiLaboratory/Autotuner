@@ -146,7 +146,6 @@ for(i in unique(peak_difference$index)) {
 ## idea - filter things by mass. smaler masses are more likely to be random assosications
 eicParamEsts <- EICparams(Autotuner = Autotuner, 
                           massThresh = .005, 
-                          peak_table = peak_table, 
                           verbose = F,
                           returnPpmPlots = F,
                           useGap = T)

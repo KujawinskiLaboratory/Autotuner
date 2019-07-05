@@ -4,9 +4,8 @@
 \alias{EICparams}
 \title{EICparams}
 \usage{
-EICparams(Autotuner, massThresh, peak_table, useGap = T,
-  varExpThresh = 0.8, returnPpmPlots = T, plotDir = ".",
-  verbose = T)
+EICparams(Autotuner, massThresh, useGap = T, varExpThresh = 0.8,
+  returnPpmPlots = T, plotDir = ".", verbose = T)
 }
 \arguments{
 \item{Autotuner}{- An Autotuner objected containing sample specific raw
@@ -14,9 +13,6 @@ data.}
 
 \item{massThresh}{- A generous exact mass error threshold used to estimate
 PPM for features.}
-
-\item{peak_table}{- table of peak width values extracted with the function
-peak_width_table.}
 
 \item{useGap}{- Parameter carried into checkEICPeaks that tells Autotuner
 whether to use the gap statustic to determine the proper number of clusters

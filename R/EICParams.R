@@ -8,8 +8,6 @@
 #' data.
 #' @param massThresh - A generous exact mass error threshold used to estimate
 #' PPM for features.
-#' @param peak_table - table of peak width values extracted with the function
-#' peak_width_table.
 #' @param useGap - Parameter carried into checkEICPeaks that tells Autotuner
 #' whether to use the gap statustic to determine the proper number of clusters
 #' to use during ppm parameter estimation.
@@ -26,9 +24,11 @@
 #'
 #' @export
 
-EICparams <- function(Autotuner, massThresh, peak_table, useGap = T,
+EICparams <- function(Autotuner, massThresh, useGap = T,
                       varExpThresh = 0.8, returnPpmPlots = T,
                       plotDir = ".", verbose = T) {
+
+    peak_table <- Autotuner@peak_table
 
     # Checking input ----------------------------------------------------------
     assertthat::assert_that(nrow(peak_table) > 0,
