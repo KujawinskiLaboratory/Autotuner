@@ -145,7 +145,7 @@ findPeakWidth <- function(approvScorePeaks,
         boundTemp <- peakBounds[peakBounds$checkBounds == 2,]
 
         ## adding step to filter out outliers
-        boxStat <- boxplot(boundTemp$total, plot = F)
+        boxStat <- graphics::boxplot(boundTemp$total, plot = F)
         peakBounds <- boundTemp[!(boundTemp$total %in% boxStat$out),]
         rm(boundTemp, boxStat)
 

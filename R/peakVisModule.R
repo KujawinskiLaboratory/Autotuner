@@ -127,14 +127,12 @@ peakVis <- function(input, output, session, signalData, Autotuner) {
 
         req(input$boundary, input$plot, peakView())
 
-        peak_diff <- peakView()$peak_diff
-        peak_table <- peakView()$peak_table
+        Autotuner@peak_difference <- peakView()$peak_diff
+        Autotuner@peak_table <- peakView()$peak_table
 
         plot_peaks(Autotuner,
                    boundary = input$boundary,
-                   peak = input$plot,
-                   peak_difference = peak_diff,
-                   peak_table = peak_table)
+                   peak = input$plot)
 
     })
 
@@ -150,21 +148,11 @@ peakVis <- function(input, output, session, signalData, Autotuner) {
         req(input$peaks)
         req(signalData())
 
-        ## the extracted peak list isn't used further beyond this reactive call
-        peakList <- extract_peaks(Autotuner,
-                                  returned_peaks = input$peaks,
-                                  signalData())
+        Autotuner <- isolatePeaks(Autotuner = Autotuner, returned_peaks = input$peaks,
+                     signals = signalData())
 
-
-
-        peak_table <- peakwidth_table(Autotuner,
-                                      peakList,
-                                      returned_peaks = input$peaks)
-        rm(peakList)
-        peak_diff <- peak_time_difference(peak_table)
-
-        return(list(peak_table = peak_table,
-                    peak_diff = peak_diff))
+        return(list(peak_table = Autotuner@peak_table,
+                    peak_diff = Autotuner@peak_diff))
 
     })
 
@@ -201,8 +189,7 @@ peakVis <- function(input, output, session, signalData, Autotuner) {
         ## estimating EIC parameters
         message("~~~ Estimating EIC Parameters ~~~\n")
         eicParamEsts <- EICparams(Autotuner,
-                                  massThresh = input$mzThreshold,
-                                  peak_table = peak_table)
+                                  massThresh = input$mzThreshold)
 
         message("~~~ EIC Parameter Estimation Complete ~~~\n")
 
