@@ -1,7 +1,7 @@
 context("Performing dataset wide parameter selection")
 
-Autotuner <- readRDS(system.file("data/Autotuner.rds", package="Autotuner"))
-eicTable <- readRDS(system.file('data/eicParamEsts.rds', package = "Autotuner"))
+Autotuner <- readRDS(system.file("extdata/Autotuner.rds", package="Autotuner"))
+eicTable <- readRDS(system.file('extdata/eicParamEsts.rds', package = "Autotuner"))
 
 returnParams <- returnParams(eicTable, Autotuner)
 

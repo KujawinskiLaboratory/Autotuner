@@ -337,7 +337,7 @@ filterPpmError <- function(approvedPeaks, useGap, varExpThresh,
 
     ## 2019-04-09 added this here since it doesn't make sense to cluster too few
     ## features
-    if(length(ppmObs) < 50) {
+    if(length(ppmObs) < 100) {
 
         kmeansPPM <- kmeans(ppmObs, 1)
 
@@ -386,7 +386,6 @@ filterPpmError <- function(approvedPeaks, useGap, varExpThresh,
     gauss <- function(x) 1/sqrt(2*pi) * exp(-(x^2)/2)
     gaussDKE <- function(a, x) gauss((x - a)/h)/(n * h)
 
-    ## this object is huge - 2.7 Gb
     bumps <- sapply(ppmObs[minCluster], gaussDKE, x)
     wholeKDE <- sapply(ppmObs, gaussDKE, x)
 
@@ -418,15 +417,23 @@ filterPpmError <- function(approvedPeaks, useGap, varExpThresh,
         par(mar=c(1,1,1,1))
         grDevices::pdf(output, width = 8, height = 6)
 
+        ## adding heuristic here to make ploting easier to see
+        if(length(ppmObs) < 300) {
+            bw <- .1
+        } else {
+            bw <- .5
+        }
 
-        plot(stats::density(ppmObs,bw = 1), main = title, cex.main = .7) +
+        plot(stats::density(ppmObs,bw = bw),
+             main = title,
+             cex.main = 1.2, cex.lab = 1.3, cex.axis = 1.2) #+
         abline(v = maxX, lty = 2, col = "red") +
         abline(v = ppmEst, lty = 3, col = "blue")
         legend("topright",
                legend = c(paste("score > 1:", signif(maxX,digits = 3)),
                           paste("ppm estimate:", signif(ppmEst,digits = 3))),
                col = c("red","blue"),
-               lty = c(2,3),cex = .7)
+               lty = c(2,3),cex = 1.1)
         grDevices::dev.off()
 
     }
