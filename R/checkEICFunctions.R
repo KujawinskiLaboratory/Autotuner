@@ -142,17 +142,30 @@ estimateSNThresh <- function(no_match, sortedAllEIC, approvedPeaks) {
     ## calculating all fixed noise values
     scanRange <- (minScan:maxScan)
     fixedNoiseList <- list()
+    counter <- 1
     for(scanID in seq_along(scanRange)) {
 
         peakNoise <- noise_noise[scanCount == scanRange[scanID]]
+
+        if(length(peakNoise) == 0) {
+            next
+        }
+
         fixedNoise <- peakNoise[!(peakNoise %in% boxplot.stats(peakNoise)$out)]
 
         fixedNoiseMean <- mean(x = fixedNoise, na.rm = T)
         fixedNoiseVar <-  stats::var(x = fixedNoise, na.rm = T)
+
+        ## 2019-07-08: fixed corner case where only one noise element was
+        ## found within the bin
+        if(is.na(fixedNoiseVar)) {
+            fixedNoiseVar <- 0
+        }
+
         N <- length(fixedNoise)
 
-        fixedNoiseList[[scanID]] <- data.frame(fixedNoiseMean,fixedNoiseVar,N)
-
+        fixedNoiseList[[counter]] <- data.frame(fixedNoiseMean,fixedNoiseVar,N)
+        counter <- 1 + counter
     }
     fixedNoiseList <- Reduce(rbind, fixedNoiseList)
 
@@ -182,6 +195,13 @@ estimateSNThresh <- function(no_match, sortedAllEIC, approvedPeaks) {
             ## add check to see if cur row has already been looked at
             curRow <- scanIntervals[[row]]
             curStatDb <- fixedNoiseList[curRow[1]:curRow[2],]
+
+            ## added this to check for case when row is missing
+            ## if a match to the noise peak was not identified
+            if(any(is.na(curStatDb$fixedNoiseMean))) {
+                curStatDb <- curStatDb[!is.na(curStatDb$fixedNoiseMean),]
+            }
+
             eX2 <- sum((curStatDb$fixedNoiseMean^2 + curStatDb$fixedNoiseVar)*curStatDb$N)
             eX2 <- eX2/sum(curStatDb$N)
             groupMean <- mean(curStatDb$fixedNoiseMean)
