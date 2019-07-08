@@ -103,6 +103,10 @@ checkEICPeaks <- function(mzDb,
                               sortedAllEIC, approvScorePeaks)
     SNest <- min(SNest)
 
+    if(is.infinite(SNest)) {
+        stop("There was an issue estimating the s/n threshold")
+    }
+
     assertthat::assert_that(!is.na(SNest),
                             msg = "Output of estimateSNThresh within checkEICPeaks was NA. Something went wrong here.")
 

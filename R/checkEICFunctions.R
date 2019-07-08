@@ -186,6 +186,11 @@ estimateSNThresh <- function(no_match, sortedAllEIC, approvedPeaks) {
             eX2 <- eX2/sum(curStatDb$N)
             groupMean <- mean(curStatDb$fixedNoiseMean)
             groupVar <- eX2 - groupMean^2
+
+            if(groupVar < 0) {
+                groupVar <- groupVar * -1
+            }
+
             groupSd <- suppressWarnings(sqrt(groupVar))
             noiseIntDb[[counter]] <- data.frame(start = curRow[1], end = curRow[2], groupMean, groupSd)
             counter <- counter + 1
