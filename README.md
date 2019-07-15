@@ -25,7 +25,7 @@ Note that AutoTuner depends on a few bioconductor packages (mzR, XCMS, and MSnba
 
 ## mmetspData Installation 
 
-Autotuner uses a second data package to test and to demonstrate its utility. To download the package, please run the following within R.
+Autotuner uses a second data package to test and demonstrate its functions. To download the package, please run the following within R.
 
 ```r
 library(devtools)
