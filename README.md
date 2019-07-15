@@ -12,9 +12,7 @@ For input, AutoTuner requires at least 3 samples of raw data converted from prop
 
 Please see vignettes/intro.Rmd for a tutorial on how to use AutoTuner within R. 
 
-## Installation
-
-### Installing AutoTuner 
+## AutoTuner Installation
 
 The easiest way to use the package at the moment, is to download it using devtools. This can be accomplished by running the following code. 
 
