@@ -14,22 +14,22 @@ Please see vignettes/intro.Rmd for a tutorial on how to use AutoTuner within R.
 
 ## Installation
 
-### From within R,
-
-```r
-install.packages("path/to/Autotuner.tar.gz", repos = NULL, type="source")
-```
-
-### From the command line,
-
-```bash
-cd directory_that_contains_Autotuner.tar.gz
-R CMD INSTALL Autotuner.tar.gz
-```
-
 ### Using Devtools
+
+The easiest way to use the package at the moment, is to download it using devtools. This can be accomplished by running the following code. 
 
 ```r
 library(devtools)
 install_github("crmclean/autotuner")
+```
+
+Note that AutoTuner depends on a few bioconductor packages (mzR, XCMS, and MSnbase), and they will need to be downloaded prior to AutoTuner for the installation to work. If the packages are not already installed in R, the easiest way to install them is to download XCMS directly as described in this [link](https://bioconductor.org/packages/release/bioc/html/xcms.html) since XCMS depends on the other two packages. I am working on getting AutoTuner on bioconductor at the moment, so hopefully this will become easier in the future. 
+
+## mmetspData Installation 
+
+Autotuner uses a second data package to test and to demonstrate its utility. To download the package, please run the following within R.
+
+```r
+library(devtools)
+install_github("crmclean/mmetspdata")
 ```

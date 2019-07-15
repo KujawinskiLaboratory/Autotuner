@@ -195,10 +195,11 @@ for(i in 1:5) {
 
 ## Part 2: Parameter Extraction from Individual Extracted Ion Chromatograms
 
-In order to estimate parameters for the raw data, the user should run the 
+In order to estimate parameters from the raw data, the user should run the 
 EICparams function as below. The massThreshold is an absolute mass error that
-should be greater than analytical capabilities of the mass analyzer. This part
-of the analysis might take a few minutes if the data used is large (~ 100 Mb per sample).
+should be greater than the expected analytical capabilities of the mass analyzer.
+This part of the analysis might take a few minutes if the data used is large 
+(~ 100 Mb per sample).
 
 If returnPpmPlots is True, AutoTuner will return plots showing how the ppm 
 threshold was estimated within the current working directory running Autotuner. 
