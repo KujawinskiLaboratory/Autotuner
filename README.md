@@ -14,7 +14,7 @@ Please see vignettes/intro.Rmd for a tutorial on how to use AutoTuner within R.
 
 ## Installation
 
-### Using Devtools
+### Installing AutoTuner 
 
 The easiest way to use the package at the moment, is to download it using devtools. This can be accomplished by running the following code. 
 
