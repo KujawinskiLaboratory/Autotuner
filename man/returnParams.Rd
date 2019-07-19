@@ -21,3 +21,11 @@ This function is designed to return a list of data.frames
 containing parameter estimates obtained from the EIC and TIC parameter
 estimation.
 }
+\examples{
+Autotuner <- readRDS(system.file("extdata/Autotuner.rds",
+package="Autotuner"))
+EICparams(Autotuner = Autotuner, massThresh = .005, verbose = F,
+returnPpmPlots = F, useGap = T)
+returnParams(eicParamEsts, Autotuner)
+
+}

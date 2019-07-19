@@ -33,3 +33,12 @@ lighter shade and a different type of line. The chromatography will be a
 solid line, the signal will be a dashed line (lty = 2) with a .5 alpha,
 and the thersholds will be dotted lines (lty = 3) with alpha values of 3.
 }
+\examples{
+Autotuner <- readRDS(system.file("extdata/Autotuner.rds",
+package="Autotuner"))
+lag <- 25
+threshold <- 3.1
+influence <- 0.1
+plot_signals(Autotuner, threshold, sample_index = 1:3, signals = signals)
+
+}

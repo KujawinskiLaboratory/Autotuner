@@ -121,6 +121,25 @@ setMethod(f = "initialize", signature = "Autotuner",
 #' the runfile that contains sample type factor.
 #'
 #' @export
+#'
+#' @examples
+#' library(devtools)
+#' if(!require("mmetspData")) {
+#'     install_github("crmclean/mmetspData")
+#' }
+#' library(mmetspData)
+#' mmetspFiles <- c(system.file("mzMLs/mtab_mmetsp_ft_120815_24.mzML",
+#' package = "mmetspData"), system.file("mzMLs/mtab_mmetsp_ft_120815_25.mzML",
+#' package = "mmetspData"), system.file("mzMLs/mtab_mmetsp_ft_120815_26.mzML",
+#' package = "mmetspData"))
+#' metadata <- read.csv(system.file("mmetsp_metadata.csv",
+#' package = "mmetspData"),stringsAsFactors = FALSE)
+#' metadata <- metadata[metadata$File.Name %in%
+#' sub(pattern = ".mzML", "",basename(mmetspFiles)),]
+#' Autotuner <- createAutotuner(mmetspFiles, metadata,
+#' file_col = "File.Name", factorCol = "Sample.Type")
+#'
+#'
 createAutotuner <- function(data_paths, runfile, file_col, factorCol) {
 
     if(nrow(runfile) == 0) {
@@ -148,8 +167,14 @@ createAutotuner <- function(data_paths, runfile, file_col, factorCol) {
 #' @return The content of the intensity slot
 #'
 #' @export
+#'
+#' @examples
+#' Autotuner <- readRDS(system.file("extdata/Autotuner.rds",
+#' package="Autotuner"))
+#' getAutoIntensity(Autotuner)
 getAutoIntensity <- function(Autotuner) {
 
     return(Autotuner@intensity)
 
 }
+

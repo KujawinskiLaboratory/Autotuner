@@ -22,6 +22,12 @@
 #' @details The function CheckEICPeaks handles all the peak specific
 #' computations.
 #'
+#' @examples
+#' Autotuner <- readRDS(system.file("extdata/Autotuner.rds",
+#' package="Autotuner"))
+#' EICparams(Autotuner = Autotuner, massThresh = .005, verbose = F,
+#' returnPpmPlots = F, useGap = T)
+#'
 #' @export
 EICparams <- function(Autotuner, massThresh, useGap = T,
                       varExpThresh = 0.8, returnPpmPlots = T,

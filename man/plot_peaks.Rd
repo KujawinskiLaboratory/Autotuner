@@ -29,3 +29,9 @@ This function plots individual peaks selected by signal
 processing and expanded with a regression to allow the user to validate the
 selected signal processing parameters.
 }
+\examples{
+Autotuner <- readRDS(system.file("extdata/Autotuner.rds",
+package="Autotuner"))
+plot_peaks(Autotuner = Autotuner, boundary = 100, peak = 1)
+
+}

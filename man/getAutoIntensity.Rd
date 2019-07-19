@@ -17,3 +17,8 @@ This function is designed to return the list intensities
 obtained from applying the sliding window analysis to the raw data stored
 within an AutoTuner object.
 }
+\examples{
+Autotuner <- readRDS(system.file("extdata/Autotuner.rds",
+package="Autotuner"))
+getAutoIntensity(Autotuner)
+}

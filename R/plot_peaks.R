@@ -19,6 +19,11 @@
 #' @return This function outputs plots that are meant to go into the peakVis
 #' UI.
 #'
+#' @examples
+#' Autotuner <- readRDS(system.file("extdata/Autotuner.rds",
+#' package="Autotuner"))
+#' plot_peaks(Autotuner = Autotuner, boundary = 100, peak = 1)
+#'
 #' @export
 plot_peaks <- function(Autotuner, boundary = 10, peak) {
 

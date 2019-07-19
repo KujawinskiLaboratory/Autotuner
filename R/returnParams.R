@@ -11,6 +11,13 @@
 #'
 #' @return A list of data.frames with parameter estimates.
 #'
+#' @examples
+#' Autotuner <- readRDS(system.file("extdata/Autotuner.rds",
+#' package="Autotuner"))
+#' EICparams(Autotuner = Autotuner, massThresh = .005, verbose = F,
+#' returnPpmPlots = F, useGap = T)
+#' returnParams(eicParamEsts, Autotuner)
+#'
 #' @export
 returnParams <- function(eicParamEsts, Autotuner) {
 

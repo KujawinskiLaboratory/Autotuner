@@ -11,6 +11,17 @@
 #'
 #' @return Returns an Autotuner object with selected TIC regions.
 #'
+#'
+#' @examples
+#' Autotuner <- readRDS(system.file("extdata/Autotuner.rds",
+#' package="Autotuner"))
+#' lag <- 25
+#' threshold<- 3.1
+#' influence <- 0.1
+#' signals <- lapply(getAutoIntensity(Autotuner), ThresholdingAlgo,
+#' lag, threshold, influence)
+#' isolatePeaks(Autotuner, returned_peaks = 10, signals)
+#'
 #' @export
 isolatePeaks <- function(Autotuner, returned_peaks, signals) {
 

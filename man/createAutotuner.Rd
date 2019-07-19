@@ -20,3 +20,22 @@ the runfile that contains sample type factor.}
 \description{
 This function will create a Autotuner used to extract ms2s.
 }
+\examples{
+library(devtools)
+if(!require("mmetspData")) {
+    install_github("crmclean/mmetspData")
+}
+library(mmetspData)
+mmetspFiles <- c(system.file("mzMLs/mtab_mmetsp_ft_120815_24.mzML",
+package = "mmetspData"), system.file("mzMLs/mtab_mmetsp_ft_120815_25.mzML",
+package = "mmetspData"), system.file("mzMLs/mtab_mmetsp_ft_120815_26.mzML",
+package = "mmetspData"))
+metadata <- read.csv(system.file("mmetsp_metadata.csv",
+package = "mmetspData"),stringsAsFactors = FALSE)
+metadata <- metadata[metadata$File.Name \%in\%
+sub(pattern = ".mzML", "",basename(mmetspFiles)),]
+Autotuner <- createAutotuner(mmetspFiles, metadata,
+file_col = "File.Name", factorCol = "Sample.Type")
+
+
+}

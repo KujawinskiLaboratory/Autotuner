@@ -53,7 +53,7 @@ test_that(desc = "Auotuner object creaction",
 lag <- 20
 threshold<- 3
 influence <- 0.1
-signal <- lapply(Autotuner@intensity, ThresholdingAlgo, lag, threshold, influence)
+signal <- lapply(getAutoIntensity(Autotuner), ThresholdingAlgo, lag, threshold, influence)
 
 test_that(desc = "Signal Processing Structure", code = {
 

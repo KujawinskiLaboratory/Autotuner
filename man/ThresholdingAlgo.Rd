@@ -15,13 +15,20 @@ prior to peak selection.}
 \item{threshold}{- number of standard deviations above chromatogram. Used
 to detect significantly observed peaks.}
 
-\item{influence}{- scalar values between 0-1 that describes how much the value
-of a peak (measured index value above threshold) should contribute to the
-sliding window analysis of downstream peaks.}
+\item{influence}{- scalar values between 0-1 that describes how much the
+value of a peak (measured index value above threshold) should contribute to
+the sliding window analysis of downstream peaks.}
 }
 \description{
 This function performs a sliding window analysis on the
 chromatograms in order to identify peaks within the data. I would recommend
 to keep influence low in order to use adjacent peak lengths as a measure of
 peak width.
+}
+\examples{
+Autotuner <- readRDS(system.file("extdata/Autotuner.rds",
+package="Autotuner"))
+lapply(getAutoIntensity(Autotuner), ThresholdingAlgo,
+lag, threshold, influence)
+
 }

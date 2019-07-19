@@ -13,6 +13,15 @@
 #' @param influence - scalar values between 0-1 that describes how much the
 #' value of a peak (measured index value above threshold) should contribute to
 #' the sliding window analysis of downstream peaks.
+#'
+#'
+#' @examples
+#' Autotuner <- readRDS(system.file("extdata/Autotuner.rds",
+#' package="Autotuner"))
+#' lapply(getAutoIntensity(Autotuner), ThresholdingAlgo,
+#' lag, threshold, influence)
+#'
+#' @export
 ThresholdingAlgo <- function(y, lag, threshold, influence) {
 
     # correct for possible NA values in data

@@ -20,6 +20,15 @@
 #' and the thersholds will be dotted lines (lty = 3) with alpha values of 3.
 #'
 #' @return Plots signal
+#'
+#' @examples
+#' Autotuner <- readRDS(system.file("extdata/Autotuner.rds",
+#' package="Autotuner"))
+#' lag <- 25
+#' threshold <- 3.1
+#' influence <- 0.1
+#' plot_signals(Autotuner, threshold, sample_index = 1:3, signals = signals)
+#'
 #' @export
 plot_signals <- function(Autotuner, threshold, sample_index, signals) {
 

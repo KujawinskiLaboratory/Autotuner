@@ -23,6 +23,8 @@ Autotuner <- createAutotuner(mmetspFiles,
                              file_col = "File.Name",
                              factorCol = "Sample.Type")
 
+#saveRDS(object = Autotuner, file = here::here("data/preSignalAuto.rds"))
+
 lag <- 20
 threshold<- 3
 influence <- 0.1
