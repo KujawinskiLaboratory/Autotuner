@@ -1,11 +1,12 @@
 Package: Autotuner
 Type: Package
-Title: What the Package Does (Title Case)
-Version: 0.1.0
+Title: Automated parameter selection for untargeted metabolomics data processing. 
+Version: 1.0.1
 Author: Craig McLean 
-Maintainer: The package maintainer <craigmclean23@gmail.com>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
+Maintainer: Craig McLean <craigmclean23@gmail.com>
+Description: This package is designed to help faciliate data processing in
+    untargeted metabolomics. To do this, the algorithm contained within the     package performs statistical inference on raw data to come up with the
+    best set of parameters to process the raw data. 
 License: MIT + file LICENSE
 Encoding: UTF-8
 Depends: R (>= 3.4)
