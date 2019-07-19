@@ -59,6 +59,13 @@ Here are the filetypes that will be used within this tutorial:
 print(basename(mmetspFiles))
 ```
 
+Here are what the paths look like that I am entering into AutoTuner:
+
+```{r}
+print(mmetspFiles)
+```
+
+
 ### Input - Metadata
 
 AutoTuner also requires a metadata spreadsheet that has at least two columns 
