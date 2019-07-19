@@ -2,7 +2,7 @@
 title: "Intro to AutoTuner"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Intro}
+  %\VignetteIndexEntry{Autotuner}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -13,6 +13,7 @@ knitr::opts_chunk$set(
   comment = "#>"
 )
 ```
+
 
 ```{r setup, warning=FALSE}
 library(Autotuner)
@@ -25,12 +26,12 @@ if(!require("mmetspData")) {
 
 # Introduction
 
-AutoTuner is a parameter tuning algorithm for XCMS, mzMine2, and other 
+AutoTuner is a parameter tuning algorithm for XCMS, MZmine2, and other 
 metabolomics data processing softwares. Using statistical inference, AutoTuner
 quickly finds estimates for nine distinct parameters. This guide provides
 an interactive example of how to use AutoTuner.
 
-Here is the general description of AutoTuner:
+Here is the general description of the algorithm behind AutoTuner:
 
 ```{r fig.width=8, fig.height=5,echo=FALSE}
 library(png)
@@ -44,8 +45,8 @@ img <- readPNG("autotuner_schematic_final.png")
 ### Input - Raw Data
 
 AutoTuner is designed to work directly with raw mass spectral data that has 
-been processed by msconvert. So far file types .mzML, .mzXML, .msData, and
-.netCDF have been tested to work well. 
+been processed by using MSconvert. So far file types .mzML, .mzXML, .msData, 
+and .netCDF have been tested and confirmed to work. 
 
 ```{r loading mass spec data}
 mmetspFiles <- c(system.file("mzMLs/mtab_mmetsp_ft_120815_24.mzML", package = "mmetspData"),
@@ -59,7 +60,7 @@ Here are the filetypes that will be used within this tutorial:
 print(basename(mmetspFiles))
 ```
 
-Here are what the paths look like that I am entering into AutoTuner:
+Here are what the paths look like that I am entering into AutoTuner directly:
 
 ```{r}
 print(mmetspFiles)
@@ -68,12 +69,11 @@ print(mmetspFiles)
 
 ### Input - Metadata
 
-AutoTuner also requires a metadata spreadsheet that has at least two columns 
+AutoTuner also requires a metadata file that has at least two columns 
 in order to derive estimates. One column should contain string matches to all
-the raw data files that will be processed. The second should contain information
-on the experimental factor each sample belongs to. If you are using Shiny to 
-run AutoTuner, the file has to have .csv formal. Future implementations of AutoTuner
-will feature a broader suite of acceptable file types. 
+the raw data files that will be processed (see above for an example). The 
+second should contain information on the experimental factor each sample belongs
+to. 
 
 ```{r loading in metadata}
 metadata <- read.csv(system.file("mmetsp_metadata.csv", package = "mmetspData"),
@@ -96,7 +96,7 @@ print(metadata)
 ### Creating AutoTuner Object
 
 AutoTuner first requires that user create an AutoTuner object. All future
-computations will be contained within the object. 
+computations will be contained within this object. 
 
 The file_col argument corresponds to the string column of the metadata that 
 matches raw data samples by name. The factorCol argument corresponds to the 
@@ -112,28 +112,29 @@ Autotuner <- createAutotuner(mmetspFiles,
 ## Part 1: Total Ion Current Peak Identification
 
 The first part of AutoTuner involves the identification of peaks within the
-total ion current (TIC) of the samples loaded up into AutoTuner. These regions will
-be important later to estimate parameters from the raw data since it is assumed
-that they contain a greater number of real chemical measurements. 
+total ion current (TIC) of the samples loaded up into AutoTuner. These regions 
+will be important later to estimate parameters from the raw data since AutoTuner 
+assumes that they contain a greater number of real chemical measurements. 
 
 ### Sliding Window Analysis
 
-To do this, first comes the sliding window analysis. A sliding windown analysis 
-is a simple time series analysis algorithm used to identify peaks within a time 
-trace essentially using a moving average. More on sliding window analyses can be
-found [here](https://en.wikipedia.org/wiki/Moving_average).
+To do this, the user peforms a sliding window analysis. A sliding window
+analysis is a simple time series analysis algorithm used to identify peaks 
+within a time trace. The window is essentially using a moving average. From
+this, the algorithm asks whether the next observation to the right of the 
+average is a peak. More on sliding window analyses can be found [here](https://en.wikipedia.org/wiki/Moving_average).
 
-The goal of this analysis is to find peaks within the TIC. The user should 
+The aim here is to identify TIC peaks. The user should 
 prioritize finding where peaks *start* rather than caturing the entire peak 
-bound. Downstream steps actually do a better job of estimating what the peaks 
-bounds should be. 
+bound. Downstream steps actually do a better job of estimating what the proper
+peak bounds should be. 
 
 The user should play with the lag, threshold, and influence parameters to 
 perform the sliding window analysis. Here is what they represent relative to
 chromatography:
 
 Lag - The number of chromatographic scan points used to test if next point is
-significance. 
+significance (ie the size number of points making up the moving average). 
 Threshold - A numerical constant representing how many times greater the 
 intensity of an adjacent scan has to be from the scans in the sliding window
 to be considered significant. 
@@ -160,35 +161,41 @@ plot_signals(Autotuner,
 rm(lag, influence, threshold)
 ```
 
+#### Interpreting Sliding Window Results
+
 The figure above has two components:
 
-Top Plot: The chromatotgraphic trace for each sample (solid line) along with the noise 
-associated with each sample (dashed line). 
-Bottom Plot: A signal plot used to indicate which chromatographic regions have significant
+1) Top Plot: The chromatotgraphic trace for each sample (solid line) along with the
+noise associated with each sample (dashed line). 
+2) Bottom Plot: A signal plot used to indicate which chromatographic regions have 
 peaks.
 
-The user should look for combinations of the three sliding window parameters that
-return lots of small peaks within the plot below the chromatographic trace. 
+The user should look for combinations of the three sliding window parameters 
+that returns many narrow peaks within the signal plot. See the example above.
 
 Autotuner will expand each of these regions to obtain improved estimates on the
 bounds within the isolatePeaks function below. The return_peaks arguement there
-represents the number of peaks to return for parameter estimation. This number
-is bounded by the total number of detected peaks by the sliding windown analysis
-above, so seeing more narrow peaks within the signal plot is recommended. 
+represents the number of peaks to return from all detected TIC peaks for 
+parameter estimation. This number is bounded by the total number of detected 
+peaks by the sliding windown analysis above, so seeing more narrow peaks within 
+the signal plot is recommended. 
 
 ```{r}
 Autotuner <- isolatePeaks(Autotuner, returned_peaks = 10, signals)
 ```
 
+### Checking Peak Estimates
+
 The peaks with expanded bounds returned from the isolatePeaks function can be 
 rapidly checked visually using the plot_peaks function as shown below. 
 The bounds should capture the correct ascention and descention points of each 
 peak. If peak bounds are not satisfactory, the user should return to the 
-sliding window analysis, and try a different conbination of the three parameters.
+sliding window analysis, and try a different conbination of the three 
+parameters.
 
 Remember, this whole process is only designed to isolate regions enriched in 
 real features rather than find true peaks. The bounds don't need to be
-completelly perfect. Its much more important that the bounds contain some kind 
+completely perfect. Its much more important that the bounds contain some kind 
 of chromatographic peaks rather than less dynamic regions of the chromatographic
 trace.
 
@@ -204,9 +211,9 @@ for(i in 1:5) {
 
 In order to estimate parameters from the raw data, the user should run the 
 EICparams function as below. The massThreshold is an absolute mass error that
-should be greater than the expected analytical capabilities of the mass analyzer.
-This part of the analysis might take a few minutes if the data used is large 
-(~ 100 Mb per sample).
+should be greater than the expected analytical capabilities of the mass 
+analyzer. This part of the analysis might take a few minutes if the data used is 
+large (~ 100 Mb per sample).
 
 If returnPpmPlots is True, AutoTuner will return plots showing how the ppm 
 threshold was estimated within the current working directory running Autotuner. 
@@ -229,6 +236,9 @@ All that remains now is to get what the dataset estimates are.
 ```{r}
 returnParams(eicParamEsts, Autotuner)
 ```
+
+There you have it! Running AutoTuner is now complete, and the estimates may be
+entered directly into XCMS to processes raw untargeted metabolomics data.
 
 ```{r}
 sessionInfo()

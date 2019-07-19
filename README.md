@@ -21,8 +21,6 @@ library(devtools)
 install_github("crmclean/autotuner")
 ```
 
-Note that AutoTuner depends on a few bioconductor packages (mzR, XCMS, and MSnbase), and they will need to be downloaded prior to AutoTuner for the installation to work. If the packages are not already installed in R, the easiest way to install them is to download XCMS directly as described in this [link](https://bioconductor.org/packages/release/bioc/html/xcms.html) since XCMS depends on the other two packages. I am working on getting AutoTuner on bioconductor at the moment, so hopefully this will become easier in the future. 
-
 ## mmetspData Installation 
 
 Autotuner uses a second data package to test and demonstrate its functions. To download the package, please run the following within R.
@@ -31,3 +29,7 @@ Autotuner uses a second data package to test and demonstrate its functions. To d
 library(devtools)
 install_github("crmclean/mmetspdata")
 ```
+
+## Using AutoTuner
+
+For a guide on how to use AutoTuner to find optimized data processing parameters, see vignettes/Autotuner.rmd
