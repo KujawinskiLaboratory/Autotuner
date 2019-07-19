@@ -25,7 +25,7 @@ estimation.
 Autotuner <- readRDS(system.file("extdata/Autotuner.rds",
 package="Autotuner"))
 EICparams(Autotuner = Autotuner, massThresh = .005, verbose = F,
-returnPpmPlots = F, useGap = T)
+returnPpmPlots = F, useGap = TRUE)
 returnParams(eicParamEsts, Autotuner)
 
 }

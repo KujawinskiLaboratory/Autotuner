@@ -78,18 +78,22 @@ findTruePeaks <- function(truePeaks, sortedAllEIC) {
 
                     if(any(obsError == 0)) {
 
-                        ## corner case - error is 0 and there are no other options
+                        ## corner case - error is 0 and there are no other
+                        ## options
                         if(length(x) == 1) {
                             obsError <- 0.001
                         } else {
-                            obsError[obsError == 0] <- min(obsError[obsError != 0])/10
+                            obsError[obsError == 0] <-
+                                min(obsError[obsError != 0])/10
                         }
 
                     }
 
-                    intensityProb <- nextStates$intensity/sum(nextStates$intensity)
+                    intensityProb <- nextStates$intensity/
+                        sum(nextStates$intensity)
                     errorInverse <- 1/obsError
-                    nextStateProb <- errorInverse/sum(errorInverse) * intensityProb
+                    nextStateProb <- errorInverse/sum(errorInverse) *
+                        intensityProb
                     nextStateProb/sum(nextStateProb)
 
                 }) %>% which.max()
@@ -114,18 +118,21 @@ findTruePeaks <- function(truePeaks, sortedAllEIC) {
             estimatePPM(peakData$mz[(mz - 1)], peakData$mz[mz])
         })
 
-        # storing output ----------------------------------------------------------
+        # storing output -------------------------------------------------------
         ppmData[[counter]] <- data.frame(meanMZ = mean(peakData$mz),
                                          startScan = min(peakData$scan),
                                          endScan = max(peakData$scan),
                                          scanCount = length(peakData$scan),
                                          Intensity = sum(peakData$intensity),
-                                         meanIntensity = mean(peakData$intensity),
-                                         intensityDispersion = sd(peakData$intensity),
+                                         meanIntensity = mean(
+                                             peakData$intensity),
+                                         intensityDispersion = sd(
+                                             peakData$intensity),
                                          minIntensity = min(peakData$intensity),
-                                         meanPPM = paste(signif(obsPPM), collapse = ";"),
+                                         meanPPM = paste(signif(obsPPM),
+                                                         collapse = ";"),
                                          multipleInScan,
-                                         stringsAsFactors = F,
+                                         stringsAsFactors = FALSE,
                                          index = i)
 
         counter <- 1 + counter

@@ -47,9 +47,9 @@ estimate_loess <- function(xs, max_missing, sampleClasses, threshold) {
 
     })
 
-    max_span <- T
+    max_span <- TRUE
     k <- 1
-    while(max_span == T && k < length(itterator)) {
+    while(max_span == TRUE && k < length(itterator)) {
     max_span <- any(sample_max_dists[[k]] > threshold)
     k <- k + 1
     }

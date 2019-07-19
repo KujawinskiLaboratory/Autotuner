@@ -4,8 +4,8 @@
 \alias{EICparams}
 \title{EICparams}
 \usage{
-EICparams(Autotuner, massThresh, useGap = T, varExpThresh = 0.8,
-  returnPpmPlots = T, plotDir = ".", verbose = T)
+EICparams(Autotuner, massThresh, useGap = TRUE, varExpThresh = 0.8,
+  returnPpmPlots = TRUE, plotDir = ".", verbose = TRUE)
 }
 \arguments{
 \item{Autotuner}{- An Autotuner objected containing sample specific raw
@@ -42,6 +42,6 @@ computations.
 Autotuner <- readRDS(system.file("extdata/Autotuner.rds",
 package="Autotuner"))
 EICparams(Autotuner = Autotuner, massThresh = .005, verbose = F,
-returnPpmPlots = F, useGap = T)
+returnPpmPlots = F, useGap = TRUE)
 
 }

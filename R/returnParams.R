@@ -14,29 +14,34 @@
 #' @examples
 #' Autotuner <- readRDS(system.file("extdata/Autotuner.rds",
 #' package="Autotuner"))
-#' EICparams(Autotuner = Autotuner, massThresh = .005, verbose = F,
-#' returnPpmPlots = F, useGap = T)
+#' EICparams(Autotuner = Autotuner, massThresh = .005, verbose = FALSE,
+#' returnPpmPlots = FALSE, useGap = TRUE)
 #' returnParams(eicParamEsts, Autotuner)
 #'
 #' @export
 returnParams <- function(eicParamEsts, Autotuner) {
 
     params <- TIC_params(Autotuner@peak_table, Autotuner@peak_difference)
-    params <- data.frame(descriptions = names(params), estimates = unlist(params))
+    params <- data.frame(descriptions = names(params), estimates =
+                             unlist(params))
 
     colNameCheck <- all(c("ppm", "peakCount",
                           "noiseThreshold", "prefilterI",
                           "prefilterScan",
-                          "TenPercentQuanSN","maxPw", "minPw") %in% colnames(eicParamEsts))
+                          "TenPercentQuanSN","maxPw", "minPw") %in%
+                            colnames(eicParamEsts))
 
     assertthat::assert_that(colNameCheck,
-                            msg = "Error in EICparams: some of the column names from the output are missing. Cannot complete parameter estimation.")
+                            msg = paste("Error in EICparams: some of the",
+                                        "column names from the output are",
+                                        "missing. Cannot complete parameter",
+                                        "estimation."))
 
     ppmEst <- weighted.mean(eicParamEsts$ppm, eicParamEsts$peakCount)
-    noiseEst <- min(eicParamEsts$noiseThreshold, na.rm = T)
-    prefilterIEst <- min(eicParamEsts$prefilterI, na.rm = T)
-    prefilterScanEst <- min(eicParamEsts$prefilterScan, na.rm = T)
-    snEst <- min(eicParamEsts$TenPercentQuanSN, na.rm = T)
+    noiseEst <- min(eicParamEsts$noiseThreshold, na.rm = TRUE)
+    prefilterIEst <- min(eicParamEsts$prefilterI, na.rm = TRUE)
+    prefilterScanEst <- min(eicParamEsts$prefilterScan, na.rm = TRUE)
+    snEst <- min(eicParamEsts$TenPercentQuanSN, na.rm = TRUE)
 
     maxPw <- split(eicParamEsts$maxPw, eicParamEsts$sampleID)
     maxPw <- sapply(maxPw, max)
@@ -56,11 +61,11 @@ returnParams <- function(eicParamEsts, Autotuner) {
 
     ppmSd <- sd(eicParamEsts$ppm)
     noiseSd <- sd(eicParamEsts$noiseThreshold)
-    prefilSd <- sd(eicParamEsts$prefilterI, na.rm = T)
-    prefilScanSd <- sd(eicParamEsts$prefilterScan, na.rm = T)
-    snEstSd <- sd(eicParamEsts$TenPercentQuanSN, na.rm = T)
-    maxPwDist <- abs(diff(sort(eicParamEsts$maxPw, decreasing = T))[1])
-    minPwDist <- abs(diff(sort(eicParamEsts$minPw, decreasing = T))[2])
+    prefilSd <- sd(eicParamEsts$prefilterI, na.rm = TRUE)
+    prefilScanSd <- sd(eicParamEsts$prefilterScan, na.rm = TRUE)
+    snEstSd <- sd(eicParamEsts$TenPercentQuanSN, na.rm = TRUE)
+    maxPwDist <- abs(diff(sort(eicParamEsts$maxPw, decreasing = TRUE))[1])
+    minPwDist <- abs(diff(sort(eicParamEsts$minPw, decreasing = TRUE))[2])
 
     variability <- c(ppmSd, noiseSd, prefilSd, prefilScanSd, snEstSd,
                      maxPwDist,
@@ -78,8 +83,8 @@ returnParams <- function(eicParamEsts, Autotuner) {
     aggregatedEstimates <- data.frame(Parameters = names(estimates),
                                       estimates = signif(estimates,
                                                          digits = 4),
-                                      'Variability Measure' = signif(variability,
-                                                                     digits = 4),
+                                      'Variability Measure' =
+                                          signif(variability, digits = 4),
                                       "Measure" = description)
 
     output <- list(eicParams = aggregatedEstimates, ticParams = params)

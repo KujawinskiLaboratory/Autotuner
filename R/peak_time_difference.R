@@ -26,7 +26,8 @@ peak_time_difference <- function(peak_table) {
 
     # Sorting peaks across samples by mid point time --------------------------
     peak_table$index <- 1:nrow(peak_table)
-    sorted_peakwidths <- peak_table[order(peak_table$Mid_point_time, decreasing = T),]
+    sorted_peakwidths <- peak_table[order(peak_table$Mid_point_time,
+                                          decreasing = TRUE),]
 
     ## makes the assumption that dispersion is not as bad as peak distance
     ## from one another
@@ -97,22 +98,25 @@ peak_time_difference <- function(peak_table) {
 
             peakDiffStart <- abs(diff(sorted_peakwidths$Start_time[row_subset]))
             peakDiffEnd <- abs(diff(sorted_peakwidths$End_time[row_subset]))
-            peakDiffMid <- abs(diff(sorted_peakwidths$Mid_point_time[row_subset]))
+            peakDiffMid <- abs(diff(
+                sorted_peakwidths$Mid_point_time[row_subset]))
             peakDiffMax <- abs(diff(sorted_peakwidths$Maxima_time[row_subset]))
 
             intervalVals <- c(sorted_peakwidths$Mid_point_time[row_subset],
             sorted_peakwidths$Maxima_time[row_subset])
 
             ## makes sure peaks are not losely overlapping - increase thresohld
-            intervalCheck <- all(interval["start"] < intervalVals && interval["end"] > intervalVals)
-            thresholdCheck <- peakDiffStart <= threshold && peakDiffEnd <= threshold
+            intervalCheck <- all(interval["start"] < intervalVals &&
+                                     interval["end"] > intervalVals)
+            thresholdCheck <- peakDiffStart <= threshold &&
+                peakDiffEnd <= threshold
 
             ## Case 1 - peaks match from the set threshold
             if(all(thresholdCheck,intervalCheck)) {
 
             storeData <- data.frame(
                 Max_width = max(sorted_peakwidths$peak_width[row_subset],
-                                na.rm = T),
+                                na.rm = TRUE),
                 Start_diff = peakDiffStart,
                 End_diff = peakDiffEnd,
                 Mid_diff = peakDiffMid,

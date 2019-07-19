@@ -25,23 +25,25 @@
 #' @examples
 #' Autotuner <- readRDS(system.file("extdata/Autotuner.rds",
 #' package="Autotuner"))
-#' EICparams(Autotuner = Autotuner, massThresh = .005, verbose = F,
-#' returnPpmPlots = F, useGap = T)
+#' EICparams(Autotuner = Autotuner, massThresh = .005, verbose = FALSE,
+#' returnPpmPlots = FALSE, useGap = TRUE)
 #'
 #' @export
-EICparams <- function(Autotuner, massThresh, useGap = T,
-                      varExpThresh = 0.8, returnPpmPlots = T,
-                      plotDir = ".", verbose = T) {
+EICparams <- function(Autotuner, massThresh, useGap = TRUE,
+                      varExpThresh = 0.8, returnPpmPlots = TRUE,
+                      plotDir = ".", verbose = TRUE) {
 
     peak_table <- Autotuner@peak_table
 
     # Checking input ----------------------------------------------------------
     assertthat::assert_that(nrow(peak_table) > 0,
-                          msg = "Peak table with 0 rows was entered into EICparams function.")
+                          msg = poste("Peak table with 0 rows was entered into",
+                          "EICparams function."))
 
     if(returnPpmPlots) {
         if(!dir.exists(plotDir)) {
-            message("Directory in plotDir did not exist. Using the current working directory instead.")
+            message(paste("Directory in plotDir did not exist.",
+                    "Using the current working directory instead."))
             plotDir <- "."
         }
     }
@@ -85,19 +87,25 @@ EICparams <- function(Autotuner, massThresh, useGap = T,
             if(verbose) {
                 estimatedPeakParams <- checkEICPeaks(mzDb = mzDb,
                                                      header = header,
-                                                     observedPeak = observedPeak,
+                                                     observedPeak =
+                                                         observedPeak,
                                                      massThresh,
                                                      useGap, varExpThresh,
                                                      returnPpmPlots, plotDir,
-                                                     filename = basename(currentFile))
+                                                     filename =
+                                                         basename(currentFile))
             } else {
-                estimatedPeakParams <- suppressMessages(checkEICPeaks(mzDb = mzDb,
+                estimatedPeakParams <- suppressMessages(checkEICPeaks(mzDb =
+                                                                          mzDb,
                                                      header = header,
-                                                     observedPeak = observedPeak,
+                                                     observedPeak =
+                                                         observedPeak,
                                                      massThresh,
                                                      useGap, varExpThresh,
                                                      returnPpmPlots, plotDir,
-                                                     filename = basename(currentFile)))
+                                                     filename =
+                                                         basename(currentFile))
+                                                     )
             }
 
 

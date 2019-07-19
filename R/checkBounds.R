@@ -21,7 +21,7 @@
 #'
 #' @return This function returns the last index the feature is detected.
 checkBounds <- function(mass,
-                        upper = T,
+                        upper = TRUE,
                         mzDb,
                         currentIndex,
                         intensityStorage,
@@ -86,7 +86,8 @@ checkBounds <- function(mass,
 
 
     # checking if there is a match in the boundary ----------------------------
-    massSpectraMatch <- sapply(peakMatrix$mz, estimatePPM, second = mass) < ppmEst
+    massSpectraMatch <- sapply(peakMatrix$mz, estimatePPM, second = mass) <
+        ppmEst
     foundMass <- any(massSpectraMatch)
 
     # updating the function to check next scan --------------------------------

@@ -31,75 +31,78 @@ peakwidth_est <- function(peak_vector,
                           old_r2 = NULL) {
 
 
-  killSwitch <- F
+    killSwitch <- FALSE
 
-  # check to make sure input values come from vector
-  if(!is.numeric(peak_vector)) {
-    warning("A non numeric vector was given to peakwidth_est(). This is incorrect. Check the function input.")
-  }
-
-  # updating data values to put into regression
-
-  if(!is.null(start)) { # case where we are in second + iteration of algorithm
-
-    end <- end + 1
-
-  } else { # case where the algorithm is run for the first time
-
-    peak_index <- which(time %in% peak_vector)
-    if(length(peak_index) == 0) {
-      stop("The peak entered here could not be matched to the chromatography data.")
+    # check to make sure input values come from vector
+    if(!is.numeric(peak_vector)) {
+        warning(paste("A non numeric vector was given to peakwidth_est().",
+                "This is incorrect. Check the function input."))
     }
 
-    start <- peak_index[1] - 1
-    end <- peak_index[length(peak_index)]
+    # updating data values to put into regression
 
-  }
+    if(!is.null(start)) { # case where we are in second + iteration of algorithm
 
-  # terms for lm
-  points <- c(start,start-1,start-2,start-3,end,end+1,end+2,end+3)
-  intensityObs <- intensity[points]
-  modelIndex <- 1:length(intensityObs)
+        end <- end + 1
 
-  # correcting na formation within intensity observation vector
-  if(any(is.na(intensityObs))) {
+    } else { # case where the algorithm is run for the first time
 
-    naObsIndex <- which(is.na(intensityObs))
-    modelIndex <- modelIndex[-naObsIndex]
-    intensityObs <- intensityObs[-naObsIndex]
-    killSwitch <- T
+        peak_index <- which(time %in% peak_vector)
+        if(length(peak_index) == 0) {
+            stop(paste("The peak entered here could not be matched to the",
+                 "chromatography data."))
+        }
 
-  }
+        start <- peak_index[1] - 1
+        end <- peak_index[length(peak_index)]
 
-  # running smoothing spline on the data
-  if(sum(!is.na(peak_vector)) > 1) {
-      splineOut <- smooth.spline(modelIndex, intensityObs)
-      splineObs <- splineOut$fit$coef
-      splineIndex <- 1:length(splineObs)
-  } else {
-      splineObs <- intensityObs
-  }
-  splineIndex <- 1:length(splineObs)
+    }
 
-  # running a linear model on the outcome of the spline
-  chrom_table <- data.frame(splineIndex, splineObs)
-  model <- lm(formula = splineObs ~ splineIndex, data = chrom_table)
-  new_r2 <- summary(model)$r.squared
+    # terms for lm
+    points <- c(start,start-1,start-2,start-3,end,end+1,end+2,end+3)
+    intensityObs <- intensity[points]
+    modelIndex <- 1:length(intensityObs)
 
-  # used for comparison with previous itterations
-  if(is.null(old_r2)) {
-    old_r2 <- 0
-  }
+    # correcting na formation within intensity observation vector
+    if(any(is.na(intensityObs))) {
 
-  # recursive case - returns previously calculated model fit if improvement
-  if((old_r2 > new_r2 | old_r2 > .9) | killSwitch == T) {
+        naObsIndex <- which(is.na(intensityObs))
+        modelIndex <- modelIndex[-naObsIndex]
+        intensityObs <- intensityObs[-naObsIndex]
+        killSwitch <- TRUE
+
+    }
+
+    # running smoothing spline on the data
+    if(sum(!is.na(peak_vector)) > 1) {
+        splineOut <- smooth.spline(modelIndex, intensityObs)
+        splineObs <- splineOut$fit$coef
+        splineIndex <- 1:length(splineObs)
+    } else {
+        splineObs <- intensityObs
+    }
+    splineIndex <- 1:length(splineObs)
+
+    # running a linear model on the outcome of the spline
+    chrom_table <- data.frame(splineIndex, splineObs)
+    model <- lm(formula = splineObs ~ splineIndex, data = chrom_table)
+    new_r2 <- summary(model)$r.squared
+
+    # used for comparison with previous itterations
+    if(is.null(old_r2)) {
+        old_r2 <- 0
+    }
+
+    # recursive case - returns previously calculated model fit if improvement
+    if((old_r2 > new_r2 | old_r2 > .9) | killSwitch == TRUE) {
 
     # make sure to return numerical index of fit - not the values being compared
     peak_width <- c(peakStart = start-3, peakEnd = end+3)
     return(peak_width)
 
-  } else {
-    peakwidth_est(peak_vector, time, intensity, start, end, old_r2 = new_r2)
-  }
+    } else {
+        peakwidth_est(peak_vector, time, intensity, start,
+                      end, old_r2 = new_r2)
+    }
 }
 

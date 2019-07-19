@@ -4,7 +4,7 @@
 \alias{checkBounds}
 \title{checkBounds}
 \usage{
-checkBounds(mass, upper = T, mzDb, currentIndex, intensityStorage,
+checkBounds(mass, upper = TRUE, mzDb, currentIndex, intensityStorage,
   ppmEst, scans, origBound, header)
 }
 \arguments{

@@ -18,9 +18,9 @@ TIC_params <- function(peak_table, peak_difference) {
 
     # max width estimation
     # Consider ways of increasing this wrt chrom types
-    max_width <- max(peak_table$peak_width, na.rm = T)
+    max_width <- max(peak_table$peak_width, na.rm = TRUE)
 
-    group_diff <- max(peak_difference$Mid_diff, na.rm = T)
+    group_diff <- max(peak_difference$Mid_diff, na.rm = TRUE)
 
     return(list(max_width = max_width,
                 min_width = min_width,

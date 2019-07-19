@@ -16,7 +16,7 @@
 #'
 #' @return The ppm error between the first and second entered mass
 estimatePPM <- function(first, second) {
-  abs(first-second)/first * 10 ^ 6
+    abs(first-second)/first * 10 ^ 6
 }
 
 # Filtering Peaks from Noise ----------------------------------------------
@@ -33,57 +33,51 @@ estimatePPM <- function(first, second) {
 #' @return A list with entries for noise peaks and true peaks.
 filterPeaksfromNoise <- function(matchedMasses) {
 
-  ## Initializing variables for subsetting
-  if(length(matchedMasses$values) %% 2 == 0) {
-    list_length <- length(matchedMasses$values)/2
-  } else {
-    list_length <- as.integer(length(matchedMasses$values)/2) + 1
-  }
-  truePeaks <- vector("list", list_length)
-  truePeakIndex <- 1
-  lengthCounter <- 1
-  lastTrue <- matchedMasses$values[1]
-
-  ## subsets things that have a second mass w/in user error
-  for(rleIndex in 1:length(matchedMasses$values)) {
-
-    start <- lengthCounter
-
-    if(lastTrue == T) {
-      start <- start + 1
-    }
-
-    end <- lengthCounter + matchedMasses$lengths[rleIndex]  - 1
-
-    if(isTRUE(matchedMasses$values[rleIndex])) {
-      end <- end + 1
-      lastTrue = T
-      truePeaks[[truePeakIndex]] <- start:end
-      truePeakIndex <- truePeakIndex + 1
+## Initializing variables for subsetting
+    if(length(matchedMasses$values) %% 2 == 0) {
+        list_length <- length(matchedMasses$values)/2
     } else {
-      lastTrue = F
-      if(!exists("no_match")) {
-        no_match <- start:end
-      } else {
-        no_match <- c(no_match, start:end)
-      }
-
+        list_length <- as.integer(length(matchedMasses$values)/2) + 1
     }
-    lengthCounter <- lengthCounter + matchedMasses$lengths[rleIndex]
-  }
+    truePeaks <- vector("list", list_length)
+    truePeakIndex <- 1
+    lengthCounter <- 1
+    lastTrue <- matchedMasses$values[1]
 
-  if(is.null(truePeaks[[list_length]])) {
-    truePeaks <- truePeaks[1:(list_length - 1)]
-  }
+    ## subsets things that have a second mass w/in user error
+    for(rleIndex in 1:length(matchedMasses$values)) {
 
-  rm(list_length,
-     truePeakIndex,
-     lastTrue,
-     lengthCounter,
-     start,
-     end,
-     rleIndex)
-  return(list(no_match, truePeaks))
+        start <- lengthCounter
+
+        if(lastTrue == TRUE) {
+            start <- start + 1
+        }
+
+        end <- lengthCounter + matchedMasses$lengths[rleIndex]  - 1
+
+        if(isTRUE(matchedMasses$values[rleIndex])) {
+            end <- end + 1
+            lastTrue = TRUE
+            truePeaks[[truePeakIndex]] <- start:end
+            truePeakIndex <- truePeakIndex + 1
+        } else {
+            lastTrue = FALSE
+            if(!exists("no_match")) {
+                no_match <- start:end
+            } else {
+                no_match <- c(no_match, start:end)
+            }
+
+        }
+        lengthCounter <- lengthCounter + matchedMasses$lengths[rleIndex]
+    }
+
+    if(is.null(truePeaks[[list_length]])) {
+        truePeaks <- truePeaks[1:(list_length - 1)]
+    }
+
+    rm(list_length,truePeakIndex,lastTrue,lengthCounter,start,end,rleIndex)
+    return(list(no_match, truePeaks))
 }
 
 
@@ -106,8 +100,8 @@ estimateSNThresh <- function(no_match, sortedAllEIC, approvedPeaks) {
     noisePeakTable <- sortedAllEIC[no_match,]
     noise_noise <- noisePeakTable$intensity
     scanCount <- sortedAllEIC$scan
-    maxScan <- max(scanCount, na.rm = T)
-    minScan <- min(scanCount, na.rm = T)
+    maxScan <- max(scanCount, na.rm = TRUE)
+    minScan <- min(scanCount, na.rm = TRUE)
     scanCount <- scanCount[no_match]
 
     ## generating index for subseting of fixed noise obj
@@ -128,7 +122,8 @@ estimateSNThresh <- function(no_match, sortedAllEIC, approvedPeaks) {
             upperBound <- maxScan
         }
 
-        scanIntervals[[peakID]] <- which(minScan:maxScan %in% c(lowerBound, upperBound))
+        scanIntervals[[peakID]] <- which(minScan:maxScan %in% c(lowerBound,
+                                                                upperBound))
 
 
     }
@@ -147,8 +142,8 @@ estimateSNThresh <- function(no_match, sortedAllEIC, approvedPeaks) {
 
         fixedNoise <- peakNoise[!(peakNoise %in% boxplot.stats(peakNoise)$out)]
 
-        fixedNoiseMean <- mean(x = fixedNoise, na.rm = T)
-        fixedNoiseVar <-  stats::var(x = fixedNoise, na.rm = T)
+        fixedNoiseMean <- mean(x = fixedNoise, na.rm = TRUE)
+        fixedNoiseVar <-  stats::var(x = fixedNoise, na.rm = TRUE)
 
         ## 2019-07-08: fixed corner case where only one noise element was
         ## found within the bin
@@ -196,7 +191,8 @@ estimateSNThresh <- function(no_match, sortedAllEIC, approvedPeaks) {
                 curStatDb <- curStatDb[!is.na(curStatDb$fixedNoiseMean),]
             }
 
-            eX2 <- sum((curStatDb$fixedNoiseMean^2 + curStatDb$fixedNoiseVar)*curStatDb$N)
+            eX2 <- sum((curStatDb$fixedNoiseMean^2 +
+                            curStatDb$fixedNoiseVar)*curStatDb$N)
             eX2 <- eX2/sum(curStatDb$N)
             groupMean <- mean(curStatDb$fixedNoiseMean)
             groupVar <- eX2 - groupMean^2
@@ -206,7 +202,9 @@ estimateSNThresh <- function(no_match, sortedAllEIC, approvedPeaks) {
             }
 
             groupSd <- suppressWarnings(sqrt(groupVar))
-            noiseIntDb[[counter]] <- data.frame(start = curRow[1], end = curRow[2], groupMean, groupSd)
+            noiseIntDb[[counter]] <- data.frame(start = curRow[1],
+                                                end = curRow[2], groupMean,
+                                                groupSd)
             counter <- counter + 1
         }
 
@@ -288,8 +286,8 @@ estimateSNThresh <- function(no_match, sortedAllEIC, approvedPeaks) {
 #'
 #' @return This function returns a scalar value representing ppm error estimate.
 filterPpmError <- function(approvedPeaks, useGap, varExpThresh,
-                           returnPpmPlots, plotDir, observedPeak,
-                           filename) {
+                       returnPpmPlots, plotDir, observedPeak,
+                       filename) {
 
     ppmObs <- approvedPeaks$meanPPM
     ppmObs <- strsplit(split = ";", x = as.character(ppmObs)) %>%
@@ -299,7 +297,9 @@ filterPpmError <- function(approvedPeaks, useGap, varExpThresh,
     ## 2019-06-19
     ## corner case when all error measurements are identical.
     if(diff(range(ppmObs)) < .Machine$double.eps ^ 0.5) {
-        stop("All calculated ppm values are identical. Error of data may be higher than the mass threshold value.")
+        stop(paste("All calculated ppm values are identical.",
+                   "Error of data may be higher than the mass threshold value."
+                   ))
     }
 
     message("-------- Number of ppm value across bins: ", length(ppmObs))
@@ -325,8 +325,8 @@ filterPpmError <- function(approvedPeaks, useGap, varExpThresh,
             klDistance <- list()
             subSamples <- ls()[grep("newDist",ls())]
             for(j in seq_along(subSamples)) {
-                klDistance[[j]] <- suppressWarnings(entropy::KL.empirical(origDist,
-                                                                          get(subSamples[j])))
+                klDistance[[j]] <- suppressWarnings(entropy::KL.empirical(
+                    origDist,get(subSamples[j])))
             }
             klDistance <- unlist(klDistance)
 
@@ -339,7 +339,8 @@ filterPpmError <- function(approvedPeaks, useGap, varExpThresh,
         }
 
         ppmObs <- sample(ppmObs, checkPpm)
-        message("-------- Number of ppm value across bins after KL Distance Filtering: ",
+        message("-------- Number of ppm value across bins after",
+                " KL Distance Filtering: ",
                 length(ppmObs))
 
     }
@@ -357,7 +358,7 @@ filterPpmError <- function(approvedPeaks, useGap, varExpThresh,
                                     FUNcluster = kmeans,
                                     K.max = 5,
                                     B = 7,
-                                    verbose = F)
+                                    verbose = FALSE)
 
         gapStat <- gapStat$Tab
         gap <- diff(-gapStat[,3]) > 0
@@ -384,7 +385,7 @@ filterPpmError <- function(approvedPeaks, useGap, varExpThresh,
     }
 
     ## cluster which contains smallest ppm values
-    clusterSize <- table(kmeansPPM$cluster) %>% sort(decreasing = T)
+    clusterSize <- table(kmeansPPM$cluster) %>% sort(decreasing = TRUE)
     maxCluster <- names(clusterSize)[1]
     minCluster <- which(kmeansPPM$cluster == maxCluster)
     rm(clusterSize)
@@ -466,65 +467,70 @@ filterPpmError <- function(approvedPeaks, useGap, varExpThresh,
 #' @return maxScans - the maximum number of scans across all peaks
 countMaxima <- function(peakBounds, sortedAllEIC, prevRange) {
 
-  maxScans <- list()
-  for(peakIndex in 1:length(peakBounds)) {
+    maxScans <- list()
+    for(peakIndex in 1:length(peakBounds)) {
 
-    # Organizing data for comparison ------------------------------------------
-    peak <- names(peakBounds)[peakIndex] %>% as.numeric()
+        # Organizing data for comparison ---------------------------------------
+        peak <- names(peakBounds)[peakIndex] %>% as.numeric()
 
-    featInfoSub <- sortedAllEIC[estimatePPM(sortedAllEIC$mz, peak) < 1,]
+        featInfoSub <- sortedAllEIC[estimatePPM(sortedAllEIC$mz, peak) < 1,]
 
-    if(nrow(featInfoSub) == 0) {
-      next
+        if(nrow(featInfoSub) == 0) {
+            next
+        }
+
+        featInfoSub <- featInfoSub[order(featInfoSub$scan),]
+
+        curRange <- prevRange[peakIndex,]
+
+        curRange[,1] <= featInfoSub$scan && curRange[,2] >= featInfoSub$scan
+
+        correctEntries <- sapply(featInfoSub$scan, function(entry) {
+                curRange[,1] <= entry && curRange[,2] >= entry
+              })
+
+        ## This is useful for getting the correct set of intensity values
+        ## for the identified peak
+        featInfoSub <- featInfoSub[correctEntries,]
+
+        # expading peak range to new identified interval -----------------------
+        curBoundInfo <- peakBounds[[peakIndex]]
+        intensity <- curBoundInfo[grep("intensity", names(curBoundInfo),
+                                       ignore.case = TRUE)]
+        extendedBounds <- curBoundInfo[grep("index", names(curBoundInfo),
+                                            ignore.case = TRUE)] %>% unlist()
+
+        totalIntensity <- c(intensity$lower_Intensity,
+                            featInfoSub$intensity,
+                            intensity$upper_Intensity)
+
+
+        # Finding minima and lengths of peaks between minima -------------------
+        if(length(totalIntensity) >= 10) {
+
+          lag <- (length(totalIntensity) / 5) %>% as.integer()
+          threshold <- 1
+          influence <- 1
+          signalOutput <- ThresholdingAlgo(totalIntensity, lag, threshold,
+                                           influence)
+          signalPatterns <- rle(signalOutput$signals)
+
+          maxScans[[peakIndex]] <- max(signalPatterns$lengths[
+              signalPatterns$values != -1])
+
+        } else {
+
+            maxScans[[peakIndex]] <- diff(extendedBounds) %>% abs()
+
+        }
+
     }
 
-    featInfoSub <- featInfoSub[order(featInfoSub$scan),]
-
-    curRange <- prevRange[peakIndex,]
-
-    curRange[,1] <= featInfoSub$scan && curRange[,2] >= featInfoSub$scan
-
-    correctEntries <- sapply(featInfoSub$scan, function(entry) {
-            curRange[,1] <= entry && curRange[,2] >= entry
-          })
-
-    ## This is useful for getting the correct set of intensity values for the identified peak
-    featInfoSub <- featInfoSub[correctEntries,]
-
-    # expading peak range to new identified interval --------------------------
-    curBoundInfo <- peakBounds[[peakIndex]]
-    intensity <- curBoundInfo[grep("intensity", names(curBoundInfo), ignore.case = T)]
-    extendedBounds <- curBoundInfo[grep("index", names(curBoundInfo), ignore.case = T)] %>% unlist()
-
-    totalIntensity <- c(intensity$lower_Intensity,
-                        featInfoSub$intensity,
-                        intensity$upper_Intensity)
-
-
-    # Finding minima and lengths of peaks between minima ----------------------
-    if(length(totalIntensity) >= 10) {
-
-      lag <- (length(totalIntensity) / 5) %>% as.integer()
-      threshold <- 1
-      influence <- 1
-      signalOutput <- ThresholdingAlgo(totalIntensity, lag, threshold, influence)
-      signalPatterns <- rle(signalOutput$signals)
-
-      maxScans[[peakIndex]] <- max(signalPatterns$lengths[signalPatterns$values != -1])
-
-    } else {
-
-      maxScans[[peakIndex]] <- diff(extendedBounds) %>% abs()
-
+    if(length(maxScans) == 0) {
+        maxScans[[1]] <- 0
     }
 
-  }
-
-  if(length(maxScans) == 0) {
-    maxScans[[1]] <- 0
-  }
-
-  return(maxScans)
+    return(maxScans)
 
 }
 

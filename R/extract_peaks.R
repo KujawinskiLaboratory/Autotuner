@@ -51,7 +51,8 @@ extract_peaks <- function(Autotuner,
             if(curValue == 1) {
 
                 peakGroups[[counter]] <- data.frame(index = (startPoint + 1),
-                                                    length = peaks$lengths[rleIndex])
+                                                    length =
+                                                        peaks$lengths[rleIndex])
                 startPoint <- startPoint + peaks$lengths[rleIndex]
                 counter <- counter + 1
 
@@ -68,7 +69,8 @@ extract_peaks <- function(Autotuner,
 
         }
         peakGroups <- Reduce(peakGroups, f = rbind)
-        signals[[index]]$signals[peakGroups$index[peakGroups$length == 1] + 1] <- 1
+        signals[[index]]$signals[peakGroups$index[peakGroups$length
+                                                  == 1] + 1] <- 1
 
         #peaks <- Autotuner@time[[index]][signals[[index]]$signals == 1]
 
@@ -120,12 +122,13 @@ extract_peaks <- function(Autotuner,
         if(nrow(peakGroups) < returned_peaks) {
             returned_peaks <- nrow(peakGroups)
         }
-        peakGroups <- peakGroups[order(peakGroups$length, decreasing = T),]
+        peakGroups <- peakGroups[order(peakGroups$length, decreasing = TRUE),]
 
         peak_times <- list()
         for(j in 1:nrow(peakGroups)) {
 
-            peak_times[[j]] <- Autotuner@time[[index]][peakGroups$start[j]:peakGroups$end[j]]
+            peak_times[[j]] <- Autotuner@time[[index]][
+                peakGroups$start[j]:peakGroups$end[j]]
 
         }
 

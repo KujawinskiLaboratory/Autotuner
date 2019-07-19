@@ -32,19 +32,23 @@ findPeakWidth <- function(approvScorePeaks,
     maxScans <- max(approvScorePeaks$scanCount)
     maxPwTable <- approvScorePeaks[approvScorePeaks$scanCount == maxScans,]
     filteredRange <- unlist(maxPwTable[1,c("startScan","endScan")])
-    filteredRange[1] <- sortedAllEIC$scanID[filteredRange[1] == sortedAllEIC$scan][1]
-    filteredRange[2] <- sortedAllEIC$scanID[filteredRange[2] == sortedAllEIC$scan][1]
+    filteredRange[1] <- sortedAllEIC$scanID[filteredRange[1] ==
+                                                sortedAllEIC$scan][1]
+    filteredRange[2] <- sortedAllEIC$scanID[filteredRange[2] ==
+                                                sortedAllEIC$scan][1]
 
     checkBoundaries <- filteredRange %in% boundaries
     #header <- header[header$msLevel == 1L,]
 
     # Added this on 2019-03-24 for cases where ms2 data is not within the
     # ms convert file
-    # 2019-06-18 - ISSUE HERE REGARDING MATCHING SCANS TO IDS - ALSO RELATED TO DISSECT SCANS FUNCTION
+    # 2019-06-18 - ISSUE HERE REGARDING MATCHING SCANS TO IDS -
+    # ALSO RELATED TO DISSECT SCANS FUNCTION
     allScansInData <- as.numeric(sub(".* scan=", "", header$spectrumId))
 
     if(length(allScansInData) == 0) {
-        stop("Error during findPeakWidth. allScansInData var is length 0. Check structure of raw data header file.")
+        stop(paste("Error during findPeakWidth. allScansInData var is length",
+                   "0. Check structure of raw data header file."))
     }
 
     ## CENSORED THIS 2019-06-19
@@ -84,7 +88,7 @@ findPeakWidth <- function(approvScorePeaks,
                                           header = header)
                 names(upperBound) <- "upper_bound"
                 lowerBound <- checkBounds(mass = mass,
-                                          upper = F,
+                                          upper = FALSE,
                                           mzDb = mzDb,
                                           currentIndex = filteredRange[1],
                                           ppmEst = ppmEst,
@@ -120,7 +124,7 @@ findPeakWidth <- function(approvScorePeaks,
                 # Case 2 - the peak is only bounded below ---------------------
 
                     lowerBound <- checkBounds(mass,
-                                            upper = F,
+                                            upper = FALSE,
                                             mzDb = mzDb,
                                             currentIndex = filteredRange[1],
                                             ppmEst = ppmEst,
@@ -144,7 +148,7 @@ findPeakWidth <- function(approvScorePeaks,
         boundTemp <- peakBounds[peakBounds$checkBounds == 2,]
 
         ## adding step to filter out outliers
-        boxStat <- graphics::boxplot(boundTemp$total, plot = F)
+        boxStat <- graphics::boxplot(boundTemp$total, plot = FALSE)
         peakBounds <- boundTemp[!(boundTemp$total %in% boxStat$out),]
         rm(boundTemp, boxStat)
 
@@ -155,22 +159,25 @@ findPeakWidth <- function(approvScorePeaks,
             checkThisBound <- peakBounds[which.max(peakBounds$total)[1],]
 
             rtUpper <- header$retentionTime[grep(paste0("scan=","\\b",
-                                                        checkThisBound$upperBound,
+                                                checkThisBound$upperBound,
                                                                 "\\b"),
                                                          header$spectrumId)]
             rtLower <- header$retentionTime[grep(paste0("scan=","\\b",
-                                                        checkThisBound$lowerBound,
+                                                checkThisBound$lowerBound,
                                                                 "\\b"),
                                                          header$spectrumId)]
             maxPw <- rtUpper - rtLower
         }
 
 
-    ## case 2 - all peaks are bounded within the range of the calculated TIC peak.
+    ## case 2 - all peaks are bounded within the range of the
+    ## calculated TIC peak.
     } else {
 
-        ## 2019-06-20 - fixed bug related to matching scan indexes to retention time
-        curBounds <- unlist(maxPwTable[1,grep("(start|end)Scan", colnames(maxPwTable))])
+        ## 2019-06-20 - fixed bug related to matching scan indexes to
+        ## retention time
+        curBounds <- unlist(maxPwTable[1,grep("(start|end)Scan",
+                                              colnames(maxPwTable))])
         maxTime <- header$retentionTime[curBounds[2]]
         minTime <- header$retentionTime[curBounds[1]]
         maxPw <- maxTime - minTime
