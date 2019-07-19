@@ -7,9 +7,12 @@
 findTruePeaks(truePeaks, sortedAllEIC)
 }
 \arguments{
-\item{truePeaks}{- A lsit containing indicies representing each bin.}
+\item{truePeaks}{- A list containing indicies representing each bin.}
 
 \item{sortedAllEIC}{- All the raw ms1 data extracted from the EIC peak.}
+}
+\value{
+a list of candidate EIC regions
 }
 \description{
 This function is designed to filter out bins that don't come

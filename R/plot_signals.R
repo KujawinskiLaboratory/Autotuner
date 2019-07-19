@@ -75,7 +75,7 @@ plot_signals <- function(Autotuner, threshold, sample_index, signals) {
         signal_subset <- 1:length(ave_filter)
 
 
-        # plotting TICs -----------------------------------------------------------
+        # plotting TICs ------------------------------------------------------
         if(i == 1) {
             plot(Autotuner@time[[index]],
                  Autotuner@intensity[[index]],
@@ -95,7 +95,7 @@ plot_signals <- function(Autotuner, threshold, sample_index, signals) {
         }
 
 
-        # ploting signal processing function --------------------------------------
+        # ploting signal processing function --------------------------------
         lines(Autotuner@time[[index]][signal_subset],
               ave_filter,
               type="l",
@@ -114,14 +114,15 @@ plot_signals <- function(Autotuner, threshold, sample_index, signals) {
     }
 
 
-    # plotting signal plots below chromatogram --------------------------------
+    # plotting signal plots below chromatogram -----------------------------
     allSignals <- list()
     for(i in seq_along(sample_index)) {
 
         # idea - align signals over time and highlight regions over lap in a
         # single plot
         plotSignals <- signals[[i]]$signals
-        signalDf <- data.frame(time = Autotuner@time[[i]][seq_along(plotSignals)],
+        signalDf <- data.frame(time = Autotuner@time[[i]][
+            seq_along(plotSignals)],
                                signals = plotSignals)
         rm(plotSignals)
 

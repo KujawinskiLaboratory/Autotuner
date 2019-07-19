@@ -21,6 +21,8 @@
 #' lapply(getAutoIntensity(Autotuner), ThresholdingAlgo,
 #' lag, threshold, influence)
 #'
+#' @return A list of calculated sliding window values.
+#'
 #' @export
 ThresholdingAlgo <- function(y, lag, threshold, influence) {
 

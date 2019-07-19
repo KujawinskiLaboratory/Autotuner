@@ -33,12 +33,12 @@ checkBounds <- function(mass,
 
     # Check to make sure we havent reached the boundary -----------------------
     # introducing check to make sure this doesn't run forever
-    runawayPeak <- F
+    runawayPeak <- FALSE
     if(upper) {
         toowide <- currentIndex  >  origBound + 500
         edge <- max(scans) == currentIndex
         if(toowide || edge) {
-            runawayPeak <- T
+            runawayPeak <- TRUE
         }
 
     } else {
@@ -46,7 +46,7 @@ checkBounds <- function(mass,
         toowide <- currentIndex < origBound - 500
         edge <- min(scans) == currentIndex
         if(toowide || edge) {
-            runawayPeak <- T
+            runawayPeak <- TRUE
         }
     }
 
@@ -74,8 +74,8 @@ checkBounds <- function(mass,
 
     if(is.na(nextIndex)) {
         ## hack for netCDF files
-        nextIndex <- suppressWarnings(as.numeric(sub("scan=", "",
-                                                     header$spectrumId[adjIndex])))
+        nextIndex <- suppressWarnings(as.numeric(
+            sub("scan=", "",header$spectrumId[adjIndex])))
     }
 
     peakMatrix <- data.frame(mzDb[[adjIndex]])
@@ -86,8 +86,13 @@ checkBounds <- function(mass,
 
 
     # checking if there is a match in the boundary ----------------------------
-    massSpectraMatch <- sapply(peakMatrix$mz, estimatePPM, second = mass) <
-        ppmEst
+    massSpectraMatch <- vector(mode = "numeric", length = length(peakMatrix$mz))
+    for(i in 1:length(peakMatrix$mz)) {
+        massSpectraMatch[i] <- estimatePPM(first = peakMatrix$mz[i],
+                                            second = mass)
+    }
+    massSpectraMatch <- massSpectraMatch < ppmEst
+
     foundMass <- any(massSpectraMatch)
 
     # updating the function to check next scan --------------------------------
@@ -109,7 +114,7 @@ checkBounds <- function(mass,
         ## checking if peak is increasing or decreasing monotonically
         if(length(intensityStorage) >= 3) {
 
-            fit <- lm(intensityStorage ~ seq_along(intensityStorage))
+            fit <- lm(intensityStorage ~ 1:length(intensityStorage))
             slope <- stats::coef(fit)[2]
             r2 <- summary(fit)$r.squared
 
@@ -122,14 +127,14 @@ checkBounds <- function(mass,
         rm(peakMatrix)
 
         bound <- checkBounds(mass = mass,
-                             upper = upper,
-                             mzDb = mzDb,
-                             currentIndex = nextIndex,
-                             intensityStorage = intensityStorage,
-                             ppmEst = ppmEst,
-                             scans = scans,
-                             origBound = origBound,
-                             header = header)
+                            upper = upper,
+                            mzDb = mzDb,
+                            currentIndex = nextIndex,
+                            intensityStorage = intensityStorage,
+                            ppmEst = ppmEst,
+                            scans = scans,
+                            origBound = origBound,
+                            header = header)
         return(bound)
 
     } else {

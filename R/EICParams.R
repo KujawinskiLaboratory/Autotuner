@@ -22,6 +22,8 @@
 #' @details The function CheckEICPeaks handles all the peak specific
 #' computations.
 #'
+#' @return A data.frame of all peak specific estimates.
+#'
 #' @examples
 #' Autotuner <- readRDS(system.file("extdata/Autotuner.rds",
 #' package="Autotuner"))
@@ -37,7 +39,7 @@ EICparams <- function(Autotuner, massThresh, useGap = TRUE,
 
     # Checking input ----------------------------------------------------------
     assertthat::assert_that(nrow(peak_table) > 0,
-                          msg = poste("Peak table with 0 rows was entered into",
+                          msg = paste("Peak table with 0 rows was entered into",
                           "EICparams function."))
 
     if(returnPpmPlots) {

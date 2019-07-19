@@ -29,6 +29,9 @@ ppm distributions.}
 \item{verbose}{- Boolean value used to indicate whether checkEICPeaks
 function returns messages to the console.}
 }
+\value{
+A data.frame of all peak specific estimates.
+}
 \description{
 This function is designed to calculate the recommended
 parameters from EIC peaks. It is the main holder function for a lot of
@@ -41,7 +44,7 @@ computations.
 \examples{
 Autotuner <- readRDS(system.file("extdata/Autotuner.rds",
 package="Autotuner"))
-EICparams(Autotuner = Autotuner, massThresh = .005, verbose = F,
-returnPpmPlots = F, useGap = TRUE)
+EICparams(Autotuner = Autotuner, massThresh = .005, verbose = FALSE,
+returnPpmPlots = FALSE, useGap = TRUE)
 
 }

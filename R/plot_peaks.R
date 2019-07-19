@@ -15,6 +15,9 @@
 #' should be visualized.
 #'
 #' @importFrom rlang .data
+#' @import mzR
+#' @import devtools
+#' @import plyr
 #'
 #' @return This function outputs plots that are meant to go into the peakVis
 #' UI.
@@ -47,9 +50,9 @@ plot_peaks <- function(Autotuner, boundary = 10, peak) {
     while(row <= dim(peak_difference)[1]) {
 
 
-        # Updating the itterator for the while loop -------------------------------
-        if(row < dim(peak_difference)[1] && identical(peak_difference$cur_row[row],
-                                                      peak_difference$cur_row[row+1])) {
+        # Updating the itterator for the while loop ----------------------------
+        if(row < dim(peak_difference)[1] && identical(
+            peak_difference$cur_row[row],peak_difference$cur_row[row+1])) {
 
             same_peak <- which(peak_difference$cur_row ==
                                    peak_difference$cur_row[row])
@@ -70,7 +73,7 @@ plot_peaks <- function(Autotuner, boundary = 10, peak) {
         }
 
 
-        # making plots ------------------------------------------------------------
+        # making plots ---------------------------------------------------------
         lapply(1:length(match_rows), function(row_index) {
 
             ## renaming info for clarity
@@ -100,23 +103,29 @@ plot_peaks <- function(Autotuner, boundary = 10, peak) {
 
             if(row_index == 1) {
                 upper_bdd <- peak_difference$max_intensity[row] +
-                peak_difference$max_intensity[row]/ log(peak_difference$max_intensity[row])
+                peak_difference$max_intensity[row]/
+                    log(peak_difference$max_intensity[row])
                 plot(time[peak_interval],
                 intensity[peak_interval],
                 type = "l",
                 xlab = "Time (s)",
                 ylab = "Intensity",
-                main = paste("Max Peak Width:", signif(max(peak_difference$Max_width)), "(s)"),
+                main = paste("Max Peak Width:",
+                             signif(max(peak_difference$Max_width)), "(s)"),
                 col = colors[peak_table$Sample[current_row]],
                 ylim = c(0, upper_bdd))
-                abline(v = time[bdd_points[1]], lty = 5, col = colors[peak_table$Sample[current_row]])
-                abline(v = time[bdd_points[2]], lty = 5, col = colors[peak_table$Sample[current_row]])
+                abline(v = time[bdd_points[1]], lty = 5,
+                       col = colors[peak_table$Sample[current_row]])
+                abline(v = time[bdd_points[2]], lty = 5,
+                       col = colors[peak_table$Sample[current_row]])
             } else {
                 lines(time[peak_interval],
                 intensity[peak_interval],
                 col = colors[peak_table$Sample[current_row]])
-                abline(v = time[bdd_points[1]], lty = 5, col = colors[peak_table$Sample[current_row]])
-                abline(v = time[bdd_points[2]], lty = 5, col = colors[peak_table$Sample[current_row]])
+                abline(v = time[bdd_points[1]], lty = 5,
+                       col = colors[peak_table$Sample[current_row]])
+                abline(v = time[bdd_points[2]], lty = 5,
+                       col = colors[peak_table$Sample[current_row]])
             }
         }) # end of plotting function
 
@@ -124,7 +133,8 @@ plot_peaks <- function(Autotuner, boundary = 10, peak) {
         legend = sample_names[peak_table$Sample[match_rows]],
         col = colors,
         cex = 0.75,
-        fill = which(sample_names %in% sample_names[peak_table$Sample[match_rows]]))
+        fill = which(sample_names %in%
+                         sample_names[peak_table$Sample[match_rows]]))
 
         peak_counter <- 1 + peak_counter
         row <- row_update

@@ -7,23 +7,24 @@
 #' functions of the ms2sweeper package. The slots represent content or data
 #' that the package uses throughout the different functions.
 #'
-#' @slot time - A list containing vectors of scan time points from each sample.
-#' @slot intensity - A list containing vectors of scan intensity points from
-#' each sample.
-#' @slot peaks - Regions within each sample identified as peaks by sliding
-#' window analysis.
-#' @slot peak_table - A data.frame containing information on each peak after
-#' further processing is done to the data.
-#' @slot peak_difference - A data.frame containing information on how peaks
-#' are eluted differently over time.
-#' @slot metadata - A data.frame containing metadata for all samples to be
-#' run on Autotuner.
-#' @slot file_paths - A string path that leads to the samples to be run on
-#' Autotuner.
-#' @slot file_col - A string for the column name of the column within the
-#' metadata that has specific sample names.
-#' @slot factorCol - A string for the column name of the column within the
-#' metadata that has specific sample class names.
+#' @slot time - A list containing vectors of scan time points
+#' from each sample.
+#' @slot intensity - A list containing vectors of scan intensity
+#' points from each sample.
+#' @slot peaks - Regions within each sample identified as
+#' peaks by slidingwindow analysis.
+#' @slot peak_table - A data.frame containing information on
+#' each peak after further processing is done to the data.
+#' @slot peak_difference - A data.frame containing information
+#' on how peaks are eluted differently over time.
+#' @slot metadata - A data.frame containing metadata for all
+#' samples to be run on Autotuner.
+#' @slot file_paths - A string path that leads to the samples
+#' to be run on Autotuner.
+#' @slot file_col - A string for the column name of the
+#' column within the metadata that has specific sample names.
+#' @slot factorCol - A string for the column name of the column
+#' within the metadata that has specific sample class names.
 #'
 #' @importFrom MSnbase readMSData
 #' @importFrom MSnbase filterFile
@@ -48,64 +49,67 @@ Autotuner <- setClass(
         factorCol = "character"),
 
     prototype = prototype(
-              time = list(),
-              intensity = list(),
-              peaks = list(),
-              peak_table = data.frame(),
-              peak_difference = data.frame(),
-              metadata = data.frame(),
-              file_paths = character(),
-              file_col = character(),
-              factorCol = character())
+        time = list(),
+        intensity = list(),
+        peaks = list(),
+        peak_table = data.frame(),
+        peak_difference = data.frame(),
+        metadata = data.frame(),
+        file_paths = character(),
+        file_col = character(),
+        factorCol = character())
 )
 
 
+#' @title Update an \code{\linkS4class{Autotuner}} object
+#'
 #' @description This method updates an \code{\linkS4class{Autotuner}}
 #'     object to the latest definition.
 #'
-#' @title Update an \code{\linkS4class{Autotuner}} object
-#'
 #' @param .Object - the \code{\linkS4class{Autotuner}} object to update.
-#' @param data_paths - A string path pointing at data files to load in Autotuner.
+#' @param data_paths - A string path pointing at data files to
+#' load in Autotuner.
 #' @param runfile - a data.frame of sample metadata.
-#' @param file_col - Character string of the column name of the column within
-#' the runfile that contains sample names.
-#' @param factorCol - Character string of the column name of the column within
-#' the runfile that contains sample type factor.
+#' @param file_col - Character string of the column name of the
+#' column within the runfile that contains sample names.
+#' @param factorCol - Character string of the column name of the
+#' column within the runfile that contains sample type factor.
 #'
 #' @return An updated \code{\linkS4class{Autotuner}} containing all data from
 #' the input object.
 #'
 #' @author Craig McLean
 setMethod(f = "initialize", signature = "Autotuner",
-          function(.Object, data_paths, runfile, file_col, factorCol) {
+            function(.Object, data_paths, runfile, file_col, factorCol) {
 
-              message("~~~ Autotuner: Initializator ~~~ \n")
-              message("~~~ Parsing Raw Data into R ~~~ \n")
-              raw <- suppressMessages(MSnbase::readMSData(data_paths, msLevel. = 1,
-                                                          mode = "onDisk"))
+                message("~~~ Autotuner: Initializator ~~~ \n")
+                message("~~~ Parsing Raw Data into R ~~~ \n")
+                raw <- suppressMessages(MSnbase::readMSData(data_paths,
+                                                            msLevel. = 1,
+                                                            mode = "onDisk"))
 
 
-              # determining time and intensity data for each sample
-              time <- list()
-              intensity <- list()
-              message("~~~ Extracting the Raw Data from Individual Samples ~~~ \n")
-              for(index in 1:nrow(runfile)) {
-                  signal_data <- MSnbase::filterFile(raw, file = index)
-                  time[[index]] <- MSnbase::rtime(signal_data)
-                  intensity[[index]] <- MSnbase::tic(signal_data)
-              }
+                # determining time and intensity data for each sample
+                time <- list()
+                intensity <- list()
+                message(paste("~~~ Extracting the Raw Data from Individual",
+                            "Samples ~~~ \n"))
+                for(index in 1:nrow(runfile)) {
+                    signal_data <- MSnbase::filterFile(raw, file = index)
+                    time[[index]] <- MSnbase::rtime(signal_data)
+                    intensity[[index]] <- MSnbase::tic(signal_data)
+                }
 
-              message("~~~ Storing Everything in Autotuner Object ~~~ \n")
-              .Object@time <- time
-              .Object@intensity <- intensity
-              .Object@metadata <- runfile
-              .Object@file_paths <- data_paths
-              .Object@file_col <- file_col
-              .Object@factorCol <- factorCol
+                message("~~~ Storing Everything in Autotuner Object ~~~ \n")
+                .Object@time <- time
+                .Object@intensity <- intensity
+                .Object@metadata <- runfile
+                .Object@file_paths <- data_paths
+                .Object@file_col <- file_col
+                .Object@factorCol <- factorCol
 
-              message("~~~ The Autotuner Object has been Created ~~~ \n")
-              return(.Object)
+                message("~~~ The Autotuner Object has been Created ~~~ \n")
+                return(.Object)
 
 })
 
@@ -113,12 +117,13 @@ setMethod(f = "initialize", signature = "Autotuner",
 #'
 #' @description This function will create a Autotuner used to extract ms2s.
 #'
-#' @param data_paths - A string path pointing at data files to load in Autotuner.
+#' @param data_paths - A string path pointing at data files to
+#' load in Autotuner.
 #' @param runfile - a data.frame of sample metadata.
-#' @param file_col - Character string of the column name of the column within
-#' the runfile that contains sample names.
-#' @param factorCol - Character string of the column name of the column within
-#' the runfile that contains sample type factor.
+#' @param file_col - Character string of the column name of the
+#' column within the runfile that contains sample names.
+#' @param factorCol - Character string of the column name of the
+#' column within the runfile that contains sample type factor.
 #'
 #' @export
 #'
@@ -139,17 +144,18 @@ setMethod(f = "initialize", signature = "Autotuner",
 #' Autotuner <- createAutotuner(mmetspFiles, metadata,
 #' file_col = "File.Name", factorCol = "Sample.Type")
 #'
-#'
+#' @return This function returns an Autotuner object
 createAutotuner <- function(data_paths, runfile, file_col, factorCol) {
 
     if(nrow(runfile) == 0) {
-        stop('The entered metadata file does not contain any rows. Check the input.')
+        stop(paste('The entered metadata file does not contain any rows.',
+                    'Check the input.'))
     }
 
     Autotuner <- methods::new(Class="Autotuner", data_paths,
-                               runfile,
-                               file_col,
-                               factorCol)
+                                runfile,
+                                file_col,
+                                factorCol)
 
 
 

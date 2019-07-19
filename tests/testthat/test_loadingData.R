@@ -8,14 +8,18 @@ if(!require("mmetspData")) {
 library(mmetspData)
 
 
-mmetspFiles <- c(system.file("mzMLs/mtab_mmetsp_ft_120815_24.mzML", package = "mmetspData"),
-                 system.file("mzMLs/mtab_mmetsp_ft_120815_25.mzML", package = "mmetspData"),
-                 system.file("mzMLs/mtab_mmetsp_ft_120815_26.mzML", package = "mmetspData"))
+mmetspFiles <- c(system.file("mzMLs/mtab_mmetsp_ft_120815_24.mzML",
+                             package = "mmetspData"),
+                 system.file("mzMLs/mtab_mmetsp_ft_120815_25.mzML",
+                             package = "mmetspData"),
+                 system.file("mzMLs/mtab_mmetsp_ft_120815_26.mzML",
+                             package = "mmetspData"))
 
 runfile <- read.csv(system.file("mmetsp_metadata.csv", package = "mmetspData"),
-                    stringsAsFactors = F)
+                    stringsAsFactors = FALSE)
 
-runfile <- runfile[runfile$File.Name %in% sub(pattern = ".mzML", "", basename(mmetspFiles)),]
+runfile <- runfile[runfile$File.Name %in% sub(pattern = ".mzML", "",
+                                              basename(mmetspFiles)),]
 
 ## Loading Autotuner
 Autotuner <- createAutotuner(mmetspFiles,
@@ -53,7 +57,8 @@ test_that(desc = "Auotuner object creaction",
 lag <- 20
 threshold<- 3
 influence <- 0.1
-signal <- lapply(getAutoIntensity(Autotuner), ThresholdingAlgo, lag, threshold, influence)
+signal <- lapply(getAutoIntensity(Autotuner), ThresholdingAlgo, lag, threshold,
+                 influence)
 
 test_that(desc = "Signal Processing Structure", code = {
 

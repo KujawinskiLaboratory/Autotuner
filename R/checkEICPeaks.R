@@ -46,9 +46,15 @@ checkEICPeaks <- function(mzDb,
                                  header = header)
 
     assertthat::assert_that(nrow(sortedAllEIC) > 0,
-                            msg = "Check dissectScans within checkEICPeaks. A table with 0 rows was returned. Make sure correct TIC peaks were selected.")
+                            msg = paste("Check dissectScans within",
+                                        "checkEICPeaks. A table with 0 rows",
+                                        "was returned. Make sure correct TIC",
+                                        "peaks were selected."))
     assertthat::assert_that(!all(is.na(sortedAllEIC$scanID)),
-                            msg = "There was a problem finding spectrum IDs within header file for this data. Error occured after function 'dissectScans'.")
+                            msg = paste("There was a problem finding spectrum",
+                                        "IDs within header file for this",
+                                        "data. Error occured after function",
+                                        "'dissectScans'."))
 
     boundaries <- range(sortedAllEIC$scanID)
 
@@ -62,21 +68,26 @@ checkEICPeaks <- function(mzDb,
     truePeaks <- noiseAndPeaks[[2]]
     rm(noiseAndPeaks)
 
-    message("-------- Number of bins detected with absolute mass error threshold: ",
+    message(paste("-------- Number of bins detected with absolute mass error",
+            "threshold: "),
             length(truePeaks))
     approvedPeaks <- findTruePeaks(truePeaks, sortedAllEIC)
 
-    message("-------- Number of bins retained after checking that features within bins come from consecutive scans: ",
+    message(paste("-------- Number of bins retained after checking that",
+                  "features within bins come from consecutive scans: "),
             nrow(approvedPeaks))
-    message("-------- ", signif(nrow(approvedPeaks)/length(truePeaks)*100, digits = 2),
-            " % of bins retained after checking that features come from consecutive scans")
+    message("-------- ", signif(nrow(approvedPeaks)/length(truePeaks)*100,
+                                digits = 2),
+            paste(" % of bins retained after checking that features",
+                  "come from consecutive scans"))
 
     overlappingScans <- sum(approvedPeaks$multipleInScan)
     message("-------- Number of bins with scans with 2+ mass observations: ",
             overlappingScans)
 
     if(nrow(approvedPeaks) == 0) {
-        message("No observed m/z value met was observed across adjacent scans below an error of massThresh.")
+        message(paste("No observed m/z value met was observed across",
+                      "adjacent scans below an error of massThresh."))
         return(NULL)
     }
 
@@ -86,7 +97,9 @@ checkEICPeaks <- function(mzDb,
                              filename)
 
     assertthat::assert_that(!is.na(ppmEst),
-                            msg = "Output of filterPpmError function was NA. Something may have gone wrong here with input.")
+                            msg = paste("Output of filterPpmError function",
+                                        "was NA. Something may have gone",
+                                        "wrong here with input."))
 
     ppmObs <- approvedPeaks$meanPPM
     ppmObs <- strsplit(split = ";", x = as.character(ppmObs))
@@ -108,7 +121,9 @@ checkEICPeaks <- function(mzDb,
     }
 
     assertthat::assert_that(!is.na(SNest),
-                            msg = "Output of estimateSNThresh within checkEICPeaks was NA. Something went wrong here.")
+                            msg = paste("Output of estimateSNThresh within",
+                                        "checkEICPeaks was NA. Something",
+                                        "went wrong here."))
 
     scanEst <- min(approvScorePeaks$scanCount)
 

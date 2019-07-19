@@ -7,15 +7,19 @@
 createAutotuner(data_paths, runfile, file_col, factorCol)
 }
 \arguments{
-\item{data_paths}{- A string path pointing at data files to load in Autotuner.}
+\item{data_paths}{- A string path pointing at data files to
+load in Autotuner.}
 
 \item{runfile}{- a data.frame of sample metadata.}
 
-\item{file_col}{- Character string of the column name of the column within
-the runfile that contains sample names.}
+\item{file_col}{- Character string of the column name of the
+column within the runfile that contains sample names.}
 
-\item{factorCol}{- Character string of the column name of the column within
-the runfile that contains sample type factor.}
+\item{factorCol}{- Character string of the column name of the
+column within the runfile that contains sample type factor.}
+}
+\value{
+This function returns an Autotuner object
 }
 \description{
 This function will create a Autotuner used to extract ms2s.
@@ -36,6 +40,5 @@ metadata <- metadata[metadata$File.Name \%in\%
 sub(pattern = ".mzML", "",basename(mmetspFiles)),]
 Autotuner <- createAutotuner(mmetspFiles, metadata,
 file_col = "File.Name", factorCol = "Sample.Type")
-
 
 }

@@ -11,15 +11,16 @@
 \arguments{
 \item{.Object}{- the \code{\linkS4class{Autotuner}} object to update.}
 
-\item{data_paths}{- A string path pointing at data files to load in Autotuner.}
+\item{data_paths}{- A string path pointing at data files to
+load in Autotuner.}
 
 \item{runfile}{- a data.frame of sample metadata.}
 
-\item{file_col}{- Character string of the column name of the column within
-the runfile that contains sample names.}
+\item{file_col}{- Character string of the column name of the
+column within the runfile that contains sample names.}
 
-\item{factorCol}{- Character string of the column name of the column within
-the runfile that contains sample type factor.}
+\item{factorCol}{- Character string of the column name of the
+column within the runfile that contains sample type factor.}
 }
 \value{
 An updated \code{\linkS4class{Autotuner}} containing all data from

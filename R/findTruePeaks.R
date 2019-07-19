@@ -4,8 +4,10 @@
 #' from continuous scans. The idea is that after this stage, the data is ready
 #' for parameter estimation.
 #'
-#' @param truePeaks - A lsit containing indicies representing each bin.
+#' @param truePeaks - A list containing indicies representing each bin.
 #' @param sortedAllEIC - All the raw ms1 data extracted from the EIC peak.
+#'
+#' @return a list of candidate EIC regions
 findTruePeaks <- function(truePeaks, sortedAllEIC) {
 #
 
@@ -51,7 +53,8 @@ findTruePeaks <- function(truePeaks, sortedAllEIC) {
 
                 scanStates <- peakData[peakData$scan == curScan,]
                 nextStates <- peakData[peakData$scan == nextScan,]
-                curObsRows <- peakData$scan == curScan | peakData$scan == nextScan
+                curObsRows <- peakData$scan == curScan | peakData$scan ==
+                    nextScan
 
                 peakData <- peakData[!curObsRows,]
 
@@ -107,11 +110,11 @@ findTruePeaks <- function(truePeaks, sortedAllEIC) {
 
             }
 
-            multipleInScan <- T
+            multipleInScan <- TRUE
 
         } else {
 
-            multipleInScan <- F
+            multipleInScan <- FALSE
         }
 
         obsPPM <- sapply(2:length(peakData$mz), function(mz) {

@@ -2,8 +2,8 @@ context("Performing Parameter Selection by Autotuner")
 
 
 ## loading in the files to test if AutoTuner is correct
-useGap <- T
-returnPpmPlots <- F
+useGap <- TRUE
+returnPpmPlots <- FALSE
 massThresh <- 0.005
 filename <- ''
 data("mzDb", package="Autotuner")

@@ -49,9 +49,12 @@ been processed by using MSconvert. So far file types .mzML, .mzXML, .msData,
 and .netCDF have been tested and confirmed to work. 
 
 ```{r loading mass spec data}
-mmetspFiles <- c(system.file("mzMLs/mtab_mmetsp_ft_120815_24.mzML", package = "mmetspData"),
-                 system.file("mzMLs/mtab_mmetsp_ft_120815_25.mzML", package = "mmetspData"),
-                 system.file("mzMLs/mtab_mmetsp_ft_120815_26.mzML", package = "mmetspData"))
+mmetspFiles <- c(system.file("mzMLs/mtab_mmetsp_ft_120815_24.mzML", 
+                             package = "mmetspData"),
+                 system.file("mzMLs/mtab_mmetsp_ft_120815_25.mzML", 
+                             package = "mmetspData"),
+                 system.file("mzMLs/mtab_mmetsp_ft_120815_26.mzML", 
+                             package = "mmetspData"))
 ```
 
 Here are the filetypes that will be used within this tutorial:
@@ -76,8 +79,9 @@ second should contain information on the experimental factor each sample belongs
 to. 
 
 ```{r loading in metadata}
-metadata <- read.csv(system.file("mmetsp_metadata.csv", package = "mmetspData"),
-                    stringsAsFactors = F)
+metadata <- read.csv(system.file("mmetsp_metadata.csv", 
+                                 package = "mmetspData"),
+                    stringsAsFactors = FALSE)
 
 metadata <- metadata[metadata$File.Name %in% 
                          sub(pattern = ".mzML", "",basename(mmetspFiles)),]
@@ -113,16 +117,18 @@ Autotuner <- createAutotuner(mmetspFiles,
 
 The first part of AutoTuner involves the identification of peaks within the
 total ion current (TIC) of the samples loaded up into AutoTuner. These regions 
-will be important later to estimate parameters from the raw data since AutoTuner 
-assumes that they contain a greater number of real chemical measurements. 
+will be important later to estimate parameters 
+from the raw data since AutoTuner assumes that they contain 
+a greater number of real chemical measurements. 
 
 ### Sliding Window Analysis
 
 To do this, the user peforms a sliding window analysis. A sliding window
 analysis is a simple time series analysis algorithm used to identify peaks 
 within a time trace. The window is essentially using a moving average. From
-this, the algorithm asks whether the next observation to the right of the 
-average is a peak. More on sliding window analyses can be found [here](https://en.wikipedia.org/wiki/Moving_average).
+this, the algorithm asks whether the next observation to the 
+right of the average is a peak. More on sliding window 
+analyses can be found [here](https://en.wikipedia.org/wiki/Moving_average).
 
 The aim here is to identify TIC peaks. The user should 
 prioritize finding where peaks *start* rather than caturing the entire peak 
@@ -165,10 +171,10 @@ rm(lag, influence, threshold)
 
 The figure above has two components:
 
-1) Top Plot: The chromatotgraphic trace for each sample (solid line) along with the
-noise associated with each sample (dashed line). 
-2) Bottom Plot: A signal plot used to indicate which chromatographic regions have 
-peaks.
+1) Top Plot: The chromatotgraphic trace for each sample (solid line) along
+with the noise associated with each sample (dashed line). 
+2) Bottom Plot: A signal plot used to indicate which chromatographic 
+regions have peaks.
 
 The user should look for combinations of the three sliding window parameters 
 that returns many narrow peaks within the signal plot. See the example above.
@@ -212,8 +218,8 @@ for(i in 1:5) {
 In order to estimate parameters from the raw data, the user should run the 
 EICparams function as below. The massThreshold is an absolute mass error that
 should be greater than the expected analytical capabilities of the mass 
-analyzer. This part of the analysis might take a few minutes if the data used is 
-large (~ 100 Mb per sample).
+analyzer. This part of the analysis might take a 
+few minutes if the data used is large (~ 100 Mb per sample).
 
 If returnPpmPlots is True, AutoTuner will return plots showing how the ppm 
 threshold was estimated within the current working directory running Autotuner. 
@@ -221,12 +227,13 @@ This can be used to evaluate the magnitude of the massThreshold parameter.
 
 ```{r}
 ## error with peak width estimation
-## idea - filter things by mass. smaler masses are more likely to be random assosications
+## idea - filter things by mass. smaler masses are more likely to be 
+## random assosications
 eicParamEsts <- EICparams(Autotuner = Autotuner, 
                           massThresh = .005, 
-                          verbose = F,
-                          returnPpmPlots = F,
-                          useGap = T)
+                          verbose = FALSE,
+                          returnPpmPlots = FALSE,
+                          useGap = TRUE)
 ```
 
 ## Part 3: Returning Estimates

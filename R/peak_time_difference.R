@@ -72,7 +72,7 @@ peak_time_difference <- function(peak_table) {
     while(next_row <= nrow(sorted_peakwidths)) {
 
 
-        # checking sample origin --------------------------------------------------
+        # checking sample origin -----------------------------------------------
         ## Case 1 - adj peaks come from the same sample
         if(identical(sorted_peakwidths$Sample[current_row],
                      sorted_peakwidths$Sample[next_row])) {
@@ -85,7 +85,7 @@ peak_time_difference <- function(peak_table) {
 
         ## case 2 - they come from different samples
 
-        # Checking peak identity --------------------------------------------------
+        # Checking peak identity -----------------------------------------------
         ## checking if the peak is the same across samples
         ## condition to elimitate two overlapping peaks
         # either the midpoint or the maxima of both peaks have to be within the

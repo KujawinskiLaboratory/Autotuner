@@ -165,7 +165,7 @@ estimateSNThresh <- function(no_match, sortedAllEIC, approvedPeaks) {
 
         if(row == 1) {
 
-            new <- T
+            new <- TRUE
 
         } else {
 
@@ -213,7 +213,7 @@ estimateSNThresh <- function(no_match, sortedAllEIC, approvedPeaks) {
     noiseIntDb <- Reduce(rbind, noiseIntDb)
     noiseIntDb$key <- apply(noiseIntDb[,c(1,2)], 1, paste, collapse = " ")
     rm(curStatDb, eX2, groupSd, groupVar, groupMean,
-       curRow, fixedNoiseList)
+        curRow, fixedNoiseList)
 
 
     SN <- list()
@@ -286,8 +286,8 @@ estimateSNThresh <- function(no_match, sortedAllEIC, approvedPeaks) {
 #'
 #' @return This function returns a scalar value representing ppm error estimate.
 filterPpmError <- function(approvedPeaks, useGap, varExpThresh,
-                       returnPpmPlots, plotDir, observedPeak,
-                       filename) {
+                            returnPpmPlots, plotDir, observedPeak,
+                            filename) {
 
     ppmObs <- approvedPeaks$meanPPM
     ppmObs <- strsplit(split = ";", x = as.character(ppmObs)) %>%
@@ -298,8 +298,8 @@ filterPpmError <- function(approvedPeaks, useGap, varExpThresh,
     ## corner case when all error measurements are identical.
     if(diff(range(ppmObs)) < .Machine$double.eps ^ 0.5) {
         stop(paste("All calculated ppm values are identical.",
-                   "Error of data may be higher than the mass threshold value."
-                   ))
+                    "Error of data may be higher than the mass threshold value."
+                    ))
     }
 
     message("-------- Number of ppm value across bins: ", length(ppmObs))
@@ -310,7 +310,7 @@ filterPpmError <- function(approvedPeaks, useGap, varExpThresh,
     if(length(ppmObs) > 750) {
 
         checkPpm <- length(ppmObs)/2
-        subsample <- T
+        subsample <- TRUE
         while(subsample) {
 
             origDist <- stats::density(ppmObs, bw = 1)$y
@@ -331,7 +331,7 @@ filterPpmError <- function(approvedPeaks, useGap, varExpThresh,
             klDistance <- unlist(klDistance)
 
             if(any(klDistance >= 0.5)) {
-                subsample <- F
+                subsample <- FALSE
             } else {
                 checkPpm <- checkPpm/2
             }
@@ -417,9 +417,9 @@ filterPpmError <- function(approvedPeaks, useGap, varExpThresh,
 
 
         title <- paste(filename, 'ppm distribution:',
-              signif(observedPeak$start, digits = 4),
-              "-",
-              signif(observedPeak$end, digits = 4))
+                        signif(observedPeak$start, digits = 4),
+                        "-",
+                        signif(observedPeak$end, digits = 4))
 
         output <- file.path(plotDir,paste0(gsub(" ", "_", title), ".pdf"))
         output <- sub(":", "", output)
@@ -436,15 +436,15 @@ filterPpmError <- function(approvedPeaks, useGap, varExpThresh,
         }
 
         plot(stats::density(ppmObs,bw = bw),
-             main = title,
-             cex.main = 1.2, cex.lab = 1.3, cex.axis = 1.2) #+
+            main = title,
+            cex.main = 1.2, cex.lab = 1.3, cex.axis = 1.2) #+
         abline(v = maxX, lty = 2, col = "red") +
         abline(v = ppmEst, lty = 3, col = "blue")
         legend("topright",
-               legend = c(paste("score > 1:", signif(maxX,digits = 3)),
-                          paste("ppm estimate:", signif(ppmEst,digits = 3))),
-               col = c("red","blue"),
-               lty = c(2,3),cex = 1.1)
+                legend = c(paste("score > 1:", signif(maxX,digits = 3)),
+                    paste("ppm estimate:", signif(ppmEst,digits = 3))),
+                col = c("red","blue"),
+                lty = c(2,3),cex = 1.1)
         grDevices::dev.off()
 
     }
@@ -486,8 +486,7 @@ countMaxima <- function(peakBounds, sortedAllEIC, prevRange) {
         curRange[,1] <= featInfoSub$scan && curRange[,2] >= featInfoSub$scan
 
         correctEntries <- sapply(featInfoSub$scan, function(entry) {
-                curRange[,1] <= entry && curRange[,2] >= entry
-              })
+                curRange[,1] <= entry && curRange[,2] >= entry })
 
         ## This is useful for getting the correct set of intensity values
         ## for the identified peak
@@ -496,9 +495,9 @@ countMaxima <- function(peakBounds, sortedAllEIC, prevRange) {
         # expading peak range to new identified interval -----------------------
         curBoundInfo <- peakBounds[[peakIndex]]
         intensity <- curBoundInfo[grep("intensity", names(curBoundInfo),
-                                       ignore.case = TRUE)]
+                                        ignore.case = TRUE)]
         extendedBounds <- curBoundInfo[grep("index", names(curBoundInfo),
-                                            ignore.case = TRUE)] %>% unlist()
+                                        ignore.case = TRUE)] %>% unlist()
 
         totalIntensity <- c(intensity$lower_Intensity,
                             featInfoSub$intensity,
@@ -508,15 +507,15 @@ countMaxima <- function(peakBounds, sortedAllEIC, prevRange) {
         # Finding minima and lengths of peaks between minima -------------------
         if(length(totalIntensity) >= 10) {
 
-          lag <- (length(totalIntensity) / 5) %>% as.integer()
-          threshold <- 1
-          influence <- 1
-          signalOutput <- ThresholdingAlgo(totalIntensity, lag, threshold,
-                                           influence)
-          signalPatterns <- rle(signalOutput$signals)
+            lag <- (length(totalIntensity) / 5) %>% as.integer()
+            threshold <- 1
+            influence <- 1
+            signalOutput <- ThresholdingAlgo(totalIntensity, lag, threshold,
+                                                influence)
+            signalPatterns <- rle(signalOutput$signals)
 
-          maxScans[[peakIndex]] <- max(signalPatterns$lengths[
-              signalPatterns$values != -1])
+            maxScans[[peakIndex]] <- max(signalPatterns$lengths[
+                signalPatterns$values != -1])
 
         } else {
 

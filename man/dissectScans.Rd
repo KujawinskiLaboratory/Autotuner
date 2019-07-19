@@ -16,6 +16,9 @@ current peak.}
 \item{header}{- This is the header file containing all the metadata
 for the currently loaded sample.}
 }
+\value{
+A Peak Matrix from Scan Data
+}
 \description{
 This function is designed to extract all MS1 scan features
 observed within the bounds of the current TIC peak.

@@ -15,13 +15,9 @@ RoxygenNote: 6.1.1
 biocViews: MassSpectrometry, Metabolomics
 Imports: 
     MSnbase,
-    DT,
     devtools,
-    shinyFiles,
     xcms,
     RColorBrewer,
-    shiny,
-    PTXQC,
     dplyr,
     rlang,
     plyr,
@@ -31,10 +27,14 @@ Imports:
     methods,
     entropy,
     cluster,
-    mmetspData
+    grDevices,
+    graphics,
+    stats,
+    utils
 Suggests: 
     testthat (>= 2.1.0),
     covr,
     knitr,
-    rmarkdown
+    rmarkdown,
+    mmetspData
 VignetteBuilder: knitr

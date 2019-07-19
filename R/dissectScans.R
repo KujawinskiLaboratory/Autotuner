@@ -1,4 +1,3 @@
-# Creating Peak Matrix from Scan Data -------------------------------------
 #' @title dissectScans
 #'
 #' @description This function is designed to extract all MS1 scan features
@@ -10,6 +9,8 @@
 #' current peak.
 #' @param header - This is the header file containing all the metadata
 #' for the currently loaded sample.
+#'
+#' @return A Peak Matrix from Scan Data
 dissectScans <- function(mzDb, observedPeak, header) {
 
 

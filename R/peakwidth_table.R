@@ -38,12 +38,13 @@ peakwidth_table <- function(Autotuner, returned_peaks = 10) {
         intensity <- Autotuner@intensity[[sampleIndex]]
         peaks <- peakList[[sampleIndex]]
 
-        # generating peak widths for each returned peak ---------------------------
+        # generating peak widths for each returned peak ------------------------
         # returns a data frame with estimated sample peakwidths
         peakIndexTable <- data.frame()
         for(peakColIndex in 1:ncol(peaks)) {
 
-            tempPeakWidthEst <- peakwidth_est(peak_vector = peaks[,peakColIndex],
+            tempPeakWidthEst <- peakwidth_est(peak_vector =
+                                                  peaks[,peakColIndex],
                                             time,
                                             intensity,
                                             start = NULL,
@@ -53,7 +54,8 @@ peakwidth_table <- function(Autotuner, returned_peaks = 10) {
 
             #### ADD HARD CHECK HERE TO ENSURE PEAK DOESN'T GO ON FOREVER
             if(length(time)/5 < diff(tempPeakWidthEst)) {
-                stop("One peak was over 1/5 of all scans in length. This is probably an error.")
+                stop(paste("One peak was over 1/5 of all scans in length.",
+                           "This is probably an error."))
             }
 
             ## 2019-06-20
@@ -63,13 +65,14 @@ peakwidth_table <- function(Autotuner, returned_peaks = 10) {
                 tempPeakWidthEst[2] <- length(time)
             }
 
-            peakIndexTable <- rbind(peakIndexTable, c(tempPeakWidthEst, peakColIndex))
+            peakIndexTable <- rbind(peakIndexTable, c(tempPeakWidthEst,
+                                                      peakColIndex))
 
         }
         colnames(peakIndexTable) <- c("peakStart", "peakEnd", "peakID")
 
 
-        # Storing peakwidth info for each peak and each sample --------------------
+        # Storing peakwidth info for each peak and each sample -----------------
         # inner loop - itterating through columns of peak index table
         for(curPeakIndexCol in seq_along(peakIndexTable$peakStart)) {
 

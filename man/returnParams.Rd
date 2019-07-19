@@ -24,8 +24,8 @@ estimation.
 \examples{
 Autotuner <- readRDS(system.file("extdata/Autotuner.rds",
 package="Autotuner"))
-EICparams(Autotuner = Autotuner, massThresh = .005, verbose = F,
-returnPpmPlots = F, useGap = TRUE)
+EICparams(Autotuner = Autotuner, massThresh = .005, verbose = FALSE,
+returnPpmPlots = FALSE, useGap = TRUE)
 returnParams(eicParamEsts, Autotuner)
 
 }

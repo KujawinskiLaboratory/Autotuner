@@ -11,8 +11,6 @@
 #' @return This function will return the maximum span that will still
 #' provide retention time correction across features over time scales
 #' as large as the estimated peak dispersion parameters.
-#'
-#' @export
 estimate_loess <- function(xs, max_missing, sampleClasses, threshold) {
 
     # reactive variable input that could be caryover from the previous reactive

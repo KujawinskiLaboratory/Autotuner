@@ -19,6 +19,9 @@ to detect significantly observed peaks.}
 value of a peak (measured index value above threshold) should contribute to
 the sliding window analysis of downstream peaks.}
 }
+\value{
+A list of calculated sliding window values.
+}
 \description{
 This function performs a sliding window analysis on the
 chromatograms in order to identify peaks within the data. I would recommend
