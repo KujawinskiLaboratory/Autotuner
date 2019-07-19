@@ -22,6 +22,8 @@ if(!require("mmetspData")) {
     install_github("crmclean/mmetspData")    
     library(mmetspData)
 }
+library(png)
+library(grid)
 ```
 
 # Introduction
@@ -34,10 +36,8 @@ an interactive example of how to use AutoTuner.
 Here is the general description of the algorithm behind AutoTuner:
 
 ```{r fig.width=8, fig.height=5,echo=FALSE}
-library(png)
-library(grid)
-img <- readPNG("autotuner_schematic_final.png")
- grid.raster(img)
+img <- png::readPNG("autotuner_schematic_final.png")
+grid::grid.raster(img)
 ```
 
 ## Set up:
