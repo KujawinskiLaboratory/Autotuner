@@ -10,9 +10,10 @@ find_noise(time_trace)
 \item{time_trace}{- chromatographic intensity trace}
 }
 \value{
-This function determines the indexes within a chromatographic intensity trace
-that are not noise. It does this by asking if a given point is greater than the average
-of that point and the two bounding points on either side of it.
+This function determines the indexes within a chromatographic
+intensity trace that are not noise. It does this by asking if a given point
+is greater than the average of that point and the two bounding points on
+either side of it.
 }
 \description{
 find_noise

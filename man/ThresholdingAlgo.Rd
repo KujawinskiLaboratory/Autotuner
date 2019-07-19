@@ -20,7 +20,8 @@ of a peak (measured index value above threshold) should contribute to the
 sliding window analysis of downstream peaks.}
 }
 \description{
-This function performs a sliding window analysis on the chromatograms
-in order to identify peaks within the data. I would recommend to keep influence
-low in order to use adjacent peak lengths as a measure of peak width.
+This function performs a sliding window analysis on the
+chromatograms in order to identify peaks within the data. I would recommend
+to keep influence low in order to use adjacent peak lengths as a measure of
+peak width.
 }

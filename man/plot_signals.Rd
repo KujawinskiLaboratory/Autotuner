@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot_signals.R
 \name{plot_signals}
 \alias{plot_signals}
-\title{plot_signals - this funciton plots the peak identified within chromatography.}
+\title{plot_signals}
 \usage{
 plot_signals(Autotuner, threshold, sample_index, signals)
 }
@@ -23,6 +23,9 @@ located between samples.}
 Plots signal
 }
 \description{
+this funciton plots the peak identified within chromatography.
+}
+\details{
 This function plots the chromatography and the matching sliding
 window signal processing results for each sample. Signal processing
 functions will be the same color as the chromatography spectra, just a

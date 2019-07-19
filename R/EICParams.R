@@ -16,14 +16,13 @@
 #' @param returnPpmPlots - Boolean value that tells R to return plots for
 #' ppm distributions.
 #' @param plotDir - Path where to store plots.
-#' @param verbose - Boolean value used to indicate whether checkEICPeaks function
-#' returns messages to the console.
+#' @param verbose - Boolean value used to indicate whether checkEICPeaks
+#' function returns messages to the console.
 #'
 #' @details The function CheckEICPeaks handles all the peak specific
 #' computations.
 #'
 #' @export
-
 EICparams <- function(Autotuner, massThresh, useGap = T,
                       varExpThresh = 0.8, returnPpmPlots = T,
                       plotDir = ".", verbose = T) {

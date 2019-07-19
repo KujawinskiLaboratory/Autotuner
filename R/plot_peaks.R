@@ -1,6 +1,9 @@
-#'  @title plot_peaks - this funciton plots the peak identified within chromatography.
+#'  @title plot_peaks
 #'
-#' @description This function plots individual peaks selected by signal
+#'  @description  this funciton plots the peak identified within
+#'  chromatography.
+#'
+#' @details This function plots individual peaks selected by signal
 #' processing and expanded with a regression to allow the user to validate the
 #' selected signal processing parameters.
 #'

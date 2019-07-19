@@ -22,7 +22,7 @@
 #' @param filename - A string containing the name of the current data file being
 #' analyzed.
 #'
-#' @export
+#' @return This function returns a peak specific set of processign parameters.
 checkEICPeaks <- function(mzDb,
                           header,
                           observedPeak,

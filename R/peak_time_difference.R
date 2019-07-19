@@ -15,13 +15,13 @@
 #' peaktable object to plot peaks.
 #'
 #' @return This function returns a data.frame of peaks matched over time.
-#'
-#' @export
 peak_time_difference <- function(peak_table) {
 
 
     # Checking Input ----------------------------------------------------------
-    assertthat::assert_that(nrow(peak_table) > 0,msg = "No peakwidth table observed. Check output of peakwidth_table.")
+    assertthat::assert_that(nrow(peak_table) > 0,msg =
+                                paste("No peakwidth table observed.",
+                                      "Check output of peakwidth_table."))
 
 
     # Sorting peaks across samples by mid point time --------------------------
@@ -141,7 +141,8 @@ peak_time_difference <- function(peak_table) {
 
     # Checking performance of peak matching -----------------------------------
     if(nrow(matchingPeaks) == 0) {
-        stop("No peaks were matched across samples. Consider asking extract_peaks to return more peaks.")
+        stop(paste("No peaks were matched across samples.",
+                   "Consider asking extract_peaks to return more peaks."))
     }
     matchingPeaks$index <- 0
 
@@ -153,7 +154,8 @@ peak_time_difference <- function(peak_table) {
     while(next_row <= nrow(matchingPeaks)) {
 
         ## case 1 - Grouping matches between more than 2 peaks
-        if(matchingPeaks$cur_row[current_row] == matchingPeaks$cur_row[next_row]) {
+        if(matchingPeaks$cur_row[current_row] ==
+           matchingPeaks$cur_row[next_row]) {
 
             rowIndex <- c(current_row,next_row)
             matchingPeaks$max_intensity[rowIndex] <-

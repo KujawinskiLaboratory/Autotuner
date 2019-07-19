@@ -23,8 +23,6 @@
 #'
 #' @return This function returns a scalar value representing the estimated peak
 #' width for a given peak.
-#'
-#' @export
 peakwidth_est <- function(peak_vector,
                           time,
                           intensity,

@@ -1,4 +1,6 @@
-#' @title plot_signals - this funciton plots the peak identified within chromatography.
+#' @title plot_signals
+#'
+#' @description this funciton plots the peak identified within chromatography.
 #'
 #' @param Autotuner - MSest object created following Create_MSest()
 #' initialization function.
@@ -9,7 +11,8 @@
 #' @param signals - A vector containing information on where signals are
 #' located between samples.
 #'
-#' @description This function plots the chromatography and the matching sliding
+#'
+#' @details This function plots the chromatography and the matching sliding
 #' window signal processing results for each sample. Signal processing
 #' functions will be the same color as the chromatography spectra, just a
 #' lighter shade and a different type of line. The chromatography will be a

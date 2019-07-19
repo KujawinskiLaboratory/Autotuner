@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot_peaks.R
 \name{plot_peaks}
 \alias{plot_peaks}
-\title{@title plot_peaks - this funciton plots the peak identified within chromatography.}
+\title{@title plot_peaks}
 \usage{
 plot_peaks(Autotuner, boundary = 10, peak)
 }
@@ -21,6 +21,10 @@ This function outputs plots that are meant to go into the peakVis
 UI.
 }
 \description{
+@description  this funciton plots the peak identified within
+ chromatography.
+}
+\details{
 This function plots individual peaks selected by signal
 processing and expanded with a regression to allow the user to validate the
 selected signal processing parameters.

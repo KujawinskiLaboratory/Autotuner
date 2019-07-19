@@ -12,7 +12,6 @@
 #' @return A list of data.frames with parameter estimates.
 #'
 #' @export
-
 returnParams <- function(eicParamEsts, Autotuner) {
 
     params <- TIC_params(Autotuner@peak_table, Autotuner@peak_difference)

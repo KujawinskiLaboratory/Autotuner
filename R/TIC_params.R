@@ -11,8 +11,6 @@
 #' extracted with the function peak_width_table.
 #'
 #' @return Returns a set of parameters to run xcms.
-#'
-#' @export
 TIC_params <- function(peak_table, peak_difference) {
 
     # min width estimation

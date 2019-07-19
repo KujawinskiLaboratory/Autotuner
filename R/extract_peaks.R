@@ -13,8 +13,6 @@
 #'
 #' @return peak_table_list - a list of data.frame tables containing information
 #' on where each where peaks are located within each sample.
-#'
-#' @export
 extract_peaks <- function(Autotuner,
                           returned_peaks = 10,
                           signals) {

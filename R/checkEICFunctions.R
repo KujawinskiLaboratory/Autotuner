@@ -15,8 +15,6 @@
 #' @importFrom utils "read.csv" "write.csv"
 #'
 #' @return The ppm error between the first and second entered mass
-#'
-#' @export
 estimatePPM <- function(first, second) {
   abs(first-second)/first * 10 ^ 6
 }
@@ -33,8 +31,6 @@ estimatePPM <- function(first, second) {
 #' retained bins.
 #'
 #' @return A list with entries for noise peaks and true peaks.
-#'
-#' @export
 filterPeaksfromNoise <- function(matchedMasses) {
 
   ## Initializing variables for subsetting
@@ -105,8 +101,6 @@ filterPeaksfromNoise <- function(matchedMasses) {
 #' which peaks come from TIC data.
 #'
 #' @return returns an estimated s/n threshold value
-#'
-#' @export
 estimateSNThresh <- function(no_match, sortedAllEIC, approvedPeaks) {
 
     noisePeakTable <- sortedAllEIC[no_match,]
@@ -293,8 +287,6 @@ estimateSNThresh <- function(no_match, sortedAllEIC, approvedPeaks) {
 #' ppm error of the data.
 #'
 #' @return This function returns a scalar value representing ppm error estimate.
-#'
-#' @export
 filterPpmError <- function(approvedPeaks, useGap, varExpThresh,
                            returnPpmPlots, plotDir, observedPeak,
                            filename) {
@@ -479,8 +471,6 @@ filterPpmError <- function(approvedPeaks, useGap, varExpThresh,
 #' @param prevRange - Longest measured peak range.
 #'
 #' @return maxScans - the maximum number of scans across all peaks
-#'
-#' @export
 countMaxima <- function(peakBounds, sortedAllEIC, prevRange) {
 
   maxScans <- list()

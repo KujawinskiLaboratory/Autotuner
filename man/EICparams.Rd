@@ -26,8 +26,8 @@ ppm distributions.}
 
 \item{plotDir}{- Path where to store plots.}
 
-\item{verbose}{- Boolean value used to indicate whether checkEICPeaks function
-returns messages to the console.}
+\item{verbose}{- Boolean value used to indicate whether checkEICPeaks
+function returns messages to the console.}
 }
 \description{
 This function is designed to calculate the recommended

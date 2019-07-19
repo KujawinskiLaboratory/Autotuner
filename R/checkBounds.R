@@ -20,8 +20,6 @@
 #' spectra type (MS1 vs MS2), retention time, and scan count.
 #'
 #' @return This function returns the last index the feature is detected.
-#'
-#' @export
 checkBounds <- function(mass,
                         upper = T,
                         mzDb,

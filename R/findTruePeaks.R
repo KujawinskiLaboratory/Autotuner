@@ -1,13 +1,11 @@
 #' @title findTruePeaks
 #'
-#' @description This function is designed to filter out bins that don't come from
-#' continuous scans. The idea is that after this stage, the data is ready for
-#' parameter estimation.
+#' @description This function is designed to filter out bins that don't come
+#' from continuous scans. The idea is that after this stage, the data is ready
+#' for parameter estimation.
 #'
 #' @param truePeaks - A lsit containing indicies representing each bin.
 #' @param sortedAllEIC - All the raw ms1 data extracted from the EIC peak.
-#'
-#' @export
 findTruePeaks <- function(truePeaks, sortedAllEIC) {
 #
 

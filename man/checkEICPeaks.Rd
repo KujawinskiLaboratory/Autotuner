@@ -35,6 +35,9 @@ ppm distributions.}
 \item{filename}{- A string containing the name of the current data file being
 analyzed.}
 }
+\value{
+This function returns a peak specific set of processign parameters.
+}
 \description{
 This function is the outer most function used to check for
 individual EIC peak specific parameters.

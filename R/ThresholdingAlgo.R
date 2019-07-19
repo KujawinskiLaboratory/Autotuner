@@ -1,24 +1,24 @@
 #' @title ThresholdingAlgo
 #'
-#' @description This function performs a sliding window analysis on the chromatograms
-#' in order to identify peaks within the data. I would recommend to keep influence
-#' low in order to use adjacent peak lengths as a measure of peak width.
+#' @description This function performs a sliding window analysis on the
+#' chromatograms in order to identify peaks within the data. I would recommend
+#' to keep influence low in order to use adjacent peak lengths as a measure of
+#' peak width.
 #'
 #' @param y - numerical vector of measured chromatographic intensity values
 #' @param lag - scalar value of number of observations to calculate intensity
 #' prior to peak selection.
 #' @param threshold - number of standard deviations above chromatogram. Used
 #' to detect significantly observed peaks.
-#' @param influence - scalar values between 0-1 that describes how much the value
-#' of a peak (measured index value above threshold) should contribute to the
-#' sliding window analysis of downstream peaks.
-#'
-#' @export
+#' @param influence - scalar values between 0-1 that describes how much the
+#' value of a peak (measured index value above threshold) should contribute to
+#' the sliding window analysis of downstream peaks.
 ThresholdingAlgo <- function(y, lag, threshold, influence) {
 
     # correct for possible NA values in data
     assertthat::assert_that(length(y) > 0,
-                            msg = 'Error: Intensity slot within Autotuner Object is zero length.')
+                        msg = paste("Error: Intensity slot within Autotuner",
+                                        "Object is zero length."))
 
     signals <- rep(0,length(y))
     filteredY <- y[1:lag]

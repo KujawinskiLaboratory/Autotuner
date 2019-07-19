@@ -16,14 +16,13 @@
 #' the peak width for each detected peak across samples, the name
 #' attribute for when the peak starts and ends, and the time points
 #' associated with each of those parameters and for the midpoint.
-#'
-#' @export
 peakwidth_table <- function(Autotuner, returned_peaks = 10) {
 
     peakList <- Autotuner@peaks
     # Checking input ----------------------------------------------------------
     assertthat::assert_that(length(peakList) > 0,
-                          msg = "Input to peakwidth_table is null. See output of extract_peaks.")
+                          msg = paste("Input to peakwidth_table is null.",
+                                      "See output of extract_peaks."))
 
 
     # initializing storage objects --------------------------------------------

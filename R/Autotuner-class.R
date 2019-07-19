@@ -30,7 +30,6 @@
 #' @importFrom MSnbase rtime
 #' @importFrom MSnbase tic
 #'
-#'
 #' @export
 Autotuner <- setClass(
     # Set the name for the class
@@ -145,6 +144,8 @@ createAutotuner <- function(data_paths, runfile, file_col, factorCol) {
 #' within an AutoTuner object.
 #'
 #' @param Autotuner - An AutoTuner object.
+#'
+#' @return The content of the intensity slot
 #'
 #' @export
 getAutoIntensity <- function(Autotuner) {

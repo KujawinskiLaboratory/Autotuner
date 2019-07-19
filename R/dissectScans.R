@@ -10,8 +10,6 @@
 #' current peak.
 #' @param header - This is the header file containing all the metadata
 #' for the currently loaded sample.
-#'
-#' @export
 dissectScans <- function(mzDb, observedPeak, header) {
 
 

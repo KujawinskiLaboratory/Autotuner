@@ -12,7 +12,7 @@ findTruePeaks(truePeaks, sortedAllEIC)
 \item{sortedAllEIC}{- All the raw ms1 data extracted from the EIC peak.}
 }
 \description{
-This function is designed to filter out bins that don't come from
-continuous scans. The idea is that after this stage, the data is ready for
-parameter estimation.
+This function is designed to filter out bins that don't come
+from continuous scans. The idea is that after this stage, the data is ready
+for parameter estimation.
 }

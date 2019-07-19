@@ -30,7 +30,8 @@ This function returns a scalar value representing an estimate for
 the maximal peak width across samples.
 }
 \description{
-This function is designed to find the maximum peakwidth of an EIC observed within a
-given TIC peak. It does so by using checkBounds to estimate width in time of a peak and countMaxima
+This function is designed to find the maximum peakwidth of an
+EIC observed within a given TIC peak. It does so by using checkBounds to
+estimate width in time of a peak and countMaxima
 to determine if a peak may be made up from two similar structural isomers.
 }
