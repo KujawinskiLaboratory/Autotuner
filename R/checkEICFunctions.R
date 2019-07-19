@@ -314,19 +314,12 @@ filterPpmError <- function(approvedPeaks, useGap, varExpThresh,
         while(subsample) {
 
             origDist <- stats::density(ppmObs, bw = 1)$y
-            set.seed(1)
             newDist1 <-  stats::density(sample(ppmObs, checkPpm), bw = 1)$y
-            set.seed(2)
             newDist2 <-  stats::density(sample(ppmObs, checkPpm), bw = 1)$y
-            set.seed(3)
             newDist3 <-  stats::density(sample(ppmObs, checkPpm), bw = 1)$y
-            set.seed(4)
             newDist4 <-  stats::density(sample(ppmObs, checkPpm), bw = 1)$y
-            set.seed(5)
             newDist5 <-  stats::density(sample(ppmObs, checkPpm), bw = 1)$y
-            set.seed(6)
             newDist6 <-  stats::density(sample(ppmObs, checkPpm), bw = 1)$y
-            set.seed(7)
             newDist7 <-  stats::density(sample(ppmObs, checkPpm), bw = 1)$y
 
             klDistance <- list()
