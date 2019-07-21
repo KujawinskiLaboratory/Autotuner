@@ -164,7 +164,7 @@ plot_signals(Autotuner,
              ## index for which data files should be displayed
              sample_index = 1:3, 
              signals = signals)
-#rm(lag, influence, threshold)
+rm(lag, influence, threshold)
 ```
 
 #### Interpreting Sliding Window Results

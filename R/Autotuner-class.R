@@ -95,9 +95,28 @@ setMethod(f = "initialize", signature = "Autotuner",
                 message(paste("~~~ Extracting the Raw Data from Individual",
                             "Samples ~~~ \n"))
                 for(index in 1:nrow(runfile)) {
+
                     signal_data <- MSnbase::filterFile(raw, file = index)
                     time[[index]] <- MSnbase::rtime(signal_data)
                     intensity[[index]] <- MSnbase::tic(signal_data)
+
+                    ## 2019-07-21 - Adding check for chromatograph data
+                    if(sum(intensity[[index]]) == 0) {
+
+                        if(index == 1) {
+                            message("No TIC data was found.")
+                            message("Using integrated intensity data instead.")
+                        }
+
+                        allInts <- MSnbase::intensity(signal_data)
+                        storeInt <- list()
+                        for(i in 1:length(allInts)) {
+                            storeInt[[i]] <- sum(unlist(allInts[i]))
+                        }
+                        intensity[[index]] <- unlist(storeInt)
+                        rm(allInts, storeInt)
+                    }
+
                 }
 
                 message("~~~ Storing Everything in Autotuner Object ~~~ \n")

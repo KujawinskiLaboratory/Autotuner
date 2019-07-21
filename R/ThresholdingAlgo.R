@@ -30,6 +30,15 @@ ThresholdingAlgo <- function(y, lag, threshold, influence) {
     assertthat::assert_that(length(y) > 0,
                         msg = paste("Error: Intensity slot within Autotuner",
                                         "Object is zero length."))
+    assertthat::assert_that(sum(y) > 0,
+                            msg = paste("Error: TIC intensity is zero.",
+                                        "Check raw data."))
+
+
+    if(lag < 10) {
+        message("Lag parameter must be atleast 10. Changing it to 10.")
+        lag <- 10
+    }
 
     signals <- rep(0,length(y))
     filteredY <- y[1:lag]
