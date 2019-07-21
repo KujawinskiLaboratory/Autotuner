@@ -114,7 +114,8 @@ checkBounds <- function(mass,
         ## checking if peak is increasing or decreasing monotonically
         if(length(intensityStorage) >= 3) {
 
-            fit <- lm(intensityStorage ~ 1:length(intensityStorage))
+            fit <- suppressWarnings(lm(intensityStorage ~
+                                           seq_along(intensityStorage)))
             slope <- stats::coef(fit)[2]
             r2 <- summary(fit)$r.squared
 
