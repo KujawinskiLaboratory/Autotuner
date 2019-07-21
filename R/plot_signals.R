@@ -54,7 +54,10 @@ plot_signals <- function(Autotuner, threshold, sample_index, signals) {
     # generating plots --------------------------------------------------------
     sample_type <- metadata[sample_index,
                             grep(factorCol,colnames(metadata))]
-    par(mfcol = c(2,1),oma = c(2,2,0,0) + 0.1, mar = c(0,2,1.5,1))
+    par(mfcol = c(2,1)
+        #oma = c(0,2,0,0) + 0.1,
+        #mar = c(1,2,1.5,1)
+        )
 
     if(length(sample_index) < 3) {
         cols <- c("red", "blue")
@@ -64,6 +67,7 @@ plot_signals <- function(Autotuner, threshold, sample_index, signals) {
 
 
     # ploting chromatogram ----------------------------------------------------
+    par(mai = c(.2,.8,.3,.1))
     for(i in seq_along(sample_index)) { # plotting chromatograms together
 
         # removed secondary plots - should do one plot per sample groups
@@ -89,7 +93,6 @@ plot_signals <- function(Autotuner, threshold, sample_index, signals) {
             lines(Autotuner@time[[index]],
                   Autotuner@intensity[[index]],
                   type="l",
-                  xaxt='n',
                   col = scales::alpha(curCol, 1))
 
         }
@@ -145,13 +148,16 @@ plot_signals <- function(Autotuner, threshold, sample_index, signals) {
         overlappingSignals <- rowSums(overlappingSignals) > 1
 
     }
+    par(mai = c(.7,.8,.2,.1))
     plot(combinedSignals$time_1,
          overlappingSignals,
          type="S",
-         xlab="Time (s)",
+         ylab = "Peak Overlap",
+         xlab="",
          ylim=c(0,1.2),
          lwd=1,
          las=1)
+    title(xlab="Time (s)", line=2.1, cex.lab=1.2)
     legend("topright", fill = cols,
            legend = sample_type,
            title = "Samples Visualized",
