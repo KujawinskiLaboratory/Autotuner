@@ -7,7 +7,8 @@ returnPpmPlots <- FALSE
 massThresh <- 0.005
 filename <- ''
 data("mzDb", package="Autotuner")
-data("header", package="Autotuner")
+header <- readRDS(system.file("extdata/header.rds",
+                              package = "Autotuner"))
 data("observedPeak", package="Autotuner")
 
 
@@ -109,3 +110,4 @@ test_that(desc = "Testing Max Peakwidth Estimate",
               expect_equal(class(maxPw), "numeric")
               expect_false(is.na(maxPw))
           })
+
