@@ -1,8 +1,9 @@
 
 # itterating between samples ----------------------------------------------
-data("Autotuner", package="Autotuner")
+Autotuner <- readRDS(system.file("extdata/Autotuner.rds", package="Autotuner"))
 
-currentTable <- peak_table[peak_table$Sample == 1,]
+
+currentTable <- peak_table[Autotuner@peak_table$Sample == 1,]
 currentFile <- Autotuner@file_paths[1]
 
     # Adding msnbase functionality to replace mzR API
@@ -11,6 +12,9 @@ msnObj <- suppressMessages(MSnbase::readMSData(files = currentFile,
                                                msLevel. = 1))
 
 header <- suppressWarnings( MSnbase::header(msnObj))
+
+#saveRDS(header, file = here::here("inst/extdata/header.rds"))
+
 allMzs <- MSnbase::mz(msnObj)
 allInt <- MSnbase::intensity(msnObj)
 

@@ -69,6 +69,11 @@ findPeakWidth <- function(approvScorePeaks,
         checkTable <- checkFeatures
         checkVals <- checkTable$meanMZ
 
+        if(length(checkVals) > 50) {
+            checkVals <- checkVals[1:50]
+        }
+
+
         # checking the boundaries of peaks ------------------------------------
         ## looping through each of the features being checked
 
