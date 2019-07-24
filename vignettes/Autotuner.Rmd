@@ -22,8 +22,6 @@ if(!require("mmetspData")) {
     install_github("crmclean/mmetspData")    
     library(mmetspData)
 }
-library(png)
-library(grid)
 ```
 
 # Introduction
@@ -32,13 +30,6 @@ AutoTuner is a parameter tuning algorithm for XCMS, MZmine2, and other
 metabolomics data processing softwares. Using statistical inference, AutoTuner
 quickly finds estimates for nine distinct parameters. This guide provides
 an interactive example of how to use AutoTuner.
-
-Here is the general description of the algorithm behind AutoTuner:
-
-```{r fig.width=8, fig.height=5,echo=FALSE}
-img <- png::readPNG("autotuner_schematic_final.png")
-grid::grid.raster(img)
-```
 
 ## Set up:
 
