@@ -1,7 +1,4 @@
-library(testthat)
-library(magrittr)
 library(devtools)
-
 if(!require("mmetspData")) {
     install_github("crmclean/mmetspData")
 }
@@ -9,17 +6,17 @@ library(mmetspData)
 library(Autotuner)
 
 mmetspFiles <- c(system.file("mzMLs/mtab_mmetsp_ft_120815_24.mzML",
-                                package = "mmetspData"),
+                             package = "mmetspData"),
                  system.file("mzMLs/mtab_mmetsp_ft_120815_25.mzML",
-                                package = "mmetspData"),
+                             package = "mmetspData"),
                  system.file("mzMLs/mtab_mmetsp_ft_120815_26.mzML",
-                                package = "mmetspData"))
+                             package = "mmetspData"))
 
 runfile <- read.csv(system.file("mmetsp_metadata.csv", package = "mmetspData"),
                     stringsAsFactors = FALSE)
 
 runfile <- runfile[runfile$File.Name %in% sub(pattern = ".mzML", "",
-                            basename(mmetspFiles)),]
+                                              basename(mmetspFiles)),]
 
 ## Loading Autotuner
 Autotuner <- createAutotuner(mmetspFiles,
@@ -45,4 +42,7 @@ eicParamEsts <- EICparams(Autotuner = Autotuner,
                             verbose = FALSE,
                             returnPpmPlots = FALSE,
                             useGap = TRUE)
+
+#saveRDS(object = eicParamEsts,
+#        file = here::here("inst/extdata/eicParamsEsts.rds"))
 

@@ -1,12 +1,10 @@
 context("Preparing things for Autotuner")
 
 library(devtools)
-
 if(!require("mmetspData")) {
     install_github("crmclean/mmetspData")
+    library(mmetspData)
 }
-library(mmetspData)
-
 
 mmetspFiles <- c(system.file("mzMLs/mtab_mmetsp_ft_120815_24.mzML",
                              package = "mmetspData"),
@@ -76,7 +74,7 @@ test_that(desc = "Signal Processing Output",
               ## check that computation took place
               naCheck <- list()
               for(i in seq_along(signal)) {
-                  naCheck[[i]] <- sum(sapply(signal[[3]], function(x) {
+                  naCheck[[i]] <- sum(sapply(signal[[1]], function(x) {
                       all(is.na(x))
                   }))
 

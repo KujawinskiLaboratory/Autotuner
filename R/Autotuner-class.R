@@ -163,6 +163,7 @@ setMethod(f = "initialize", signature = "Autotuner",
 #' Autotuner <- createAutotuner(mmetspFiles, metadata,
 #' file_col = "File.Name", factorCol = "Sample.Type")
 #'
+#'
 #' @return This function returns an Autotuner object
 createAutotuner <- function(data_paths, runfile, file_col, factorCol) {
 

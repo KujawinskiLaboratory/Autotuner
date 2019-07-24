@@ -14,10 +14,10 @@
 #' @examples
 #' Autotuner <- readRDS(system.file("extdata/Autotuner.rds",
 #' package="Autotuner"))
-#' eicParamEsts <- EICparams(Autotuner = Autotuner, massThresh = .005,
-#' verbose = FALSE,
-#' returnPpmPlots = FALSE, useGap = TRUE)
-#' returnParams(eicParamEsts, Autotuner)
+#'
+#' eicParamEsts <- readRDS(system.file("extdata/eicParamsEsts.rds",
+#' package="Autotuner"))
+#' returnParams(eicParamEsts = eicParamEsts, Autotuner = Autotuner)
 #'
 #' @export
 returnParams <- function(eicParamEsts, Autotuner) {
