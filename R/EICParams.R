@@ -25,6 +25,11 @@
 #' @return A data.frame of all peak specific estimates.
 #'
 #' @examples
+#'
+#' if(!require("mmetspData")) {
+#'     install_github("crmclean/mmetspData")
+#' }
+#' library(mmetspData)
 #' Autotuner <- readRDS(system.file("extdata/Autotuner.rds",
 #' package="Autotuner"))
 #' EICparams(Autotuner = Autotuner, massThresh = .005, verbose = FALSE,
