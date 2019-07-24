@@ -2,3 +2,10 @@
 
 language: R
 cache: packages
+r: bioc-devel 
+latex: false
+
+apt_packages:
+  - libxml2-dev
+
+r_github_packages: crmclean/mmetspData
