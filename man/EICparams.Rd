@@ -42,6 +42,11 @@ The function CheckEICPeaks handles all the peak specific
 computations.
 }
 \examples{
+
+if(!require("mmetspData")) {
+    install_github("crmclean/mmetspData")
+}
+library(mmetspData)
 Autotuner <- readRDS(system.file("extdata/Autotuner.rds",
 package="Autotuner"))
 EICparams(Autotuner = Autotuner, massThresh = .005, verbose = FALSE,
