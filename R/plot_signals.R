@@ -27,6 +27,10 @@
 #' lag <- 25
 #' threshold <- 3.1
 #' influence <- 0.1
+#'
+#' signals <- lapply(getAutoIntensity(Autotuner),
+#' ThresholdingAlgo, lag, threshold, influence)
+#'
 #' plot_signals(Autotuner, threshold, sample_index = 1:3, signals = signals)
 #'
 #' @export
@@ -157,7 +161,7 @@ plot_signals <- function(Autotuner, threshold, sample_index, signals) {
          ylim=c(0,1.2),
          lwd=1,
          las=1)
-    title(xlab="Time (s)", line=2.1, cex.lab=1.2)
+    graphics::title(xlab="Time (s)", line=2.1, cex.lab=1.2)
     legend("topright", fill = cols,
            legend = sample_type,
            title = "Samples Visualized",

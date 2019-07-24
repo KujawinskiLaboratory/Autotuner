@@ -1,11 +1,3 @@
-#' header
-#'
-#' A feature table containing metadata from one of the mmetspData package
-#' files used for examples, tests, and vignettes in this package.
-#'
-#' @format A data frame with 926 rows and 30 variables
-#' @source data-raw/makeAutotunerTestData.R
-"header"
 
 #' mzDb
 #'

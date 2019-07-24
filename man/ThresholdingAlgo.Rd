@@ -29,6 +29,10 @@ to keep influence low in order to use adjacent peak lengths as a measure of
 peak width.
 }
 \examples{
+
+lag <- 25
+threshold<- 3.1
+influence <- 0.1
 Autotuner <- readRDS(system.file("extdata/Autotuner.rds",
 package="Autotuner"))
 lapply(getAutoIntensity(Autotuner), ThresholdingAlgo,

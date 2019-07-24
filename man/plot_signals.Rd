@@ -39,6 +39,10 @@ package="Autotuner"))
 lag <- 25
 threshold <- 3.1
 influence <- 0.1
+
+signals <- lapply(getAutoIntensity(Autotuner),
+ThresholdingAlgo, lag, threshold, influence)
+
 plot_signals(Autotuner, threshold, sample_index = 1:3, signals = signals)
 
 }
