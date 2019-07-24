@@ -6,6 +6,10 @@ r: bioc-devel
 latex: false
 
 apt_packages:
-  - libxml2-dev
+  - libnetcdf-dev
+  - netcdf-bin 
+  - libgit2-dev # git2r
+  - texlive-latex-recommended
+  - texlive-fonts-extra
 
 r_github_packages: crmclean/mmetspData
