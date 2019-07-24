@@ -3,7 +3,7 @@
 \name{header}
 \alias{header}
 \title{header}
-\format{A data frame with 926 rows and 30 variables:}
+\format{A data frame with 926 rows and 30 variables}
 \source{
 data-raw/makeAutotunerTestData.R
 }

@@ -14,7 +14,8 @@
 #' @examples
 #' Autotuner <- readRDS(system.file("extdata/Autotuner.rds",
 #' package="Autotuner"))
-#' EICparams(Autotuner = Autotuner, massThresh = .005, verbose = FALSE,
+#' eicParamEsts <- EICparams(Autotuner = Autotuner, massThresh = .005,
+#' verbose = FALSE,
 #' returnPpmPlots = FALSE, useGap = TRUE)
 #' returnParams(eicParamEsts, Autotuner)
 #'
