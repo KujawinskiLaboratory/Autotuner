@@ -20,5 +20,5 @@ within an AutoTuner object.
 \examples{
 Autotuner <- readRDS(system.file("extdata/Autotuner.rds",
 package="Autotuner"))
-getAutoIntensity(Autotuner)
+intensity <- getAutoIntensity(Autotuner)
 }

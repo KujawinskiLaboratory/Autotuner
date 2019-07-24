@@ -35,7 +35,7 @@ threshold<- 3.1
 influence <- 0.1
 Autotuner <- readRDS(system.file("extdata/Autotuner.rds",
 package="Autotuner"))
-lapply(getAutoIntensity(Autotuner), ThresholdingAlgo,
+signals <- lapply(getAutoIntensity(Autotuner), ThresholdingAlgo,
 lag, threshold, influence)
 
 }

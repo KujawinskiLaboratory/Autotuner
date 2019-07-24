@@ -17,7 +17,7 @@
 #'
 #' eicParamEsts <- readRDS(system.file("extdata/eicParamsEsts.rds",
 #' package="Autotuner"))
-#' returnParams(eicParamEsts = eicParamEsts, Autotuner = Autotuner)
+#' outParams <- returnParams(eicParamEsts = eicParamEsts, Autotuner = Autotuner)
 #'
 #' @export
 returnParams <- function(eicParamEsts, Autotuner) {

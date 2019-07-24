@@ -22,7 +22,7 @@
 #' influence <- 0.1
 #' Autotuner <- readRDS(system.file("extdata/Autotuner.rds",
 #' package="Autotuner"))
-#' lapply(getAutoIntensity(Autotuner), ThresholdingAlgo,
+#' signals <- lapply(getAutoIntensity(Autotuner), ThresholdingAlgo,
 #' lag, threshold, influence)
 #'
 #' @return A list of calculated sliding window values.

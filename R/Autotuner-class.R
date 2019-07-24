@@ -197,7 +197,7 @@ createAutotuner <- function(data_paths, runfile, file_col, factorCol) {
 #' @examples
 #' Autotuner <- readRDS(system.file("extdata/Autotuner.rds",
 #' package="Autotuner"))
-#' getAutoIntensity(Autotuner)
+#' intensity <- getAutoIntensity(Autotuner)
 getAutoIntensity <- function(Autotuner) {
 
     return(Autotuner@intensity)
