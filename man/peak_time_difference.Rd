@@ -4,11 +4,11 @@
 \alias{peak_time_difference}
 \title{peak_time_difference}
 \usage{
-peak_time_difference(peak_table)
+peak_time_difference(Autotuner)
 }
 \arguments{
-\item{peak_table}{- table of peak width values extracted with the function
-peak_width_table.}
+\item{Autotuner}{- An Autotuner object containiing a table of peak width
+values extracted with the function peak_width_table.}
 }
 \value{
 This function returns a data.frame of peaks matched over time.

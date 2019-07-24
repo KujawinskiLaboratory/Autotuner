@@ -31,7 +31,7 @@ isolatePeaks <- function(Autotuner, returned_peaks, signals) {
 
     Autotuner@peak_table <- peakwidth_table(Autotuner, returned_peaks)
 
-    Autotuner@peak_difference <- peak_time_difference(Autotuner@peak_table)
+    Autotuner@peak_difference <- peak_time_difference(Autotuner)
 
     return(Autotuner)
 

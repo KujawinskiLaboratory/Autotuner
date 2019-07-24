@@ -3,8 +3,8 @@
 #' @description This function is designed to return a data.frame containing info
 #' on how
 #'
-#' @param peak_table - table of peak width values extracted with the function
-#' peak_width_table.
+#' @param Autotuner - An Autotuner object containiing a table of peak width
+#' values extracted with the function peak_width_table.
 #'
 #' @details This function is designed to determine what are the retention time
 #' differences between peaks that are effectively the same between samples.
@@ -15,8 +15,10 @@
 #' peaktable object to plot peaks.
 #'
 #' @return This function returns a data.frame of peaks matched over time.
-peak_time_difference <- function(peak_table) {
+peak_time_difference <- function(Autotuner) {
 
+
+    peak_table <- Autotuner@peak_table
 
     # Checking Input ----------------------------------------------------------
     assertthat::assert_that(nrow(peak_table) > 0,msg =
@@ -106,9 +108,9 @@ peak_time_difference <- function(peak_table) {
             sorted_peakwidths$Maxima_time[row_subset])
 
             ## makes sure peaks are not losely overlapping - increase thresohld
-            intervalCheck <- all(interval["start"] < intervalVals &&
+            intervalCheck <- all(interval["start"] < intervalVals &
                                      interval["end"] > intervalVals)
-            thresholdCheck <- peakDiffStart <= threshold &&
+            thresholdCheck <- peakDiffStart <= threshold &
                 peakDiffEnd <= threshold
 
             ## Case 1 - peaks match from the set threshold

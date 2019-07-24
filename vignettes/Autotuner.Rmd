@@ -178,7 +178,9 @@ peaks by the sliding windown analysis above, so seeing more narrow peaks within
 the signal plot is recommended. 
 
 ```{r}
-Autotuner <- isolatePeaks(Autotuner, returned_peaks = 10, signals)
+Autotuner <- isolatePeaks(Autotuner = Autotuner, 
+                          returned_peaks = 10, 
+                          signals = signals)
 ```
 
 ### Checking Peak Estimates
