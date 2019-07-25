@@ -1,4 +1,4 @@
-Package: Autotuner
+Package: AutoTuner
 Type: Package
 Title: Automated parameter selection for untargeted metabolomics data processing 
 Version: 1.0.1
@@ -38,3 +38,5 @@ Suggests:
     rmarkdown,
     mmetspData
 VignetteBuilder: knitr
+BugReports: github.com/crmclean/AutoTuner/issues
+URL: github.com/crmclean/AutoTuner/

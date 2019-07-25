@@ -14,22 +14,38 @@ knitr::opts_chunk$set(
 )
 ```
 
-
-```{r setup, warning=FALSE}
-library(Autotuner)
-library(devtools)
-if(!require("mmetspData")) {
-    install_github("crmclean/mmetspData")    
-    library(mmetspData)
-}
-```
-
 # Introduction
 
 AutoTuner is a parameter tuning algorithm for XCMS, MZmine2, and other 
 metabolomics data processing softwares. Using statistical inference, AutoTuner
 quickly finds estimates for nine distinct parameters. This guide provides
 an interactive example of how to use AutoTuner.
+
+# Installation
+
+Currently, AutoTuner is being distributed through my github acount [here]:
+github.com/crmclean/Autotuner
+
+The easiest way to download that package is by using the install_github command
+from the devtools package as illustrated below.
+
+```{r installation}
+library(devtools)
+install_github("crmclean/Autotuner")
+```
+
+This tutorial uses additional data from the package, mmetspData. This second
+package can be downloaded in a similar manner as AutoTuner.
+
+```{r setup, warning=FALSE}
+library(Autotuner)
+if(!require("mmetspData")) {
+    install_github("crmclean/mmetspData")    
+    library(mmetspData)
+}
+```
+
+
 
 ## Set up:
 
