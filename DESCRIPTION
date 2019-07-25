@@ -38,5 +38,5 @@ Suggests:
     rmarkdown,
     mmetspData
 VignetteBuilder: knitr
-BugReports: github.com/crmclean/AutoTuner/issues
-URL: github.com/crmclean/AutoTuner/
+BugReports: ghttps://ithub.com/crmclean/Autotuner/issues
+URL: https://github.com/crmclean/Autotuner/

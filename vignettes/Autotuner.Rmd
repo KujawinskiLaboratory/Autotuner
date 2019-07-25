@@ -30,8 +30,8 @@ The easiest way to download that package is by using the install_github command
 from the devtools package as illustrated below.
 
 ```{r installation}
-library(devtools)
-install_github("crmclean/Autotuner")
+#library(devtools)
+#install_github("crmclean/Autotuner")
 ```
 
 This tutorial uses additional data from the package, mmetspData. This second
