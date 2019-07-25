@@ -1,4 +1,4 @@
-Package: AutoTuner
+Package: Autotuner
 Type: Package
 Title: Automated parameter selection for untargeted metabolomics data processing 
 Version: 1.0.1

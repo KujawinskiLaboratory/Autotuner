@@ -51,6 +51,7 @@
 ~%2FMIT%2FResearch%2FAutotuner%2Fdata-raw%2FmakeTestData.R="8F03BCE4"
 ~%2FMIT%2FResearch%2FAutotuner%2Fdata-raw%2Fmake_paramSummary_data.R="9102330D"
 ~%2FMIT%2FResearch%2FAutotuner%2Finst%2Fapplication%2Fapp.R="8EB868"
+~%2FMIT%2FResearch%2FAutotuner%2Finst%2Fscript%2FmakeAutotunerTestData.R="F3139DA5"
 ~%2FMIT%2FResearch%2FAutotuner%2Fman%2Fhello.Rd="4012596A"
 ~%2FMIT%2FResearch%2FAutotuner%2Ftests%2Ftestthat%2Ftest-name.R="1D7066E3"
 ~%2FMIT%2FResearch%2FAutotuner%2Ftests%2Ftestthat%2Ftest_Autotuner.R="260A71E5"
