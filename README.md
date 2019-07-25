@@ -1,8 +1,10 @@
 # AutoTuner
 
+<!-- badges: start -->
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3270590.svg)](https://doi.org/10.5281/zenodo.3270590)
   [![Travis build status](https://travis-ci.org/crmclean/Autotuner.svg?branch=master)](https://travis-ci.org/crmclean/Autotuner)
-
+  [![Codecov test coverage](https://codecov.io/gh/crmclean/Autotuner/branch/master/graph/badge.svg)](https://codecov.io/gh/crmclean/Autotuner?branch=master)
+  <!-- badges: end -->
 
 ## Introduction
 
