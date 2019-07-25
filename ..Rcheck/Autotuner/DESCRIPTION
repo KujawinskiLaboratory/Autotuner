@@ -1,0 +1,18 @@
+Package: Autotuner
+Type: Package
+Title: What the Package Does (Title Case)
+Version: 0.1.0
+Author: Craig McLean 
+Maintainer: The package maintainer <yourself@somewhere.net>
+Description: More about what it does (maybe more than one line)
+    Use four spaces when indenting paragraphs within the Description.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Depends: R (>= 3.4)
+LazyData: true
+RoxygenNote: 6.1.1
+Imports: MSnbase, DT, devtools, shinyFiles, xcms, RColorBrewer, shiny,
+        PTXQC, dplyr, rlang, plyr, mzR, assertthat, scales, methods,
+        entropy, cluster, mmetspData
+Suggests: testthat (>= 2.1.0), covr
+Built: R 3.5.2; ; 2019-06-23 11:49:16 UTC; unix

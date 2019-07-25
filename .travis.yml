@@ -1,0 +1,22 @@
+# R for travis: see documentation at https://docs.travis-ci.com/user/languages/r
+
+language: R
+cache: packages
+r: bioc-devel 
+latex: false
+
+apt_packages:
+  - libnetcdf-dev
+  - netcdf-bin 
+  - libgit2-dev # git2r
+  - texlive-latex-recommended
+  - texlive-fonts-extra
+
+r_github_packages: crmclean/mmetspData
+
+## adding this - because there were issues installing mzR
+before_install:
+  - if [[ "$TRAVIS_R_VERSION_STRING" = 'bioc-devel' ]]; then mkdir ~/.R && echo 'CXX1X=g++ -std=c++0x -g -O2 -fPIC' > ~/.R/Makevars; fi
+
+after_success:
+   - Rscript -e 'covr::codecov()'

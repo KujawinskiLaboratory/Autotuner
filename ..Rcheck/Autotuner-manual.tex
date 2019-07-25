@@ -1,0 +1,1163 @@
+\nonstopmode{}
+\documentclass[a4paper]{book}
+\usepackage[times,inconsolata,hyper]{Rd}
+\usepackage{makeidx}
+\usepackage[utf8]{inputenc} % @SET ENCODING@
+% \usepackage{graphicx} % @USE GRAPHICX@
+\makeindex{}
+\begin{document}
+\chapter*{}
+\begin{center}
+{\textbf{\huge Package `Autotuner'}}
+\par\bigskip{\large \today}
+\end{center}
+\begin{description}
+\raggedright{}
+\inputencoding{utf8}
+\item[Type]\AsIs{Package}
+\item[Title]\AsIs{What the Package Does (Title Case)}
+\item[Version]\AsIs{0.1.0}
+\item[Author]\AsIs{Craig McLean}
+\item[Maintainer]\AsIs{The package maintainer }\email{yourself@somewhere.net}\AsIs{}
+\item[Description]\AsIs{More about what it does (maybe more than one line)
+Use four spaces when indenting paragraphs within the Description.}
+\item[License]\AsIs{MIT + file LICENSE}
+\item[Encoding]\AsIs{UTF-8}
+\item[Depends]\AsIs{R (>= 3.4)}
+\item[LazyData]\AsIs{true}
+\item[RoxygenNote]\AsIs{6.1.1}
+\item[Imports]\AsIs{MSnbase, DT, devtools, shinyFiles, xcms, RColorBrewer, shiny,
+PTXQC, dplyr, rlang, plyr, mzR, assertthat, scales, methods,
+entropy, cluster, mmetspData}
+\item[Suggests]\AsIs{testthat (>= 2.1.0), covr}
+\end{description}
+\Rdcontents{\R{} topics documented:}
+\inputencoding{utf8}
+\HeaderA{Autotuner-class}{Autotuner}{Autotuner.Rdash.class}
+\aliasA{Autotuner}{Autotuner-class}{Autotuner}
+%
+\begin{Description}\relax
+This file contains the skeleton to the Autotuner class used
+through out Autoutuner.
+
+This object is a generic object designed to run the different
+functions of the ms2sweeper package. The slots represent content or data
+that the package uses throughout the different functions.
+\end{Description}
+%
+\begin{Section}{Slots}
+
+\begin{description}
+
+\item[\code{time}] - A list containing vectors of scan time points from each sample.
+
+\item[\code{intensity}] - A list containing vectors of scan intensity points from
+each sample.
+
+\item[\code{peaks}] - Regions within each sample identified as peaks by sliding
+window analysis.
+
+\item[\code{peak\_table}] - A data.frame containing information on each peak after
+further processing is done to the data.
+
+\item[\code{peak\_difference}] - A data.frame containing information on how peaks
+are eluted differently over time.
+
+\item[\code{metadata}] - A data.frame containing metadata for all samples to be
+run on Autotuner.
+
+\item[\code{file\_paths}] - A string path that leads to the samples to be run on
+Autotuner.
+
+\item[\code{file\_col}] - A string for the column name of the column within the
+metadata that has specific sample names.
+
+\item[\code{factorCol}] - A string for the column name of the column within the
+metadata that has specific sample class names.
+
+\end{description}
+\end{Section}
+\inputencoding{utf8}
+\HeaderA{checkBounds}{checkBounds}{checkBounds}
+%
+\begin{Description}\relax
+Recursive function used to find how far a binned feature might
+extend beyond the boundary of the originally defined TIC peak.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+checkBounds(mass, upper = T, mzDb, currentIndex, intensityStorage,
+  ppmEst, scans, origBound, header)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{mass}] - Specific mass being checked against adjacent scans.
+
+\item[\code{upper}] - A boolean value that tells the algorithm to check indices
+greater than the entered one.  If false, it will check values less thant the
+entered one.
+
+\item[\code{mzDb}] - A list of data.frames containing the m/z and intensity values
+from each scan's mass spectra.
+
+\item[\code{currentIndex}] - Numerical index indicating which scan contains
+feature specific information.
+
+\item[\code{intensityStorage}] - comming soon
+
+\item[\code{ppmEst}] - Scalar numerical value meant to represent the ppm of the
+instrument.
+
+\item[\code{scans}] - Set of all possible ms1 scans for the sample.
+
+\item[\code{origBound}] - The original scan bound location of the peak.
+
+\item[\code{header}] - A data.fame containing metadata on the sample like
+spectra type (MS1 vs MS2), retention time, and scan count.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Value}
+This function returns the last index the feature is detected.
+\end{Value}
+\inputencoding{utf8}
+\HeaderA{checkEICPeaks}{checkEICPeaks}{checkEICPeaks}
+%
+\begin{Description}\relax
+This function is the outer most function used to check for
+individual EIC peak specific parameters.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+checkEICPeaks(mzDb, header, observedPeak, massThresh = 0.005, useGap,
+  varExpThresh, returnPpmPlots, plotDir, filename)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{mzDb}] - A list of data.frames containing the m/z and intensity values
+from each scan's mass spectra.
+
+\item[\code{header}] - A data.fame containing metadata on the sample like
+spectra type, retention time, and scan count.
+
+\item[\code{observedPeak}] - A list with names 'start' and 'end' containing
+scalar values representing the calculated peak boundary points
+
+\item[\code{massThresh}] - A generous exact mass error threshold used to estimate
+PPM for features.
+
+\item[\code{useGap}] - Parameter carried into checkEICPeaks that tells Autotuner
+whether to use the gap statustic to determine the proper number of clusters
+to use during ppm parameter estimation.
+
+\item[\code{varExpThresh}] - Numeric value representing the variance explained
+threshold to use if useGap is false.
+
+\item[\code{returnPpmPlots}] - Boolean value that tells R to return plots for
+ppm distributions.
+
+\item[\code{plotDir}] - Path where to store plots.
+
+\item[\code{filename}] - A string containing the name of the current data file being
+analyzed.
+\end{ldescription}
+\end{Arguments}
+\inputencoding{utf8}
+\HeaderA{countMaxima}{countMaxima}{countMaxima}
+%
+\begin{Description}\relax
+This function is designed to determine the maximum number of
+scans of the longest peak in the sample. It does this using the signal
+processing function used earlier. This function is used during the estimation
+of the maximum peakwdith.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+countMaxima(peakBounds, sortedAllEIC, prevRange)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{peakBounds}] - What are the bounds of the peak.
+
+\item[\code{sortedAllEIC}] - Original data object.
+
+\item[\code{prevRange}] - Longest measured peak range.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Value}
+maxScans - the maximum number of scans across all peaks
+\end{Value}
+\inputencoding{utf8}
+\HeaderA{createAutotuner}{createAutotuner}{createAutotuner}
+%
+\begin{Description}\relax
+This function will create a Autotuner used to extract ms2s.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+createAutotuner(data_paths, runfile, file_col, factorCol)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{data\_paths}] - A string path pointing at data files to load in Autotuner.
+
+\item[\code{runfile}] - a data.frame of sample metadata.
+
+\item[\code{file\_col}] - Character string of the column name of the column within
+the runfile that contains sample names.
+
+\item[\code{factorCol}] - Character string of the column name of the column within
+the runfile that contains sample type factor.
+\end{ldescription}
+\end{Arguments}
+\inputencoding{utf8}
+\HeaderA{dissectScans}{dissectScans}{dissectScans}
+%
+\begin{Description}\relax
+This function is designed to extract all MS1 scan features
+observed within the bounds of the current TIC peak.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+dissectScans(mzDb, observedPeak, header)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{mzDb}] - This is a list of two column data frames containing information
+on each mass spectra within the data.
+
+\item[\code{observedPeak}] - A list with 'start' and 'stop' boundaries of the
+current peak.
+
+\item[\code{header}] - This is the header file containing all the metadata
+for the currently loaded sample.
+\end{ldescription}
+\end{Arguments}
+\inputencoding{utf8}
+\HeaderA{EICparams}{EICparams}{EICparams}
+%
+\begin{Description}\relax
+This function is designed to calculate the recommended
+parameters from EIC peaks. It is the main holder function for a lot of
+different ones involved in calculating EIC parameters.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+EICparams(Autotuner, massThresh, peak_table, useGap = T,
+  varExpThresh = 0.8, returnPpmPlots = T, plotDir = ".",
+  verbose = T)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{Autotuner}] - An Autotuner objected containing sample specific raw
+data.
+
+\item[\code{massThresh}] - A generous exact mass error threshold used to estimate
+PPM for features.
+
+\item[\code{peak\_table}] - table of peak width values extracted with the function
+peak\_width\_table.
+
+\item[\code{useGap}] - Parameter carried into checkEICPeaks that tells Autotuner
+whether to use the gap statustic to determine the proper number of clusters
+to use during ppm parameter estimation.
+
+\item[\code{varExpThresh}] - Numeric value representing the variance explained
+threshold to use if useGap is false.
+
+\item[\code{returnPpmPlots}] - Boolean value that tells R to return plots for
+ppm distributions.
+
+\item[\code{plotDir}] - Path where to store plots.
+
+\item[\code{verbose}] - Boolean value used to indicate whether checkEICPeaks function
+returns messages to the console.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Details}\relax
+The function CheckEICPeaks handles all the peak specific
+computations.
+\end{Details}
+\inputencoding{utf8}
+\HeaderA{estimatePPM}{estimatePPM}{estimatePPM}
+%
+\begin{Description}\relax
+This function provides a convenient way to measure ppm between
+two exact masses.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+estimatePPM(first, second)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{first}] - first mass entered
+
+\item[\code{second}] - second mass entered
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Value}
+The ppm error between the first and second entered mass
+\end{Value}
+\inputencoding{utf8}
+\HeaderA{estimateSNThresh}{estimateSNThresh}{estimateSNThresh}
+%
+\begin{Description}\relax
+This function is responsible for computing an estimated s/n
+threshold.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+estimateSNThresh(no_match, sortedAllEIC, approvedPeaks)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{no\_match}] - This is a vector of numerical indicies within the raw data
+mapping to scan data considered to come from noise.
+
+\item[\code{sortedAllEIC}] - This is the raw data from a single TIC peak.
+
+\item[\code{approvedPeaks}] - This is a data.frame that contains information on
+which peaks come from TIC data.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Value}
+returns an estimated s/n threshold value
+\end{Value}
+\inputencoding{utf8}
+\HeaderA{estimate\_loess}{estimate\_loess}{estimate.Rul.loess}
+%
+\begin{Description}\relax
+estimate\_loess
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+estimate_loess(xs, max_missing, sampleClasses, threshold)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{xs}] - an xcmsSet object following peakpicking and grouping
+
+\item[\code{max\_missing}] - Estimate for maximum missing peaks within a group to
+be considered for retention time correction.
+
+\item[\code{sampleClasses}] - String vector representing the classes each sample
+belogns to.
+
+\item[\code{threshold}] - peak width parameter to estimate retention time
+correction does not overfit the data.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Value}
+This function will return the maximum span that will still
+provide retention time correction across features over time scales
+as large as the estimated peak dispersion parameters.
+\end{Value}
+\inputencoding{utf8}
+\HeaderA{estimate\_threshold}{estimate\_threshold}{estimate.Rul.threshold}
+%
+\begin{Description}\relax
+At a high level, this function is used to estimate appropriate
+thresholds to required to distinguish between different peaks accross
+samples, and replicated ones that only vary due to retention time deviation.
+It assumes that duplicate peaks are a relatively short distance from one
+another relative to those that distinct.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+estimate_threshold(distance_vector)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{distance\_vector}] - This vector contains the retention time differences
+between individual peaks identified within a single sample TIC.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Details}\relax
+To estimate threshold, all the measured distances are clustered
+using k-means clustering with an itteritatively increasing number of
+clusters. The itteration is complete once there are as many clusters as
+peaks or when the median of the smallest distance cluster is larger than the
+difference between the minimum and maximum distance values within that
+cluster.
+\end{Details}
+%
+\begin{Value}
+A scalar value made up of the largest value predicted to come from
+peaks identical peaks plus 1.
+\end{Value}
+\inputencoding{utf8}
+\HeaderA{exportPeaks}{exportPeaks}{exportPeaks}
+%
+\begin{Description}\relax
+This function contains the server component of the export Peak
+portion of the shiny app used within Autotuner. This is the part where a
+spreadsheet is saved as output.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+exportPeaks(input, output, session, filledPeaks)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{input}] - List of UI entered values.
+
+\item[\code{output}] - Values exported from server to the UI after computation.
+
+\item[\code{session}] - String used to match the namespace of the UI and server
+
+\item[\code{filledPeaks}] - The xcms object to get exported as a feature table.
+\end{ldescription}
+\end{Arguments}
+\inputencoding{utf8}
+\HeaderA{exportPeaksUI}{exportPeaksUI}{exportPeaksUI}
+%
+\begin{Description}\relax
+This function contains the UI component of the export Peak
+portion of the shiny app used within Autotuner. This is the part where a
+spreadsheet is saved as output.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+exportPeaksUI(id)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{id}] - character string used to map UI and server within App
+\end{ldescription}
+\end{Arguments}
+\inputencoding{utf8}
+\HeaderA{extract\_peaks}{extract\_peaks}{extract.Rul.peaks}
+%
+\begin{Description}\relax
+This function is designed to extract peaks observed within the
+TIC from each sample, and return their indicies for further processing.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+extract_peaks(Autotuner, returned_peaks = 10, signals)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{Autotuner}] - An Autotuner objected containing sample specific raw
+data.
+
+\item[\code{returned\_peaks}] - A scalar number of peaks to return for visual
+inspection. Five is the minimum possible value.
+is the standard.
+
+\item[\code{signals}] - List containing traces and locations where signals are
+detected across all samples being checked by the algorithm.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Value}
+peak\_table\_list - a list of data.frame tables containing information
+on where each where peaks are located within each sample.
+\end{Value}
+\inputencoding{utf8}
+\HeaderA{filterPeaksfromNoise}{filterPeaksfromNoise}{filterPeaksfromNoise}
+%
+\begin{Description}\relax
+This function is desgined to perform the binning of potential
+features. At this point in the algorithm, a potential feature is 2+ m/z
+values that are within the generous exact mass error windown provided by
+the user.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+filterPeaksfromNoise(matchedMasses)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{matchedMasses}] - A data.frame containing information on the
+retained bins.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Value}
+A list with entries for noise peaks and true peaks.
+\end{Value}
+\inputencoding{utf8}
+\HeaderA{filterPpmError}{filterPpmError}{filterPpmError}
+%
+\begin{Description}\relax
+This function computes an estimate for the ppm error threshold.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+filterPpmError(approvedPeaks, useGap, varExpThresh, returnPpmPlots,
+  plotDir, observedPeak, filename)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{approvedPeaks}] - This is a data.frame with information on bins retained
+after filtering with user input mz error threshold and continuity checks.
+
+\item[\code{useGap}] - Parameter carried into checkEICPeaks that tells Autotuner
+whether to use the gap statustic to determine the proper number of clusters
+to use during ppm parameter estimation.
+
+\item[\code{varExpThresh}] - Numeric value representing the variance explained
+threshold to use if useGap is false.
+
+\item[\code{returnPpmPlots}] - Boolean value that tells R to return plots for
+ppm distributions.
+
+\item[\code{plotDir}] - Path where to store plots.
+
+\item[\code{observedPeak}] - A list with names 'start' and 'end' containing
+scalar values representing the calculated peak boundary points
+
+\item[\code{filename}] - A string containing the name of the current data file being
+analyzed.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Details}\relax
+A distribution is created from the set of all ppm values identified.
+The most dense peak of this distribution is assumed to represent the standard
+ppm error of the data.
+\end{Details}
+%
+\begin{Value}
+This function returns a scalar value representing ppm error estimate.
+\end{Value}
+\inputencoding{utf8}
+\HeaderA{findPeakWidth}{findPeakWidth}{findPeakWidth}
+%
+\begin{Description}\relax
+This function is designed to find the maximum peakwidth of an EIC observed within a
+given TIC peak. It does so by using checkBounds to estimate width in time of a peak and countMaxima
+to determine if a peak may be made up from two similar structural isomers.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+findPeakWidth(approvScorePeaks, mzDb, header, sortedAllEIC, boundaries,
+  ppmEst)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{approvScorePeaks}] - A data.frame containing information on the
+retained bins.
+
+\item[\code{mzDb}] - A list of data.frames containing the m/z and intensity values
+from each scan's mass spectra.
+
+\item[\code{header}] - A data.fame containing metadata on the sample like
+spectra type (MS1 vs MS2), retention time, and scan count.
+
+\item[\code{sortedAllEIC}] - a da
+
+\item[\code{boundaries}] - A numeric vector with indicies representing the scans
+bounding the original TIC peak.
+
+\item[\code{ppmEst}] - A scalar value representing the calculated ppm error
+used to generate data.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Value}
+This function returns a scalar value representing an estimate for
+the maximal peak width across samples.
+\end{Value}
+\inputencoding{utf8}
+\HeaderA{findTruePeaks}{findTruePeaks}{findTruePeaks}
+%
+\begin{Description}\relax
+This function is designed to filter out bins that don't come from
+continuous scans. The idea is that after this stage, the data is ready for
+parameter estimation.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+findTruePeaks(truePeaks, sortedAllEIC)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{truePeaks}] - A lsit containing indicies representing each bin.
+
+\item[\code{sortedAllEIC}] - All the raw ms1 data extracted from the EIC peak.
+\end{ldescription}
+\end{Arguments}
+\inputencoding{utf8}
+\HeaderA{find\_noise}{find\_noise}{find.Rul.noise}
+%
+\begin{Description}\relax
+find\_noise
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+find_noise(time_trace)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{time\_trace}] - chromatographic intensity trace
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Value}
+This function determines the indexes within a chromatographic intensity trace
+that are not noise. It does this by asking if a given point is greater than the average
+of that point and the two bounding points on either side of it.
+\end{Value}
+\inputencoding{utf8}
+\HeaderA{fineParams}{fineParams}{fineParams}
+%
+\begin{Description}\relax
+This function contains the server component of the EIC based
+parameter selection portion of the shiny app used within Autotuner. This
+module is specifically involved in presentation of recommended EIC peaks
+following the completion of Autotuner. It can help the user export a
+the calculated parameters as a spreadsheet.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+fineParams(input, output, session, params, runfile, Autotuner)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{input}] - List of UI entered values.
+
+\item[\code{output}] - Values exported from server to the UI after computation.
+
+\item[\code{session}] - String used to match the namespace of the UI and server
+
+\item[\code{params}] - The reactive object containing all calculated parameter
+estimates from the data.
+
+\item[\code{runfile}] - A data.frame containing metadata for all the samples within
+the selected folder.
+
+\item[\code{Autotuner}] - Data with specifics on samples path and metadata.
+\end{ldescription}
+\end{Arguments}
+\inputencoding{utf8}
+\HeaderA{fineParamsUI}{fineParamsUI}{fineParamsUI}
+%
+\begin{Description}\relax
+This function contains the UI component of the EIC based
+parameter selection portion of the shiny app used within Autotuner.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+fineParamsUI(id)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{id}] - character string used to map UI and server within App
+\end{ldescription}
+\end{Arguments}
+\inputencoding{utf8}
+\HeaderA{initialize,Autotuner-method}{Update an \code{\LinkA{Autotuner}{Autotuner.Rdash.class}} object}{initialize,Autotuner.Rdash.method}
+%
+\begin{Description}\relax
+This method updates an \code{\LinkA{Autotuner}{Autotuner.Rdash.class}}
+object to the latest definition.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+## S4 method for signature 'Autotuner'
+initialize(.Object, data_paths, runfile, file_col,
+  factorCol)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{.Object}] - the \code{\LinkA{Autotuner}{Autotuner.Rdash.class}} object to update.
+
+\item[\code{data\_paths}] - A string path pointing at data files to load in Autotuner.
+
+\item[\code{runfile}] - a data.frame of sample metadata.
+
+\item[\code{file\_col}] - Character string of the column name of the column within
+the runfile that contains sample names.
+
+\item[\code{factorCol}] - Character string of the column name of the column within
+the runfile that contains sample type factor.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Value}
+An updated \code{\LinkA{Autotuner}{Autotuner.Rdash.class}} containing all data from
+the input object.
+\end{Value}
+%
+\begin{Author}\relax
+Craig McLean
+\end{Author}
+\inputencoding{utf8}
+\HeaderA{launchAutotuner}{launchAutotuner}{launchAutotuner}
+%
+\begin{Description}\relax
+This function deploys the Autotuner shiny app.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+launchAutotuner()
+\end{verbatim}
+\end{Usage}
+\inputencoding{utf8}
+\HeaderA{loadData}{loadData}{loadData}
+%
+\begin{Description}\relax
+This function contains the server component of the data loading
+portion of the shiny app used within Autotuner.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+loadData(input, output, session)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{input}] - List of UI entered values.
+
+\item[\code{output}] - Values exported from server to the UI after computation.
+
+\item[\code{session}] - String used to match the namespace of the UI and server
+\end{ldescription}
+\end{Arguments}
+\inputencoding{utf8}
+\HeaderA{loadDataUI}{loadDataUI}{loadDataUI}
+%
+\begin{Description}\relax
+This function contains the UI component of the data loading
+portion of the shiny app used within Autotuner.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+loadDataUI(id)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{id}] - character string used to map UI and server within App'
+\end{ldescription}
+\end{Arguments}
+\inputencoding{utf8}
+\HeaderA{peakVis}{peakVis}{peakVis}
+%
+\begin{Description}\relax
+This function contains the server component of the peak
+visualization portion of the shiny app used within Autotuner. In this section
+the user selects if signal processing parameters were properly tuned to
+indentify individual TIC peaks.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+peakVis(input, output, session, signalData, Autotuner)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{input}] - List of UI entered values.
+
+\item[\code{output}] - Values exported from server to the UI after computation.
+
+\item[\code{session}] - String used to match the namespace of the UI and server
+
+\item[\code{signalData}] - Information on peaks selected from sliding windown
+analysis in the previous page of shiny app.
+
+\item[\code{Autotuner}] - Data with specifics on samples path and metadata.
+\end{ldescription}
+\end{Arguments}
+\inputencoding{utf8}
+\HeaderA{peakVisUI}{@title peakVisUI}{peakVisUI}
+%
+\begin{Description}\relax
+@description This file contains all the code needed to run the peak
+visualization from the metabolomics data analysis shiny page. The main
+functions for constructing UI and server behavior are teh "peakVisUI" and
+"peakVis" respectively. All of the other functions depend on
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+peakVisUI(id)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{id}] - character string used to map UI and server within App
+\end{ldescription}
+\end{Arguments}
+\inputencoding{utf8}
+\HeaderA{peakwidth\_est}{peakwidth\_est}{peakwidth.Rul.est}
+%
+\begin{Description}\relax
+This function is designed to generate peak width estimates for
+each TIC peak detected by sliding window analysis.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+peakwidth_est(peak_vector, time, intensity, start = NULL, end = NULL,
+  old_r2 = NULL)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{peak\_vector}] - numeric vector with names of specific time points of the
+chromatography data measured. The numeric values correspond to indiciess
+within the total chromatographic data that span the peak width.
+
+\item[\code{time}] - This vector contains the time measurements during the
+chromatography. This vector is used to match the values in peak\_vector
+to the names in the intensity vector.
+
+\item[\code{intensity}] - measured intensity values for chromatorgraphy
+
+\item[\code{start}] - numeric index indicating where peak starts. Leave null.
+
+\item[\code{end}] - same as above, leave null.
+
+\item[\code{old\_r2}] - previous fit of model used to judge recursion of fit.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Details}\relax
+This function takes in one peak vector at a time and runs a linear
+model on the selected start and end points of a peak. By measuring the
+change of the fit of the model, the function returns an index of values
+corresponding to a peak. This function works recursively to estimate
+the width of the peak. Ultimately, it returns the names of the final
+points in the peak.
+\end{Details}
+%
+\begin{Value}
+This function returns a scalar value representing the estimated peak
+width for a given peak.
+\end{Value}
+\inputencoding{utf8}
+\HeaderA{peakwidth\_table}{peakwidth\_table}{peakwidth.Rul.table}
+%
+\begin{Description}\relax
+This function is designed to generate estimates of peakwidth
+for each peak within the peakList and some properties of each peak. After
+this is done, the table of estimates is exported.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+peakwidth_table(Autotuner, peakList, returned_peaks = 10)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{Autotuner}] - An Autotuner objected containing sample specific raw
+data.
+
+\item[\code{peakList}] - The list of data.frames containing information on each
+peak observed across samples. This is the output generated by the
+extract\_peaks functions that is required for this function to proceed.
+
+\item[\code{returned\_peaks}] - A scalar number of peaks to return for visual
+inspection. Five is the minimum possible value.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Details}\relax
+The actual calculations used to estimate peakwidth are done within
+the function "peakwidth\_est".
+\end{Details}
+%
+\begin{Value}
+This function will return a peak table with information on
+the peak width for each detected peak across samples, the name
+attribute for when the peak starts and ends, and the time points
+associated with each of those parameters and for the midpoint.
+\end{Value}
+\inputencoding{utf8}
+\HeaderA{peak\_time\_difference}{peak\_time\_difference}{peak.Rul.time.Rul.difference}
+%
+\begin{Description}\relax
+This function is designed to return a data.frame containing info
+on how
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+peak_time_difference(peak_table)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{peak\_table}] - table of peak width values extracted with the function
+peak\_width\_table.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Details}\relax
+This function is designed to determine what are the retention time
+differences between peaks that are effectively the same between samples.
+The similarity in peaks is determined by a threshold in retention time
+similarity between peaks. This function returns the max peak width between
+samples, and the time difference between peaks across samples in a data frame
+object. The current and next row indexes are given to go back to the
+peaktable object to plot peaks.
+\end{Details}
+%
+\begin{Value}
+This function returns a data.frame of peaks matched over time.
+\end{Value}
+\inputencoding{utf8}
+\HeaderA{plot\_peaks}{@title plot\_peaks - this funciton plots the peak identified within chromatography.}{plot.Rul.peaks}
+%
+\begin{Description}\relax
+This function plots individual peaks selected by signal
+processing and expanded with a regression to allow the user to validate the
+selected signal processing parameters.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+plot_peaks(Autotuner, boundary = 10, peak, peak_difference, peak_table)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{Autotuner}] - An Autotuner objected containing sample specific raw
+data.
+
+\item[\code{boundary}] - UI input value that defines the boundary around the peak to
+visualize it.
+
+\item[\code{peak}] - Numeric index obtained from UI that indicates which peak
+should be visualized.
+
+\item[\code{peak\_difference}] - A data.frame containing peak overlap information.
+
+\item[\code{peak\_table}] - A data.frame containing the sample specific peak
+information.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Value}
+This function outputs plots that are meant to go into the peakVis
+UI.
+\end{Value}
+\inputencoding{utf8}
+\HeaderA{plot\_signals}{plot\_signals - this funciton plots the peak identified within chromatography.}{plot.Rul.signals}
+%
+\begin{Description}\relax
+This function plots the chromatography and the matching sliding
+window signal processing results for each sample. Signal processing
+functions will be the same color as the chromatography spectra, just a
+lighter shade and a different type of line. The chromatography will be a
+solid line, the signal will be a dashed line (lty = 2) with a .5 alpha,
+and the thersholds will be dotted lines (lty = 3) with alpha values of 3.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+plot_signals(Autotuner, threshold, sample_index, signals)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{Autotuner}] - MSest object created following Create\_MSest()
+initialization function.
+
+\item[\code{threshold}] - User input scalar value for the number of standard
+deviations required to consider a peak to be significant.
+
+\item[\code{sample\_index}] - which of all of the samples should the user plot.
+Entered in as a numerical index value with length 1.
+
+\item[\code{signals}] - A vector containing information on where signals are
+located between samples.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Value}
+Plots signal
+\end{Value}
+\inputencoding{utf8}
+\HeaderA{signalProcessing}{signalProcessing}{signalProcessing}
+%
+\begin{Description}\relax
+This function contains the server component of the signal
+processing portion of the shiny app used within Autotuner.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+signalProcessing(input, output, session, Autotuner)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{input}] - List of UI entered values.
+
+\item[\code{output}] - Values exported from server to the UI after computation.
+
+\item[\code{session}] - String used to match the namespace of the UI and server
+
+\item[\code{Autotuner}] - An Autotuner objected containing sample specific raw
+data.
+\end{ldescription}
+\end{Arguments}
+\inputencoding{utf8}
+\HeaderA{signalProcessingUI}{signalProcessingUI}{signalProcessingUI}
+%
+\begin{Description}\relax
+This function contains the UI component of the signal processing
+portion of the shiny app used within Autotuner.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+signalProcessingUI(id)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{id}] - character string used to map UI and server within App
+\end{ldescription}
+\end{Arguments}
+\inputencoding{utf8}
+\HeaderA{ThresholdingAlgo}{ThresholdingAlgo}{ThresholdingAlgo}
+%
+\begin{Description}\relax
+This function performs a sliding window analysis on the chromatograms
+in order to identify peaks within the data. I would recommend to keep influence
+low in order to use adjacent peak lengths as a measure of peak width.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+ThresholdingAlgo(y, lag, threshold, influence)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{y}] - numerical vector of measured chromatographic intensity values
+
+\item[\code{lag}] - scalar value of number of observations to calculate intensity
+prior to peak selection.
+
+\item[\code{threshold}] - number of standard deviations above chromatogram. Used
+to detect significantly observed peaks.
+
+\item[\code{influence}] - scalar values between 0-1 that describes how much the value
+of a peak (measured index value above threshold) should contribute to the
+sliding window analysis of downstream peaks.
+\end{ldescription}
+\end{Arguments}
+\inputencoding{utf8}
+\HeaderA{TIC\_params}{TIC\_params}{TIC.Rul.params}
+%
+\begin{Description}\relax
+This function is designed to return the parameters related to
+chromatography gathered during the TIC peak selection steps. An estimate is
+given for maximum and minimum peak width as well as the bandwidth parameter
+used in grouping.
+\end{Description}
+%
+\begin{Usage}
+\begin{verbatim}
+TIC_params(peak_table, peak_difference)
+\end{verbatim}
+\end{Usage}
+%
+\begin{Arguments}
+\begin{ldescription}
+\item[\code{peak\_table}] - A data.frame containing information on peak width values
+extracted with the function peak\_width\_table.
+
+\item[\code{peak\_difference}] - A data.frame containing information on retention
+time differences between peaks.
+\end{ldescription}
+\end{Arguments}
+%
+\begin{Value}
+Returns a set of parameters to run xcms.
+\end{Value}
+\printindex{}
+\end{document}
