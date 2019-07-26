@@ -14,7 +14,7 @@ rawPaths <- c(
 
 runfile <- read.table(system.file(
     "a_mtbl2_metabolite_profiling_mass_spectrometry.txt", package = "mtbls2"),
-    header = T, stringsAsFactors = F)
+    header = TRUE, stringsAsFactors = FALSE)
 
 runfile <- runfile[sub("mzData/", "", runfile$Raw.Spectral.Data.File) %in%
                          basename(rawPaths),]
