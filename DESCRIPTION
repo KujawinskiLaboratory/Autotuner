@@ -1,7 +1,7 @@
 Package: Autotuner
 Type: Package
 Title: Automated parameter selection for untargeted metabolomics data processing 
-Version: 0.99.3 
+Version: 0.9.4
 Author: Craig McLean 
 Maintainer: Craig McLean <craigmclean23@gmail.com>
 Description: This package is designed to help faciliate data processing in
@@ -35,7 +35,8 @@ Suggests:
     testthat (>= 2.1.0),
     covr,
     knitr,
-    rmarkdown
+    rmarkdown,
+    mmetspData
 VignetteBuilder: knitr
-BugReports: ghttps://ithub.com/crmclean/Autotuner/issues
+BugReports: https://ithub.com/crmclean/Autotuner/issues
 URL: https://github.com/crmclean/Autotuner/

@@ -26,9 +26,7 @@ This function will create a Autotuner used to extract ms2s.
 }
 \examples{
 library(devtools)
-if(!require("mmetspData")) {
-    install_github("crmclean/mmetspData")
-}
+devtools::install_github("crmclean/mmetspData")
 library(mmetspData)
 mmetspFiles <- c(system.file("mzMLs/mtab_mmetsp_ft_120815_24.mzML",
 package = "mmetspData"), system.file("mzMLs/mtab_mmetsp_ft_120815_25.mzML",

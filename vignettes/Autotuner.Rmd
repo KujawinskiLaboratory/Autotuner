@@ -39,10 +39,8 @@ package can be downloaded in a similar manner as AutoTuner.
 ```{r setup, warning=FALSE}
 library(Autotuner)
 library(devtools)
-if(!require("mmetspData")) {
-    devtools::install_github("crmclean/mmetspData")    
-    library(mmetspData)
-}
+install_github("crmclean/mmetspData")    
+library(mmetspData)
 ```
 
 
@@ -114,7 +112,7 @@ matches raw data samples by name. The factorCol argument corresponds to the
 specific factor column. 
 
 ```{r}
-Autotuner <- createAutotuner(mmetspFiles,
+Autotuner <- Autotuner::createAutotuner(mmetspFiles,
                              metadata,
                              file_col = "File.Name",
                              factorCol = "Sample.Type")
