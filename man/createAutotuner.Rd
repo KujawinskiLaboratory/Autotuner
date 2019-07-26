@@ -25,19 +25,25 @@ This function returns an Autotuner object
 This function will create a Autotuner used to extract ms2s.
 }
 \examples{
-library(devtools)
-devtools::install_github("crmclean/mmetspData")
-library(mmetspData)
-mmetspFiles <- c(system.file("mzMLs/mtab_mmetsp_ft_120815_24.mzML",
-package = "mmetspData"), system.file("mzMLs/mtab_mmetsp_ft_120815_25.mzML",
-package = "mmetspData"), system.file("mzMLs/mtab_mmetsp_ft_120815_26.mzML",
-package = "mmetspData"))
-metadata <- read.csv(system.file("mmetsp_metadata.csv",
-package = "mmetspData"),stringsAsFactors = FALSE)
-metadata <- metadata[metadata$File.Name \%in\%
-sub(pattern = ".mzML", "",basename(mmetspFiles)),]
-Autotuner <- createAutotuner(mmetspFiles, metadata,
-file_col = "File.Name", factorCol = "Sample.Type")
+library(mtbls2)
+rawPaths <- c(
+system.file("mzData/MSpos-Ex2-cyp79-48h-Ag-1_1-B,3_01_9828.mzData",
+package = "mtbls2"),
+system.file("mzData/MSpos-Ex2-cyp79-48h-Ag-2_1-B,4_01_9830.mzData",
+package = "mtbls2"),
+system.file("mzData/MSpos-Ex2-cyp79-48h-Ag-4_1-B,4_01_9834.mzData",
+package = "mtbls2"))
+
+metadata <- read.table(system.file(
+"a_mtbl2_metabolite_profiling_mass_spectrometry.txt", package = "mtbls2"),
+header = T, stringsAsFactors = F)
+metadata <- metadata[sub("mzData/", "",
+metadata$Raw.Spectral.Data.File) \%in\% basename(rawPaths),]
+
+Autotuner <- Autotuner::createAutotuner(rawPaths,
+metadata,
+file_col = "Raw.Spectral.Data.File",
+factorCol = "Factor.Value.genotype.")
 
 
 }

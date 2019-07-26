@@ -38,9 +38,7 @@ package can be downloaded in a similar manner as AutoTuner.
 
 ```{r setup, warning=FALSE}
 library(Autotuner)
-library(devtools)
-install_github("crmclean/mmetspData")    
-library(mmetspData)
+library(mtbls2)  
 ```
 
 
@@ -54,24 +52,29 @@ been processed by using MSconvert. So far file types .mzML, .mzXML, .msData,
 and .netCDF have been tested and confirmed to work. 
 
 ```{r loading mass spec data}
-mmetspFiles <- c(system.file("mzMLs/mtab_mmetsp_ft_120815_24.mzML", 
-                             package = "mmetspData"),
-                 system.file("mzMLs/mtab_mmetsp_ft_120815_25.mzML", 
-                             package = "mmetspData"),
-                 system.file("mzMLs/mtab_mmetsp_ft_120815_26.mzML", 
-                             package = "mmetspData"))
+rawPaths <- c(
+    system.file("mzData/MSpos-Ex2-cyp79-48h-Ag-1_1-B,3_01_9828.mzData", 
+                             package = "mtbls2"),
+system.file("mzData/MSpos-Ex2-cyp79-48h-Ag-2_1-B,4_01_9830.mzData", 
+            package = "mtbls2"),
+system.file("mzData/MSpos-Ex2-cyp79-48h-Ag-4_1-B,4_01_9834.mzData", 
+            package = "mtbls2"))
+
+if(!all(file.exists(rawPaths))) {
+    stop("Not all files matched here exist.")
+}
 ```
 
 Here are the filetypes that will be used within this tutorial:
 
 ```{r filetype}
-print(basename(mmetspFiles))
+print(basename(rawPaths))
 ```
 
 Here are what the paths look like that I am entering into AutoTuner directly:
 
 ```{r}
-print(mmetspFiles)
+print(rawPaths)
 ```
 
 
@@ -84,12 +87,12 @@ second should contain information on the experimental factor each sample belongs
 to. 
 
 ```{r loading in metadata}
-metadata <- read.csv(system.file("mmetsp_metadata.csv", 
-                                 package = "mmetspData"),
-                    stringsAsFactors = FALSE)
+metadata <- read.table(system.file(
+    "a_mtbl2_metabolite_profiling_mass_spectrometry.txt", 
+    package = "mtbls2"), header = TRUE, stringsAsFactors = FALSE)
 
-metadata <- metadata[metadata$File.Name %in% 
-                         sub(pattern = ".mzML", "",basename(mmetspFiles)),]
+metadata <- metadata[sub("mzData/", "", metadata$Raw.Spectral.Data.File) %in% 
+                         basename(rawPaths),]
 ```
 
 This is what the metadata file should look like. In our case, the column 
@@ -112,10 +115,10 @@ matches raw data samples by name. The factorCol argument corresponds to the
 specific factor column. 
 
 ```{r}
-Autotuner <- Autotuner::createAutotuner(mmetspFiles,
+Autotuner <- createAutotuner(rawPaths,
                              metadata,
-                             file_col = "File.Name",
-                             factorCol = "Sample.Type")
+                             file_col = "Raw.Spectral.Data.File",
+                             factorCol = "Factor.Value.genotype.")
 ```
 
 ## Part 1: Total Ion Current Peak Identification

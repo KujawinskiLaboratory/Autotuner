@@ -1,27 +1,29 @@
 context("Preparing things for Autotuner")
 
-devtools::install_github("crmclean/mmetspData")
-library(mmetspData)
+library(mtbls2)
 
 
-mmetspFiles <- c(system.file("mzMLs/mtab_mmetsp_ft_120815_24.mzML",
-                             package = "mmetspData"),
-                 system.file("mzMLs/mtab_mmetsp_ft_120815_25.mzML",
-                             package = "mmetspData"),
-                 system.file("mzMLs/mtab_mmetsp_ft_120815_26.mzML",
-                             package = "mmetspData"))
+rawPaths <- c(
+    system.file("mzData/MSpos-Ex2-cyp79-48h-Ag-1_1-B,3_01_9828.mzData",
+                package = "mtbls2"),
+    system.file("mzData/MSpos-Ex2-cyp79-48h-Ag-2_1-B,4_01_9830.mzData",
+                package = "mtbls2"),
+    system.file("mzData/MSpos-Ex2-cyp79-48h-Ag-4_1-B,4_01_9834.mzData",
+                package = "mtbls2"))
 
-runfile <- read.csv(system.file("mmetsp_metadata.csv", package = "mmetspData"),
-                    stringsAsFactors = FALSE)
 
-runfile <- runfile[runfile$File.Name %in% sub(pattern = ".mzML", "",
-                                              basename(mmetspFiles)),]
+runfile <- read.table(system.file(
+    "a_mtbl2_metabolite_profiling_mass_spectrometry.txt", package = "mtbls2"),
+    header = T, stringsAsFactors = F)
+
+runfile <- runfile[sub("mzData/", "", runfile$Raw.Spectral.Data.File) %in%
+                         basename(rawPaths),]
 
 ## Loading Autotuner
-Autotuner <- createAutotuner(mmetspFiles,
-                             runfile,
-                             file_col = "File.Name",
-                             factorCol = "Sample.Type")
+Autotuner <- Autotuner::createAutotuner(rawPaths,
+                                        runfile,
+                                        file_col = "Raw.Spectral.Data.File",
+                                        factorCol = "Factor.Value.genotype.")
 
 test_that(desc = "Auotuner object creaction",
           code = {

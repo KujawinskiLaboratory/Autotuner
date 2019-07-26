@@ -36,7 +36,7 @@ Suggests:
     covr,
     knitr,
     rmarkdown,
-    mmetspData
+    mtbls2
 VignetteBuilder: knitr
 BugReports: https://ithub.com/crmclean/Autotuner/issues
 URL: https://github.com/crmclean/Autotuner/
