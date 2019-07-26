@@ -36,7 +36,7 @@ package = "mtbls2"))
 
 metadata <- read.table(system.file(
 "a_mtbl2_metabolite_profiling_mass_spectrometry.txt", package = "mtbls2"),
-header = T, stringsAsFactors = F)
+header = TRUE, stringsAsFactors = FALSE)
 metadata <- metadata[sub("mzData/", "",
 metadata$Raw.Spectral.Data.File) \%in\% basename(rawPaths),]
 

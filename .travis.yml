@@ -12,8 +12,6 @@ apt_packages:
   - texlive-latex-recommended
   - texlive-fonts-extra
 
-r_github_packages: crmclean/mmetspData
-
 ## adding this - because there were issues installing mzR
 before_install:
   - if [[ "$TRAVIS_R_VERSION_STRING" = 'bioc-devel' ]]; then mkdir ~/.R && echo 'CXX1X=g++ -std=c++0x -g -O2 -fPIC' > ~/.R/Makevars; fi
