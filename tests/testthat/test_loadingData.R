@@ -2,7 +2,7 @@ context("Preparing things for Autotuner")
 
 library(devtools)
 if(!require("mmetspData")) {
-    install_github("crmclean/mmetspData")
+    devtools::install_github("crmclean/mmetspData")
     library(mmetspData)
 }
 
