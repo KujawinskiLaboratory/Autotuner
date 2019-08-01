@@ -38,5 +38,6 @@ Suggests:
     rmarkdown,
     mtbls2
 VignetteBuilder: knitr
-BugReports: https://ithub.com/crmclean/Autotuner/issues
+BugReports: https://github.com/crmclean/Autotuner/issues
 URL: https://github.com/crmclean/Autotuner/
+LazyData: false

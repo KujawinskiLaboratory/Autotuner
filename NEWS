@@ -1,13 +1,14 @@
-AutoTuner v1.0.1 (Release date: 20190-07-06)
-==============
+Changes in version 0.99.7 (Release date: 2019-08-01)
++ Introduced changes as part of bioconductor review process.
+  o Added Author info to vignette.
+  o Added installation instructions for package.
+  o Removed mention of mmetspData in favor of test data package mtbls2.
+  o Added table of contents to vignette.
+  o Removed png within vignette folder that was not being used. 
+  o Changed dimensions of image returned from TIC plot in vignette.
 
-Changes:
+Changes in version 1.0.1 (Release date: 2019-07-06)
++ Added DOI to cite code through zenodo. 
 
-* Added DOI to cite code through zenodo. 
-
-AutoTuner v1.0.0 (Release date: 2019-07-06)
-==============
-
-Changes:
-
-* Introduced first official release of AutoTuner. 
+Changes in version 1.0.0 (Release date: 2019-07-06)
++ Introduced first official release of AutoTuner. 

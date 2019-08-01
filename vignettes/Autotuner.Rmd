@@ -1,6 +1,16 @@
 ---
 title: "Intro to AutoTuner"
-output: rmarkdown::html_vignette
+author: Craig McLean
+date: August 1, 2019
+output:
+  html_document:
+    toc: yes
+  pdf_document:
+    toc: yes
+  prettydoc::html_pretty:
+    highlight: github
+    theme: lumen
+    toc: yes
 vignette: >
   %\VignetteIndexEntry{Autotuner}
   %\VignetteEngine{knitr::rmarkdown}
@@ -14,6 +24,22 @@ knitr::opts_chunk$set(
 )
 ```
 
+# Table of Contents
+
+- [Introduction](#Introduction)
+- [Installation](#Installation)
+  * [Dev Version](#Dev Version)
+  * [Bioconductor Release](#Bioconductor Release)
+- [Autotuner](#Autotuner)
+  * [Set Up](#Set Up)
+    + [Input - Raw Data](#Input - Raw Data)
+    + [Input - Raw Data](#Input - Metadata)
+  * [Creating AutoTuner Object](#Creating AutoTuner Object)
+  * [Part 1:](#Part 1:)
+  * [Part 2:](#Part 2:)
+  * [Part 3:](#Part 3:)
+- [Session Info](#Session Info)
+
 # Introduction
 
 AutoTuner is a parameter tuning algorithm for XCMS, MZmine2, and other 
@@ -23,18 +49,34 @@ an interactive example of how to use AutoTuner.
 
 # Installation
 
+## Dev Version
+
 Currently, AutoTuner is being distributed through my github acount [here]:
 github.com/crmclean/Autotuner
 
 The easiest way to download that package is by using the install_github command
 from the devtools package as illustrated below.
 
-```{r installation}
-#install_github("crmclean/Autotuner")
+```{r dev installation, eval=FALSE}
+devtools::install_github("crmclean/Autotuner")
 ```
 
-This tutorial uses additional data from the package, mmetspData. This second
-package can be downloaded in a similar manner as AutoTuner.
+## Bioconductor Release
+
+Hopefully the package will be available through bioconductor in the near future.
+Once this occurs, the package may be downloaded by running the following code.
+
+```{r BioC installation, eval=FALSE}
+if(!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+BiocManager::install("Autotuner")
+```
+
+# Autotuner
+
+This tutorial uses additional data from the package, mtbls2 This second
+package contains raw untargeted metabolomics data, and may be downloaded from
+bioconductor in a manner as the BioC installation for Autotuner.
 
 ```{r setup, warning=FALSE}
 library(Autotuner)
@@ -43,7 +85,7 @@ library(mtbls2)
 
 
 
-## Set up:
+## Set Up
 
 ### Input - Raw Data
 
@@ -103,9 +145,7 @@ experimental factor information is called "Sample.Type".
 print(metadata)
 ```
 
-## Setting up AutoTuner
-
-### Creating AutoTuner Object
+## Creating AutoTuner Object
 
 AutoTuner first requires that user create an AutoTuner object. All future
 computations will be contained within this object. 
@@ -121,7 +161,9 @@ Autotuner <- createAutotuner(rawPaths,
                              factorCol = "Factor.Value.genotype.")
 ```
 
-## Part 1: Total Ion Current Peak Identification
+## Part 1: 
+
+**Total Ion Current Peak Identification**
 
 The first part of AutoTuner involves the identification of peaks within the
 total ion current (TIC) of the samples loaded up into AutoTuner. These regions 
@@ -166,7 +208,7 @@ signals <- lapply(getAutoIntensity(Autotuner),
 The output of the sliding window can be displayed with the plot_signals
 function:
 
-```{r}
+```{r plotting TIC, ig.width=6, fig.height=4}
 plot_signals(Autotuner, 
              threshold, 
              ## index for which data files should be displayed
@@ -223,7 +265,9 @@ for(i in 1:5) {
 }
 ```
 
-## Part 2: Parameter Extraction from Individual Extracted Ion Chromatograms
+## Part 2: 
+
+**Parameter Extraction from Individual Extracted Ion Chromatograms**
 
 In order to estimate parameters from the raw data, the user should run the 
 EICparams function as below. The massThreshold is an absolute mass error that
@@ -246,7 +290,9 @@ eicParamEsts <- EICparams(Autotuner = Autotuner,
                           useGap = TRUE)
 ```
 
-## Part 3: Returning Estimates
+## Part 3: 
+
+**Returning Estimates**
 
 All that remains now is to get what the dataset estimates are.
 
@@ -256,6 +302,8 @@ returnParams(eicParamEsts, Autotuner)
 
 There you have it! Running AutoTuner is now complete, and the estimates may be
 entered directly into XCMS to processes raw untargeted metabolomics data.
+
+# Session Info
 
 ```{r}
 sessionInfo()
