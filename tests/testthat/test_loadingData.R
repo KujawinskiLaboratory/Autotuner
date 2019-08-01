@@ -109,3 +109,17 @@ test_that(desc = "Checking peak_time_difference",
           })
 
 
+eicParamEsts <- EICparams(Autotuner = Autotuner,
+                          massThresh = .005,
+                          verbose = FALSE,
+                          returnPpmPlots = FALSE,
+                          useGap = TRUE)
+
+
+test_that(desc = "checking EICparams function",
+          code = {
+              expect_equal(class(eicParamEsts), "data.frame")
+              expect_equal(length(unique(eicParamEsts$sampleID)), 3)
+              expect_equal(max(eicParamEsts$ppm) > 11, TRUE)
+              expect_equal(max(eicParamEsts$maxPw) < 20, TRUE)
+          })
