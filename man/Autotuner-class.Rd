@@ -7,7 +7,7 @@
 \title{Autotuner}
 \format{An Autotuner object}
 \source{
-data-raw/makeTestData.R
+inst/script/makeTestData.R
 }
 \description{
 This file contains the skeleton to the Autotuner class used
@@ -23,31 +23,31 @@ content of this object was made using the mmetspData package.
 \section{Slots}{
 
 \describe{
-\item{\code{time}}{- A list containing vectors of scan time points
+\item{\code{time}}{A list containing vectors of scan time points
 from each sample.}
 
-\item{\code{intensity}}{- A list containing vectors of scan intensity
+\item{\code{intensity}}{A list containing vectors of scan intensity
 points from each sample.}
 
-\item{\code{peaks}}{- Regions within each sample identified as
+\item{\code{peaks}}{Regions within each sample identified as
 peaks by slidingwindow analysis.}
 
-\item{\code{peak_table}}{- A data.frame containing information on
+\item{\code{peak_table}}{A data.frame containing information on
 each peak after further processing is done to the data.}
 
-\item{\code{peak_difference}}{- A data.frame containing information
+\item{\code{peak_difference}}{A data.frame containing information
 on how peaks are eluted differently over time.}
 
-\item{\code{metadata}}{- A data.frame containing metadata for all
+\item{\code{metadata}}{A data.frame containing metadata for all
 samples to be run on Autotuner.}
 
-\item{\code{file_paths}}{- A string path that leads to the samples
+\item{\code{file_paths}}{A string path that leads to the samples
 to be run on Autotuner.}
 
-\item{\code{file_col}}{- A string for the column name of the
+\item{\code{file_col}}{A string for the column name of the
 column within the metadata that has specific sample names.}
 
-\item{\code{factorCol}}{- A string for the column name of the column
+\item{\code{factorCol}}{A string for the column name of the column
 within the metadata that has specific sample class names.}
 }}
 

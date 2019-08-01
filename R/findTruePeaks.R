@@ -4,8 +4,8 @@
 #' from continuous scans. The idea is that after this stage, the data is ready
 #' for parameter estimation.
 #'
-#' @param truePeaks - A list containing indicies representing each bin.
-#' @param sortedAllEIC - All the raw ms1 data extracted from the EIC peak.
+#' @param truePeaks A list containing indicies representing each bin.
+#' @param sortedAllEIC All the raw ms1 data extracted from the EIC peak.
 #'
 #' @return a list of candidate EIC regions
 findTruePeaks <- function(truePeaks, sortedAllEIC) {

@@ -3,12 +3,12 @@
 #' @description This function is designed to extract peaks observed within the
 #' TIC from each sample, and return their indicies for further processing.
 #'
-#' @param Autotuner - An Autotuner objected containing sample specific raw
+#' @param Autotuner An Autotuner objected containing sample specific raw
 #' data.
-#' @param returned_peaks - A scalar number of peaks to return for visual
+#' @param returned_peaks A scalar number of peaks to return for visual
 #' inspection. Five is the minimum possible value.
 #' is the standard.
-#' @param signals - List containing traces and locations where signals are
+#' @param signals A list containing traces and locations where signals are
 #' detected across all samples being checked by the algorithm.
 #'
 #' @return peak_table_list - a list of data.frame tables containing information

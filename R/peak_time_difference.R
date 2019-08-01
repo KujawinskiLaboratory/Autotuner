@@ -3,7 +3,7 @@
 #' @description This function is designed to return a data.frame containing info
 #' on how
 #'
-#' @param Autotuner - An Autotuner object containiing a table of peak width
+#' @param Autotuner An Autotuner object containiing a table of peak width
 #' values extracted with the function peak_width_table.
 #'
 #' @details This function is designed to determine what are the retention time

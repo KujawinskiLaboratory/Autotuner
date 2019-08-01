@@ -3,20 +3,21 @@
 #' @description Recursive function used to find how far a binned feature might
 #' extend beyond the boundary of the originally defined TIC peak.
 #'
-#' @param mass - Specific mass being checked against adjacent scans.
-#' @param upper - A boolean value that tells the algorithm to check indices
+#' @param mass Specific mass being checked against adjacent scans.
+#' @param upper A boolean value that tells the algorithm to check indices
 #' greater than the entered one.  If false, it will check values less thant the
 #' entered one.
-#' @param mzDb - A list of data.frames containing the m/z and intensity values
+#' @param mzDb A list of data.frames containing the m/z and intensity values
 #' from each scan's mass spectra.
-#' @param currentIndex - Numerical index indicating which scan contains
+#' @param currentIndex Numerical index indicating which scan contains
 #' feature specific information.
-#' @param intensityStorage - comming soon
-#' @param ppmEst - Scalar numerical value meant to represent the ppm of the
+#' @param intensityStorage A vector used during recursion to store intensity
+#' values as they are added to peak expansion.
+#' @param ppmEst Scalar numerical value meant to represent the ppm of the
 #' instrument.
-#' @param origBound - The original scan bound location of the peak.
-#' @param scans - Set of all possible ms1 scans for the sample.
-#' @param header - A data.fame containing metadata on the sample like
+#' @param origBound The original scan bound location of the peak.
+#' @param scans Set of all possible ms1 scans for the sample.
+#' @param header A data.fame containing metadata on the sample like
 #' spectra type (MS1 vs MS2), retention time, and scan count.
 #'
 #' @return This function returns the last index the feature is detected.

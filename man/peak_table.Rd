@@ -6,7 +6,7 @@
 \title{peak_table}
 \format{A data frame with 30 rows and 9 columns}
 \source{
-data-raw/makeTestData.R
+inst/script/makeTestData.R
 }
 \usage{
 peak_table

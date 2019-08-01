@@ -7,7 +7,7 @@
 filterPeaksfromNoise(matchedMasses)
 }
 \arguments{
-\item{matchedMasses}{- A data.frame containing information on the
+\item{matchedMasses}{A data.frame containing information on the
 retained bins.}
 }
 \value{

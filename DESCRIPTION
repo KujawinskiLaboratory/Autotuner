@@ -10,7 +10,7 @@ Description: This package is designed to help faciliate data processing in
 License: MIT + file LICENSE
 Encoding: UTF-8
 Depends: R (>= 3.6)
-LazyData: true
+LazyData: false 
 RoxygenNote: 6.1.1
 biocViews: MassSpectrometry, Metabolomics
 Imports: 
@@ -40,4 +40,3 @@ Suggests:
 VignetteBuilder: knitr
 BugReports: https://github.com/crmclean/Autotuner/issues
 URL: https://github.com/crmclean/Autotuner/
-LazyData: false

@@ -7,15 +7,15 @@
 estimate_loess(xs, max_missing, sampleClasses, threshold)
 }
 \arguments{
-\item{xs}{- an xcmsSet object following peakpicking and grouping}
+\item{xs}{An xcmsSet object following peakpicking and grouping}
 
-\item{max_missing}{- Estimate for maximum missing peaks within a group to
+\item{max_missing}{Estimate for maximum missing peaks within a group to
 be considered for retention time correction.}
 
-\item{sampleClasses}{- String vector representing the classes each sample
+\item{sampleClasses}{A string vector representing the classes each sample
 belogns to.}
 
-\item{threshold}{- peak width parameter to estimate retention time
+\item{threshold}{A peak width parameter to estimate retention time
 correction does not overfit the data.}
 }
 \value{

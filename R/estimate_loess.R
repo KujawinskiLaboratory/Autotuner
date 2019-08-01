@@ -1,11 +1,11 @@
 #' @title estimate_loess
 #'
-#' @param xs - an xcmsSet object following peakpicking and grouping
-#' @param sampleClasses - String vector representing the classes each sample
+#' @param xs An xcmsSet object following peakpicking and grouping
+#' @param sampleClasses A string vector representing the classes each sample
 #' belogns to.
-#' @param max_missing - Estimate for maximum missing peaks within a group to
+#' @param max_missing Estimate for maximum missing peaks within a group to
 #' be considered for retention time correction.
-#' @param threshold - peak width parameter to estimate retention time
+#' @param threshold A peak width parameter to estimate retention time
 #' correction does not overfit the data.
 #'
 #' @return This function will return the maximum span that will still

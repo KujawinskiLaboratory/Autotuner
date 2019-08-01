@@ -8,21 +8,21 @@ peakwidth_est(peak_vector, time, intensity, start = NULL, end = NULL,
   old_r2 = NULL)
 }
 \arguments{
-\item{peak_vector}{- numeric vector with names of specific time points of the
+\item{peak_vector}{A numeric vector with names of specific time points of the
 chromatography data measured. The numeric values correspond to indiciess
 within the total chromatographic data that span the peak width.}
 
-\item{time}{- This vector contains the time measurements during the
+\item{time}{This vector contains the time measurements during the
 chromatography. This vector is used to match the values in peak_vector
 to the names in the intensity vector.}
 
-\item{intensity}{- measured intensity values for chromatorgraphy}
+\item{intensity}{A measured intensity values for chromatorgraphy}
 
-\item{start}{- numeric index indicating where peak starts. Leave null.}
+\item{start}{A numeric index indicating where peak starts. Leave null.}
 
-\item{end}{- same as above, leave null.}
+\item{end}{The same as above, leave null.}
 
-\item{old_r2}{- previous fit of model used to judge recursion of fit.}
+\item{old_r2}{A previous fit of model used to judge recursion of fit.}
 }
 \value{
 This function returns a scalar value representing the estimated peak

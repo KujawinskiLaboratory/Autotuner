@@ -8,25 +8,25 @@ filterPpmError(approvedPeaks, useGap, varExpThresh, returnPpmPlots,
   plotDir, observedPeak, filename)
 }
 \arguments{
-\item{approvedPeaks}{- This is a data.frame with information on bins retained
+\item{approvedPeaks}{This is a data.frame with information on bins retained
 after filtering with user input mz error threshold and continuity checks.}
 
-\item{useGap}{- Parameter carried into checkEICPeaks that tells Autotuner
+\item{useGap}{Parameter carried into checkEICPeaks that tells Autotuner
 whether to use the gap statustic to determine the proper number of clusters
 to use during ppm parameter estimation.}
 
-\item{varExpThresh}{- Numeric value representing the variance explained
+\item{varExpThresh}{Numeric value representing the variance explained
 threshold to use if useGap is false.}
 
-\item{returnPpmPlots}{- Boolean value that tells R to return plots for
+\item{returnPpmPlots}{Boolean value that tells R to return plots for
 ppm distributions.}
 
-\item{plotDir}{- Path where to store plots.}
+\item{plotDir}{Path where to store plots.}
 
-\item{observedPeak}{- A list with names 'start' and 'end' containing
+\item{observedPeak}{A list with names 'start' and 'end' containing
 scalar values representing the calculated peak boundary points}
 
-\item{filename}{- A string containing the name of the current data file being
+\item{filename}{A string containing the name of the current data file being
 analyzed.}
 }
 \value{

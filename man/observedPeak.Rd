@@ -10,7 +10,7 @@
   \item{end}{97.73}
 }}
 \source{
-data-raw/makeAutotunerTestData.R
+inst/script/makeAutotunerTestData.R
 }
 \usage{
 observedPeak

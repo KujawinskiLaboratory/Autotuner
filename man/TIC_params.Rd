@@ -7,10 +7,10 @@
 TIC_params(peak_table, peak_difference)
 }
 \arguments{
-\item{peak_table}{- A data.frame containing information on peak width values
+\item{peak_table}{A data.frame containing information on peak width values
 extracted with the function peak_width_table.}
 
-\item{peak_difference}{- A data.frame containing information on retention
+\item{peak_difference}{A data.frame containing information on retention
 time differences between peaks.}
 }
 \value{

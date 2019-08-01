@@ -7,11 +7,11 @@
 countMaxima(peakBounds, sortedAllEIC, prevRange)
 }
 \arguments{
-\item{peakBounds}{- What are the bounds of the peak.}
+\item{peakBounds}{What are the bounds of the peak.}
 
-\item{sortedAllEIC}{- Original data object.}
+\item{sortedAllEIC}{Original data object.}
 
-\item{prevRange}{- Longest measured peak range.}
+\item{prevRange}{Longest measured peak range.}
 }
 \value{
 maxScans - the maximum number of scans across all peaks

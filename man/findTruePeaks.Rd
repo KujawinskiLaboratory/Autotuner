@@ -7,9 +7,9 @@
 findTruePeaks(truePeaks, sortedAllEIC)
 }
 \arguments{
-\item{truePeaks}{- A list containing indicies representing each bin.}
+\item{truePeaks}{A list containing indicies representing each bin.}
 
-\item{sortedAllEIC}{- All the raw ms1 data extracted from the EIC peak.}
+\item{sortedAllEIC}{All the raw ms1 data extracted from the EIC peak.}
 }
 \value{
 a list of candidate EIC regions

@@ -4,9 +4,9 @@
 #' containing parameter estimates obtained from the EIC and TIC parameter
 #' estimation.
 #'
-#' @param eicParamEsts - The objection containing all parameter estimates
+#' @param eicParamEsts The objection containing all parameter estimates
 #' obtained from running Autotuner's EICparam function.
-#' @param Autotuner - An Autotuner object used to return the TIC estimated
+#' @param Autotuner An Autotuner object used to return the TIC estimated
 #' parameters
 #'
 #' @return A list of data.frames with parameter estimates.

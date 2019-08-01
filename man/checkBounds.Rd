@@ -8,28 +8,29 @@ checkBounds(mass, upper = TRUE, mzDb, currentIndex, intensityStorage,
   ppmEst, scans, origBound, header)
 }
 \arguments{
-\item{mass}{- Specific mass being checked against adjacent scans.}
+\item{mass}{Specific mass being checked against adjacent scans.}
 
-\item{upper}{- A boolean value that tells the algorithm to check indices
+\item{upper}{A boolean value that tells the algorithm to check indices
 greater than the entered one.  If false, it will check values less thant the
 entered one.}
 
-\item{mzDb}{- A list of data.frames containing the m/z and intensity values
+\item{mzDb}{A list of data.frames containing the m/z and intensity values
 from each scan's mass spectra.}
 
-\item{currentIndex}{- Numerical index indicating which scan contains
+\item{currentIndex}{Numerical index indicating which scan contains
 feature specific information.}
 
-\item{intensityStorage}{- comming soon}
+\item{intensityStorage}{A vector used during recursion to store intensity
+values as they are added to peak expansion.}
 
-\item{ppmEst}{- Scalar numerical value meant to represent the ppm of the
+\item{ppmEst}{Scalar numerical value meant to represent the ppm of the
 instrument.}
 
-\item{scans}{- Set of all possible ms1 scans for the sample.}
+\item{scans}{Set of all possible ms1 scans for the sample.}
 
-\item{origBound}{- The original scan bound location of the peak.}
+\item{origBound}{The original scan bound location of the peak.}
 
-\item{header}{- A data.fame containing metadata on the sample like
+\item{header}{A data.fame containing metadata on the sample like
 spectra type (MS1 vs MS2), retention time, and scan count.}
 }
 \value{

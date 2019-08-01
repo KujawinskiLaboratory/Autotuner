@@ -5,16 +5,17 @@
 #' estimate width in time of a peak and countMaxima
 #' to determine if a peak may be made up from two similar structural isomers.
 #'
-#' @param approvScorePeaks - A data.frame containing information on the
+#' @param approvScorePeaks A data.frame containing information on the
 #' retained bins.
-#' @param mzDb - A list of data.frames containing the m/z and intensity values
+#' @param mzDb A list of data.frames containing the m/z and intensity values
 #' from each scan's mass spectra.
-#' @param header - A data.fame containing metadata on the sample like
+#' @param header A data.fame containing metadata on the sample like
 #' spectra type (MS1 vs MS2), retention time, and scan count.
-#' @param sortedAllEIC - a da
-#' @param boundaries - A numeric vector with indicies representing the scans
+#' @param sortedAllEIC A data.frame containing observed EIC values along with
+#' their corresponsing scan ID.
+#' @param boundaries A numeric vector with indicies representing the scans
 #' bounding the original TIC peak.
-#' @param ppmEst - A scalar value representing the calculated ppm error
+#' @param ppmEst A scalar value representing the calculated ppm error
 #' used to generate data.
 #'
 #' @return This function returns a scalar value representing an estimate for

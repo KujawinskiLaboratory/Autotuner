@@ -4,19 +4,19 @@
 #' parameters from EIC peaks. It is the main holder function for a lot of
 #' different ones involved in calculating EIC parameters.
 #'
-#' @param Autotuner - An Autotuner objected containing sample specific raw
+#' @param Autotuner An Autotuner objected containing sample specific raw
 #' data.
-#' @param massThresh - A generous exact mass error threshold used to estimate
+#' @param massThresh A generous exact mass error threshold used to estimate
 #' PPM for features.
-#' @param useGap - Parameter carried into checkEICPeaks that tells Autotuner
+#' @param useGap Parameter carried into checkEICPeaks that tells Autotuner
 #' whether to use the gap statustic to determine the proper number of clusters
 #' to use during ppm parameter estimation.
-#' @param varExpThresh - Numeric value representing the variance explained
+#' @param varExpThresh Numeric value representing the variance explained
 #' threshold to use if useGap is false.
-#' @param returnPpmPlots - Boolean value that tells R to return plots for
+#' @param returnPpmPlots A boolean value that tells R to return plots for
 #' ppm distributions.
-#' @param plotDir - Path where to store plots.
-#' @param verbose - Boolean value used to indicate whether checkEICPeaks
+#' @param plotDir Path where to store plots.
+#' @param verbose Boolean value used to indicate whether checkEICPeaks
 #' function returns messages to the console.
 #'
 #' @details The function CheckEICPeaks handles all the peak specific

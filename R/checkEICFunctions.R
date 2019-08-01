@@ -4,8 +4,8 @@
 #' @description This function provides a convenient way to measure ppm between
 #' two exact masses.
 #'
-#' @param first - first mass entered
-#' @param second - second mass entered
+#' @param first Numeric of length 1 respresenting the first mass entered
+#' @param second Numeric of length 1 representing second mass entered
 #'
 #' @importFrom dplyr "%>%"
 #' @importFrom grDevices "boxplot.stats"
@@ -27,7 +27,7 @@ estimatePPM <- function(first, second) {
 #' values that are within the generous exact mass error windown provided by
 #' the user.
 #'
-#' @param matchedMasses - A data.frame containing information on the
+#' @param matchedMasses A data.frame containing information on the
 #' retained bins.
 #'
 #' @return A list with entries for noise peaks and true peaks.
@@ -88,10 +88,10 @@ filterPeaksfromNoise <- function(matchedMasses) {
 #' @description This function is responsible for computing an estimated s/n
 #' threshold.
 #'
-#' @param no_match - This is a vector of numerical indicies within the raw data
+#' @param no_match This is a vector of numerical indicies within the raw data
 #' mapping to scan data considered to come from noise.
-#' @param sortedAllEIC - This is the raw data from a single TIC peak.
-#' @param approvedPeaks - This is a data.frame that contains information on
+#' @param sortedAllEIC This is the raw data from a single TIC peak.
+#' @param approvedPeaks This is a data.frame that contains information on
 #' which peaks come from TIC data.
 #'
 #' @return returns an estimated s/n threshold value
@@ -265,19 +265,19 @@ estimateSNThresh <- function(no_match, sortedAllEIC, approvedPeaks) {
 #'
 #' @description This function computes an estimate for the ppm error threshold.
 #'
-#' @param approvedPeaks - This is a data.frame with information on bins retained
+#' @param approvedPeaks This is a data.frame with information on bins retained
 #' after filtering with user input mz error threshold and continuity checks.
-#' @param useGap - Parameter carried into checkEICPeaks that tells Autotuner
+#' @param useGap Parameter carried into checkEICPeaks that tells Autotuner
 #' whether to use the gap statustic to determine the proper number of clusters
 #' to use during ppm parameter estimation.
-#' @param varExpThresh - Numeric value representing the variance explained
+#' @param varExpThresh Numeric value representing the variance explained
 #' threshold to use if useGap is false.
-#' @param returnPpmPlots - Boolean value that tells R to return plots for
+#' @param returnPpmPlots Boolean value that tells R to return plots for
 #' ppm distributions.
-#' @param plotDir - Path where to store plots.
-#' @param observedPeak - A list with names 'start' and 'end' containing
+#' @param plotDir Path where to store plots.
+#' @param observedPeak A list with names 'start' and 'end' containing
 #' scalar values representing the calculated peak boundary points
-#' @param filename - A string containing the name of the current data file being
+#' @param filename A string containing the name of the current data file being
 #' analyzed.
 #'
 #' @details A distribution is created from the set of all ppm values identified.
@@ -460,9 +460,9 @@ filterPpmError <- function(approvedPeaks, useGap, varExpThresh,
 #' processing function used earlier. This function is used during the estimation
 #' of the maximum peakwdith.
 #'
-#' @param peakBounds - What are the bounds of the peak.
-#' @param sortedAllEIC - Original data object.
-#' @param prevRange - Longest measured peak range.
+#' @param peakBounds What are the bounds of the peak.
+#' @param sortedAllEIC Original data object.
+#' @param prevRange Longest measured peak range.
 #'
 #' @return maxScans - the maximum number of scans across all peaks
 countMaxima <- function(peakBounds, sortedAllEIC, prevRange) {

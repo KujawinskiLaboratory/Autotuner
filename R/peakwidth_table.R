@@ -4,9 +4,9 @@
 #' for each peak within the peakList and some properties of each peak. After
 #' this is done, the table of estimates is exported.
 #'
-#' @param Autotuner - An Autotuner objected containing sample specific raw
+#' @param Autotuner An Autotuner objected containing sample specific raw
 #' data.
-#' @param returned_peaks - A scalar number of peaks to return for visual
+#' @param returned_peaks A scalar number of peaks to return for visual
 #' inspection. Five is the minimum possible value.
 #'
 #' @details The actual calculations used to estimate peakwidth are done within

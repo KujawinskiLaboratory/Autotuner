@@ -7,13 +7,13 @@
 isolatePeaks(Autotuner, returned_peaks, signals)
 }
 \arguments{
-\item{Autotuner}{- Autotuner object. Ideally generated right after signal
+\item{Autotuner}{An Autotuner object. Ideally generated right after signal
 processing peak identification is complete.}
 
-\item{returned_peaks}{- numerical value representing the number of peaks
+\item{returned_peaks}{A numerical value representing the number of peaks
 that are to be returned to the user for downstream parameter optimization.}
 
-\item{signals}{- List of list containing data from sliding window analysis.}
+\item{signals}{A list of list containing data from sliding window analysis.}
 }
 \value{
 Returns an Autotuner object with selected TIC regions.

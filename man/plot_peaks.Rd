@@ -7,13 +7,13 @@
 plot_peaks(Autotuner, boundary = 10, peak)
 }
 \arguments{
-\item{Autotuner}{- An Autotuner objected containing sample specific raw
+\item{Autotuner}{An Autotuner objected containing sample specific raw
 data.}
 
-\item{boundary}{- UI input value that defines the boundary around the peak to
+\item{boundary}{UI input value that defines the boundary around the peak to
 visualize it.}
 
-\item{peak}{- Numeric index obtained from UI that indicates which peak
+\item{peak}{A Numeric index obtained from UI that indicates which peak
 should be visualized.}
 }
 \value{
@@ -21,7 +21,7 @@ This function outputs plots that are meant to go into the peakVis
 UI.
 }
 \description{
-@description  this funciton plots the peak identified within
+@description This funciton plots the peak identified within
  chromatography.
 }
 \details{

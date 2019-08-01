@@ -7,10 +7,10 @@
 peakwidth_table(Autotuner, returned_peaks = 10)
 }
 \arguments{
-\item{Autotuner}{- An Autotuner objected containing sample specific raw
+\item{Autotuner}{An Autotuner objected containing sample specific raw
 data.}
 
-\item{returned_peaks}{- A scalar number of peaks to return for visual
+\item{returned_peaks}{A scalar number of peaks to return for visual
 inspection. Five is the minimum possible value.}
 }
 \value{

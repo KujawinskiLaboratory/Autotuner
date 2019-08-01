@@ -7,15 +7,15 @@
 createAutotuner(data_paths, runfile, file_col, factorCol)
 }
 \arguments{
-\item{data_paths}{- A string path pointing at data files to
+\item{data_paths}{A string path pointing at data files to
 load in Autotuner.}
 
-\item{runfile}{- a data.frame of sample metadata.}
+\item{runfile}{A data.frame of sample metadata.}
 
-\item{file_col}{- Character string of the column name of the
+\item{file_col}{Character string of the column name of the
 column within the runfile that contains sample names.}
 
-\item{factorCol}{- Character string of the column name of the
+\item{factorCol}{Character string of the column name of the
 column within the runfile that contains sample type factor.}
 }
 \value{

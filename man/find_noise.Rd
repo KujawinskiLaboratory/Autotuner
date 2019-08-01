@@ -7,7 +7,7 @@
 find_noise(time_trace)
 }
 \arguments{
-\item{time_trace}{- chromatographic intensity trace}
+\item{time_trace}{A chromatographic intensity trace}
 }
 \value{
 This function determines the indexes within a chromatographic

@@ -7,16 +7,16 @@
 plot_signals(Autotuner, threshold, sample_index, signals)
 }
 \arguments{
-\item{Autotuner}{- MSest object created following Create_MSest()
+\item{Autotuner}{Autotuner object created following Create_Autotuner()
 initialization function.}
 
-\item{threshold}{- User input scalar value for the number of standard
+\item{threshold}{User input scalar value for the number of standard
 deviations required to consider a peak to be significant.}
 
-\item{sample_index}{- which of all of the samples should the user plot.
+\item{sample_index}{which of all of the samples should the user plot.
 Entered in as a numerical index value with length 1.}
 
-\item{signals}{- A vector containing information on where signals are
+\item{signals}{A vector containing information on where signals are
 located between samples.}
 }
 \value{

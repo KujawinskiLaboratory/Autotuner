@@ -5,12 +5,12 @@
 #' to keep influence low in order to use adjacent peak lengths as a measure of
 #' peak width.
 #'
-#' @param y - numerical vector of measured chromatographic intensity values
-#' @param lag - scalar value of number of observations to calculate intensity
+#' @param y A numerical vector of measured chromatographic intensity values
+#' @param lag A scalar value of number of observations to calculate intensity
 #' prior to peak selection.
-#' @param threshold - number of standard deviations above chromatogram. Used
+#' @param threshold A number of standard deviations above chromatogram. Used
 #' to detect significantly observed peaks.
-#' @param influence - scalar values between 0-1 that describes how much the
+#' @param influence A scalar values between 0-1 that describes how much the
 #' value of a peak (measured index value above threshold) should contribute to
 #' the sliding window analysis of downstream peaks.
 #'

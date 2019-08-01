@@ -7,7 +7,7 @@
 getAutoIntensity(Autotuner)
 }
 \arguments{
-\item{Autotuner}{- An AutoTuner object.}
+\item{Autotuner}{An AutoTuner object.}
 }
 \value{
 The content of the intensity slot

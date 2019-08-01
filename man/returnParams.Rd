@@ -7,10 +7,10 @@
 returnParams(eicParamEsts, Autotuner)
 }
 \arguments{
-\item{eicParamEsts}{- The objection containing all parameter estimates
+\item{eicParamEsts}{The objection containing all parameter estimates
 obtained from running Autotuner's EICparam function.}
 
-\item{Autotuner}{- An Autotuner object used to return the TIC estimated
+\item{Autotuner}{An Autotuner object used to return the TIC estimated
 parameters}
 }
 \value{

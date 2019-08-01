@@ -5,7 +5,7 @@
 #' files used for examples, tests, and vignettes in this package.
 #'
 #' @format A list with length 926
-#' @source data-raw/makeAutotunerTestData.R
+#' @source inst/script-raw/makeAutotunerTestData.R
 "mzDb"
 
 #' observedPeak
@@ -18,7 +18,7 @@
 #'   \item{start}{56.18}
 #'   \item{end}{97.73}
 #' }
-#' @source data-raw/makeAutotunerTestData.R
+#' @source inst/script/makeAutotunerTestData.R
 "observedPeak"
 
 #' peak_table
@@ -27,7 +27,7 @@
 #' package files used for examples, tests, and vignettes in this package.
 #'
 #' @format A data frame with 30 rows and 9 columns
-#' @source data-raw/makeTestData.R
+#' @source inst/script/makeTestData.R
 "peak_table"
 
 #' peak_difference
@@ -36,7 +36,7 @@
 #' package files used for examples, tests, and vignettes in this package.
 #'
 #' @format A data frame with 7 rows and 9 columns
-#' @source data-raw/makeTestData.R
+#' @source inst/script/makeTestData.R
 "peak_difference"
 
 #' Autotuner
@@ -45,6 +45,6 @@
 #' content of this object was made using the mmetspData package.
 #'
 #' @format An Autotuner object
-#' @source data-raw/makeTestData.R
+#' @source inst/script/makeTestData.R
 "Autotuner"
 

@@ -6,6 +6,8 @@ Changes in version 0.99.7 (Release date: 2019-08-01)
   o Added table of contents to vignette.
   o Removed png within vignette folder that was not being used. 
   o Changed dimensions of image returned from TIC plot in vignette.
+  o Removed "-" from documentation.
+  o Fixed source paths on files using internal data for examples
 
 Changes in version 1.0.1 (Release date: 2019-07-06)
 + Added DOI to cite code through zenodo. 

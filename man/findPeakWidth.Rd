@@ -8,21 +8,22 @@ findPeakWidth(approvScorePeaks, mzDb, header, sortedAllEIC, boundaries,
   ppmEst)
 }
 \arguments{
-\item{approvScorePeaks}{- A data.frame containing information on the
+\item{approvScorePeaks}{A data.frame containing information on the
 retained bins.}
 
-\item{mzDb}{- A list of data.frames containing the m/z and intensity values
+\item{mzDb}{A list of data.frames containing the m/z and intensity values
 from each scan's mass spectra.}
 
-\item{header}{- A data.fame containing metadata on the sample like
+\item{header}{A data.fame containing metadata on the sample like
 spectra type (MS1 vs MS2), retention time, and scan count.}
 
-\item{sortedAllEIC}{- a da}
+\item{sortedAllEIC}{A data.frame containing observed EIC values along with
+their corresponsing scan ID.}
 
-\item{boundaries}{- A numeric vector with indicies representing the scans
+\item{boundaries}{A numeric vector with indicies representing the scans
 bounding the original TIC peak.}
 
-\item{ppmEst}{- A scalar value representing the calculated ppm error
+\item{ppmEst}{A scalar value representing the calculated ppm error
 used to generate data.}
 }
 \value{

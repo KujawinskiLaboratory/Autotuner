@@ -3,11 +3,11 @@
 #' @description This function is designed to extract all MS1 scan features
 #' observed within the bounds of the current TIC peak.
 #'
-#' @param mzDb - This is a list of two column data frames containing information
+#' @param mzDb This is a list of two column data frames containing information
 #' on each mass spectra within the data.
-#' @param observedPeak - A list with 'start' and 'stop' boundaries of the
+#' @param observedPeak A list with 'start' and 'stop' boundaries of the
 #' current peak.
-#' @param header - This is the header file containing all the metadata
+#' @param header This is the header file containing all the metadata
 #' for the currently loaded sample.
 #'
 #' @return A Peak Matrix from Scan Data

@@ -3,23 +3,23 @@
 #' @description This function is the outer most function used to check for
 #' individual EIC peak specific parameters.
 #'
-#' @param mzDb - A list of data.frames containing the m/z and intensity values
+#' @param mzDb A list of data.frames containing the m/z and intensity values
 #' from each scan's mass spectra.
-#' @param header - A data.fame containing metadata on the sample like
+#' @param header A data.fame containing metadata on the sample like
 #' spectra type, retention time, and scan count.
-#' @param observedPeak - A list with names 'start' and 'end' containing
+#' @param observedPeak A list with names 'start' and 'end' containing
 #' scalar values representing the calculated peak boundary points
-#' @param massThresh - A generous exact mass error threshold used to estimate
+#' @param massThresh A generous exact mass error threshold used to estimate
 #' PPM for features.
-#' @param useGap - Parameter carried into checkEICPeaks that tells Autotuner
+#' @param useGap Parameter carried into checkEICPeaks that tells Autotuner
 #' whether to use the gap statustic to determine the proper number of clusters
 #' to use during ppm parameter estimation.
-#' @param varExpThresh - Numeric value representing the variance explained
+#' @param varExpThresh Numeric value representing the variance explained
 #' threshold to use if useGap is false.
-#' @param returnPpmPlots - Boolean value that tells R to return plots for
+#' @param returnPpmPlots Boolean value that tells R to return plots for
 #' ppm distributions.
-#' @param plotDir - Path where to store plots.
-#' @param filename - A string containing the name of the current data file being
+#' @param plotDir Path where to store plots.
+#' @param filename A string containing the name of the current data file being
 #' analyzed.
 #'
 #' @return This function returns a peak specific set of processign parameters.

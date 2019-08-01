@@ -1,17 +1,17 @@
 #'  @title plot_peaks
 #'
-#'  @description  this funciton plots the peak identified within
+#'  @description This funciton plots the peak identified within
 #'  chromatography.
 #'
 #' @details This function plots individual peaks selected by signal
 #' processing and expanded with a regression to allow the user to validate the
 #' selected signal processing parameters.
 #'
-#' @param Autotuner - An Autotuner objected containing sample specific raw
+#' @param Autotuner An Autotuner objected containing sample specific raw
 #' data.
-#' @param boundary - UI input value that defines the boundary around the peak to
+#' @param boundary UI input value that defines the boundary around the peak to
 #' visualize it.
-#' @param peak - Numeric index obtained from UI that indicates which peak
+#' @param peak A Numeric index obtained from UI that indicates which peak
 #' should be visualized.
 #'
 #' @importFrom rlang .data

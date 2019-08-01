@@ -7,15 +7,15 @@
 ThresholdingAlgo(y, lag, threshold, influence)
 }
 \arguments{
-\item{y}{- numerical vector of measured chromatographic intensity values}
+\item{y}{A numerical vector of measured chromatographic intensity values}
 
-\item{lag}{- scalar value of number of observations to calculate intensity
+\item{lag}{A scalar value of number of observations to calculate intensity
 prior to peak selection.}
 
-\item{threshold}{- number of standard deviations above chromatogram. Used
+\item{threshold}{A number of standard deviations above chromatogram. Used
 to detect significantly observed peaks.}
 
-\item{influence}{- scalar values between 0-1 that describes how much the
+\item{influence}{A scalar values between 0-1 that describes how much the
 value of a peak (measured index value above threshold) should contribute to
 the sliding window analysis of downstream peaks.}
 }

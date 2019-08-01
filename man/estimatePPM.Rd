@@ -7,9 +7,9 @@
 estimatePPM(first, second)
 }
 \arguments{
-\item{first}{- first mass entered}
+\item{first}{Numeric of length 1 respresenting the first mass entered}
 
-\item{second}{- second mass entered}
+\item{second}{Numeric of length 1 representing second mass entered}
 }
 \value{
 The ppm error between the first and second entered mass

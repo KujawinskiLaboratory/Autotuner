@@ -7,7 +7,7 @@
 peak_time_difference(Autotuner)
 }
 \arguments{
-\item{Autotuner}{- An Autotuner object containiing a table of peak width
+\item{Autotuner}{An Autotuner object containiing a table of peak width
 values extracted with the function peak_width_table.}
 }
 \value{

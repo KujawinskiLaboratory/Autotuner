@@ -3,16 +3,16 @@
 #' @description This function is designed to generate peak width estimates for
 #' each TIC peak detected by sliding window analysis.
 #'
-#' @param peak_vector - numeric vector with names of specific time points of the
+#' @param peak_vector A numeric vector with names of specific time points of the
 #' chromatography data measured. The numeric values correspond to indiciess
 #' within the total chromatographic data that span the peak width.
-#' @param time - This vector contains the time measurements during the
+#' @param time This vector contains the time measurements during the
 #' chromatography. This vector is used to match the values in peak_vector
 #' to the names in the intensity vector.
-#' @param intensity - measured intensity values for chromatorgraphy
-#' @param start - numeric index indicating where peak starts. Leave null.
-#' @param end - same as above, leave null.
-#' @param old_r2 - previous fit of model used to judge recursion of fit.
+#' @param intensity A measured intensity values for chromatorgraphy
+#' @param start A numeric index indicating where peak starts. Leave null.
+#' @param end The same as above, leave null.
+#' @param old_r2 A previous fit of model used to judge recursion of fit.
 #'
 #' @details This function takes in one peak vector at a time and runs a linear
 #' model on the selected start and end points of a peak. By measuring the

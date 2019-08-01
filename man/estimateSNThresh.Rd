@@ -7,12 +7,12 @@
 estimateSNThresh(no_match, sortedAllEIC, approvedPeaks)
 }
 \arguments{
-\item{no_match}{- This is a vector of numerical indicies within the raw data
+\item{no_match}{This is a vector of numerical indicies within the raw data
 mapping to scan data considered to come from noise.}
 
-\item{sortedAllEIC}{- This is the raw data from a single TIC peak.}
+\item{sortedAllEIC}{This is the raw data from a single TIC peak.}
 
-\item{approvedPeaks}{- This is a data.frame that contains information on
+\item{approvedPeaks}{This is a data.frame that contains information on
 which peaks come from TIC data.}
 }
 \value{

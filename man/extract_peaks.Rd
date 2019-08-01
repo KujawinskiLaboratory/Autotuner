@@ -7,14 +7,14 @@
 extract_peaks(Autotuner, returned_peaks = 10, signals)
 }
 \arguments{
-\item{Autotuner}{- An Autotuner objected containing sample specific raw
+\item{Autotuner}{An Autotuner objected containing sample specific raw
 data.}
 
-\item{returned_peaks}{- A scalar number of peaks to return for visual
+\item{returned_peaks}{A scalar number of peaks to return for visual
 inspection. Five is the minimum possible value.
 is the standard.}
 
-\item{signals}{- List containing traces and locations where signals are
+\item{signals}{A list containing traces and locations where signals are
 detected across all samples being checked by the algorithm.}
 }
 \value{

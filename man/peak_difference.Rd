@@ -6,7 +6,7 @@
 \title{peak_difference}
 \format{A data frame with 7 rows and 9 columns}
 \source{
-data-raw/makeTestData.R
+inst/script/makeTestData.R
 }
 \usage{
 peak_difference

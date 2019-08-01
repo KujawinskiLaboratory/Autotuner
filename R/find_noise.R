@@ -1,6 +1,6 @@
 #' @title find_noise
 #'
-#' @param time_trace - chromatographic intensity trace
+#' @param time_trace A chromatographic intensity trace
 #'
 #' @return This function determines the indexes within a chromatographic
 #' intensity trace that are not noise. It does this by asking if a given point

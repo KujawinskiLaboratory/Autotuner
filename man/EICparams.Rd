@@ -8,25 +8,25 @@ EICparams(Autotuner, massThresh, useGap = TRUE, varExpThresh = 0.8,
   returnPpmPlots = TRUE, plotDir = ".", verbose = TRUE)
 }
 \arguments{
-\item{Autotuner}{- An Autotuner objected containing sample specific raw
+\item{Autotuner}{An Autotuner objected containing sample specific raw
 data.}
 
-\item{massThresh}{- A generous exact mass error threshold used to estimate
+\item{massThresh}{A generous exact mass error threshold used to estimate
 PPM for features.}
 
-\item{useGap}{- Parameter carried into checkEICPeaks that tells Autotuner
+\item{useGap}{Parameter carried into checkEICPeaks that tells Autotuner
 whether to use the gap statustic to determine the proper number of clusters
 to use during ppm parameter estimation.}
 
-\item{varExpThresh}{- Numeric value representing the variance explained
+\item{varExpThresh}{Numeric value representing the variance explained
 threshold to use if useGap is false.}
 
-\item{returnPpmPlots}{- Boolean value that tells R to return plots for
+\item{returnPpmPlots}{A boolean value that tells R to return plots for
 ppm distributions.}
 
-\item{plotDir}{- Path where to store plots.}
+\item{plotDir}{Path where to store plots.}
 
-\item{verbose}{- Boolean value used to indicate whether checkEICPeaks
+\item{verbose}{Boolean value used to indicate whether checkEICPeaks
 function returns messages to the console.}
 }
 \value{
