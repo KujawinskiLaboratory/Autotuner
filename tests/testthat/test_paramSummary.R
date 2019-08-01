@@ -1,7 +1,10 @@
 context("Performing dataset wide parameter selection")
 
+# The eicParamEsts object was created by running the code within
+# inst/makeTestData/
 Autotuner <- readRDS(system.file("extdata/Autotuner.rds", package="Autotuner"))
-eicTable <- readRDS(system.file('extdata/eicParamEsts.rds', package = "Autotuner"))
+eicTable <- readRDS(system.file('extdata/eicParamEsts.rds',
+                                package = "Autotuner"))
 
 returnParams <- returnParams(eicTable, Autotuner)
 

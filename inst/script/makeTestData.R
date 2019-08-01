@@ -1,3 +1,5 @@
+# This script can be run to generate the files "Autouner" and "eicParamEsts"
+
 library(devtools)
 if(!require("mmetspData")) {
     devtools::install_github("crmclean/mmetspData")
@@ -37,12 +39,14 @@ Autotuner <- isolatePeaks(Autotuner, returned_peaks = 10, signals)
 
 
 ## object used to test whole dataset parameter return function
-eicParamEsts <- EICparams(Autotuner = Autotuner,
+eicParamsEsts <- EICparams(Autotuner = Autotuner,
                             massThresh = .005,
                             verbose = FALSE,
                             returnPpmPlots = FALSE,
                             useGap = TRUE)
 
+## saving the created eicParamEsts object
 #saveRDS(object = eicParamEsts,
 #        file = here::here("inst/extdata/eicParamsEsts.rds"))
+save(eicParamsEsts, file = here::here("data/eicParamsEsts.rda"))
 

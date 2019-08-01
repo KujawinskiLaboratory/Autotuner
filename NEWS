@@ -8,6 +8,8 @@ Changes in version 0.99.7 (Release date: 2019-08-01)
   o Changed dimensions of image returned from TIC plot in vignette.
   o Removed "-" from documentation.
   o Fixed source paths on files using internal data for examples
+  o Removed peak_table and peak_difference from data/ dir
+  o Added documentation for eicParamsEsts object used in testing
 
 Changes in version 1.0.1 (Release date: 2019-07-06)
 + Added DOI to cite code through zenodo. 
