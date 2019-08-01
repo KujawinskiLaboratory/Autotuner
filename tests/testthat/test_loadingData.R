@@ -68,6 +68,8 @@ test_that(desc = "Signal Processing Structure", code = {
 
 })
 
+
+
 test_that(desc = "Signal Processing Output",
           code = {
 
@@ -86,6 +88,19 @@ test_that(desc = "Signal Processing Output",
 
 })
 
+p <- plot_signals(Autotuner,
+             threshold,
+             ## index for which data files should be displayed
+             sample_index = 1:3,
+             signals = signal)
+
+test_that(desc = "Checking plot signals function",
+          code = {
+              expect_equal(all(names(p$rect) == c("w", "h", "left", "top")),
+                           TRUE)
+          })
+
+
 Autotuner <- isolatePeaks(Autotuner, returned_peaks = 10, signal)
 
 test_that(desc = "Checking Function to Return Peaks",
@@ -94,8 +109,21 @@ test_that(desc = "Checking Function to Return Peaks",
               nullCount <- sum(sapply(Autotuner@peaks, is.null))
               expect_equal(nullCount, 0)
               expect_equal(ncol(Autotuner@peaks[[1]]) <= 10, TRUE)
+              expect_equal(length(unique(Autotuner@peak_difference$index)) > 3, TRUE)
 
 })
+
+p <- plot_peaks(Autotuner = Autotuner,
+           boundary = 100,
+           peak = 1)
+
+
+test_that(desc = "Checking that plot peaks function works",
+          code = {
+              expect_equal(all(names(p$rect) == c("w", "h", "left", "top")),
+                           TRUE)
+          })
+
 
 test_that(desc = "Checking Peakwidth_table",
           code = {
@@ -120,6 +148,6 @@ test_that(desc = "checking EICparams function",
           code = {
               expect_equal(class(eicParamEsts), "data.frame")
               expect_equal(length(unique(eicParamEsts$sampleID)), 3)
-              expect_equal(max(eicParamEsts$ppm) > 11, TRUE)
+              expect_equal(max(eicParamEsts$ppm) > 10, TRUE)
               expect_equal(max(eicParamEsts$maxPw) < 20, TRUE)
           })
