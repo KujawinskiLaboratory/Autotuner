@@ -1,5 +1,5 @@
 .Rproj.user
-*.Rplots.pdf
+Rplots.pdf
 *.log
 .Rhistory
 .RData

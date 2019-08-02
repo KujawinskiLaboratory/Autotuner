@@ -94,7 +94,7 @@ setMethod(f = "initialize", signature = "Autotuner",
                 intensity <- list()
                 message(paste("~~~ Extracting the Raw Data from Individual",
                             "Samples ~~~ \n"))
-                for(index in 1:nrow(runfile)) {
+                for(index in seq_len(nrow(runfile))) {
 
                     signal_data <- MSnbase::filterFile(raw, file = index)
                     time[[index]] <- MSnbase::rtime(signal_data)
@@ -110,7 +110,7 @@ setMethod(f = "initialize", signature = "Autotuner",
 
                         allInts <- MSnbase::intensity(signal_data)
                         storeInt <- list()
-                        for(i in 1:length(allInts)) {
+                        for(i in seq_along(allInts)) {
                             storeInt[[i]] <- sum(unlist(allInts[i]))
                         }
                         intensity[[index]] <- unlist(storeInt)

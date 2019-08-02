@@ -44,7 +44,7 @@ findTruePeaks <- function(truePeaks, sortedAllEIC) {
 
         if(moreInAScan) {
 
-            for(w in 1:(length(unique(peakData$scan)) - 1)) {
+            for(w in seq_len(length(unique(peakData$scan)) - 1)) {
 
                 curScan <- unique(peakData$scan)[w]
                 nextScan <- unique(peakData$scan)[w+1]
