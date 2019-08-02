@@ -1,4 +1,4 @@
-Changes in version 0.99.7 (Release date: 2019-08-01)
+Changes in version 0.99.7 (Release date: 2019-08-02)
 + Introduced changes as part of bioconductor review process.
   o Added Author info to vignette.
   o Added installation instructions for package.
@@ -10,6 +10,10 @@ Changes in version 0.99.7 (Release date: 2019-08-01)
   o Fixed source paths on files using internal data for examples
   o Removed peak_table and peak_difference from data/ dir
   o Added documentation for eicParamsEsts object used in testing
+  o swapped sapplys for vapplys
+  o switched 1:.. to seq_len or seq_along
+  o Added and implemented accessor and setter functions for Autotuner slots
+  o Added unit tests for accessor functions. 
 
 Changes in version 1.0.1 (Release date: 2019-07-06)
 + Added DOI to cite code through zenodo. 
