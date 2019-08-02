@@ -16,7 +16,6 @@ biocViews: MassSpectrometry, Metabolomics
 Imports: 
     MSnbase,
     devtools,
-    xcms,
     RColorBrewer,
     dplyr,
     rlang,

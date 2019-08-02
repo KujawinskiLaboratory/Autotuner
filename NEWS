@@ -1,3 +1,8 @@
+Changes in version 0.99.8 (Release data: 2019-08-02)
++ Added changes to fix warnings
+  o Replaced class == to is().
+  o Added corrections to dependencies regarding xcms.
+
 Changes in version 0.99.7 (Release date: 2019-08-02)
 + Introduced changes as part of bioconductor review process.
   o Added Author info to vignette.
