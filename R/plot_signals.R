@@ -139,7 +139,9 @@ plot_signals <- function(Autotuner, threshold, sample_index, signals) {
 
     }
 
-    minRow <-  min(sapply(allSignals, nrow))
+    minRow <-  min(vapply(X = allSignals,
+                          FUN = nrow,
+                          FUN.VALUE = numeric(1)))
     allSignals <- lapply(allSignals, function(x) {x[1:minRow,]})
 
     if(length(sample_index) == 1) {

@@ -66,16 +66,19 @@ findTruePeaks <- function(truePeaks, sortedAllEIC) {
                         obsError <- abs(x - nextStates$mz)/x * 10^6
                     })
 
-                    checkMins <- sapply(errorNext, which.min)
+                    checkMins <- vapply(X = errorNext, FUN = which.min,
+                                        FUN.VALUE = numeric(1))
 
-                    initialState <- sapply(seq_along(errorNext), function(x) {
+                    initialState <- vapply(X = seq_along(errorNext),
+                                           FUN = function(x) {
                         errorNext[[x]][checkMins[x]]
-                    }) %>% which.min()
+                    }, FUN.VALUE = numeric(1)) %>% which.min()
 
                     scanStates <- scanStates[initialState,]
                 }
 
-                nextStateIndex <- sapply(scanStates$mz, function(x) {
+                nextStateIndex <- vapply(X = scanStates$mz, FUN = function(x) {
+
                     obsError <- abs(x - nextStates$mz)/x * 10^6
 
 
@@ -97,9 +100,9 @@ findTruePeaks <- function(truePeaks, sortedAllEIC) {
                     errorInverse <- 1/obsError
                     nextStateProb <- errorInverse/sum(errorInverse) *
                         intensityProb
-                    nextStateProb/sum(nextStateProb)
+                    return(max(nextStateProb/sum(nextStateProb)))
 
-                }) %>% which.max()
+                }, FUN.VALUE = numeric(1)) %>% which.max()
 
                 nextStates <- nextStates[nextStateIndex,]
 
@@ -117,9 +120,9 @@ findTruePeaks <- function(truePeaks, sortedAllEIC) {
             multipleInScan <- FALSE
         }
 
-        obsPPM <- sapply(2:length(peakData$mz), function(mz) {
+        obsPPM <- vapply(X = 2:length(peakData$mz), FUN = function(mz) {
             estimatePPM(peakData$mz[(mz - 1)], peakData$mz[mz])
-        })
+        }, FUN.VALUE = numeric(1))
 
         # storing output -------------------------------------------------------
         ppmData[[counter]] <- data.frame(meanMZ = mean(peakData$mz),

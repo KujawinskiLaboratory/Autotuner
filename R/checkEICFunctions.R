@@ -169,13 +169,13 @@ estimateSNThresh <- function(no_match, sortedAllEIC, approvedPeaks) {
 
         } else {
 
-            new <- sapply(noiseIntDb, function(noiseDb) {
+            new <- vapply(X = noiseIntDb, FUN = function(noiseDb) {
                 if(!all(scanIntervals[[row]] == as.numeric(noiseDb[,c(1,2)]))) {
                     return(TRUE)
                 } else {
                     return(FALSE)
                 }
-            })
+            }, FUN.VALUE = logical(1))
             new <- all(new)
         }
 
@@ -397,8 +397,12 @@ filterPpmError <- function(approvedPeaks, useGap, varExpThresh,
     gauss <- function(x) 1/sqrt(2*pi) * exp(-(x^2)/2)
     gaussDKE <- function(a, x) gauss((x - a)/h)/(n * h)
 
-    bumps <- sapply(ppmObs[minCluster], gaussDKE, x)
-    wholeKDE <- sapply(ppmObs, gaussDKE, x)
+    bumps <- vapply(X = ppmObs[minCluster], FUN = gaussDKE, x = x,
+                    FUN.VALUE = numeric(length = length(x)))
+    wholeKDE <- vapply(X = ppmObs, FUN = gaussDKE,
+                       x,
+                       FUN.VALUE = numeric(length =
+                                               length(x)))
 
     ## calculating this ahead of time to avoid unnecessary downstream
     ## math

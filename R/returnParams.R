@@ -45,7 +45,7 @@ returnParams <- function(eicParamEsts, Autotuner) {
     snEst <- min(eicParamEsts$TenPercentQuanSN, na.rm = TRUE)
 
     maxPw <- split(eicParamEsts$maxPw, eicParamEsts$sampleID)
-    maxPw <- sapply(maxPw, max)
+    maxPw <- vapply(X = maxPw, FUN = max, FUN.VALUE = numeric(1))
     maxPw <- mean(maxPw)
 
     minPw <- min(eicParamEsts$minPw)

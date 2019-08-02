@@ -133,7 +133,8 @@ extract_peaks <- function(Autotuner,
         }
 
 
-        max_peak_length <- max(sapply(peak_times, length))
+        max_peak_length <- max(vapply(X = peak_times, FUN = length,
+                                      FUN.VALUE = numeric(1)))
         peak_table <- data.frame(matrix(nrow = max_peak_length,
                                             ncol = returned_peaks+1))
         peak_table[,1] <- 1:max_peak_length

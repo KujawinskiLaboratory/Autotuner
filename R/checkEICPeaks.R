@@ -103,7 +103,7 @@ checkEICPeaks <- function(mzDb,
 
     ppmObs <- approvedPeaks$meanPPM
     ppmObs <- strsplit(split = ";", x = as.character(ppmObs))
-    ppmObs <- sapply(ppmObs, as.numeric)
+    ppmObs <- lapply(ppmObs, as.numeric)
 
 
     noisyBin <- lapply(ppmObs, function(ppm) {
