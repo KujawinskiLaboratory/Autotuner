@@ -31,7 +31,7 @@
 #' signals <- lapply(getAutoIntensity(Autotuner),
 #' ThresholdingAlgo, lag, threshold, influence)
 #'
-#' plot_signals(Autotuner, threshold, sample_index = 1:3, signals = signals)
+#' plot_signals(Autotuner, threshold, sample_index = seq_len(3), signals = signals)
 #'
 #' @export
 plot_signals <- function(Autotuner, threshold, sample_index, signals) {
@@ -42,7 +42,7 @@ plot_signals <- function(Autotuner, threshold, sample_index, signals) {
 
     # checking for correct input ----------------------------------------------
     if(length(sample_index) > 8) {
-        sample_index <- sample_index[1:8]
+        sample_index <- sample_index[seq_len(8)]
     }
 
     if(!(factorCol %in% colnames(metadata))) {
@@ -80,7 +80,7 @@ plot_signals <- function(Autotuner, threshold, sample_index, signals) {
         curCol <- cols[i]
 
         ave_filter <- curSignal$avgFilter
-        signal_subset <- 1:length(ave_filter)
+        signal_subset <- seq_along(ave_filter)
 
 
         # plotting TICs ------------------------------------------------------
@@ -142,7 +142,7 @@ plot_signals <- function(Autotuner, threshold, sample_index, signals) {
     minRow <-  min(vapply(X = allSignals,
                           FUN = nrow,
                           FUN.VALUE = numeric(1)))
-    allSignals <- lapply(allSignals, function(x) {x[1:minRow,]})
+    allSignals <- lapply(allSignals, function(x) {x[seq_len(minRow),]})
 
     if(length(sample_index) == 1) {
         combinedSignals <- allSignals[[1]]
