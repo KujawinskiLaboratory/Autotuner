@@ -208,3 +208,176 @@ getAutoIntensity <- function(Autotuner) {
 
 }
 
+
+#' @title getAutoTime
+#'
+#' @description This function returns the list of numerics stored within
+#' the 'time' slot of the Autotuner Object
+#'
+#' @param Autotuner An AutoTuner object.
+#'
+#' @return The content of the time slot
+#'
+#' @export
+#'
+#' @examples
+#' Autotuner <- readRDS(system.file("extdata/Autotuner.rds",
+#' package="Autotuner"))
+#' intensity <- getAutoTime(Autotuner)
+getAutoTime <- function(Autotuner) {
+
+    return(Autotuner@time)
+
+}
+
+
+#' @title getAutoPeaks
+#'
+#' @description This function returns the list of numerics stored within
+#' the 'peaks' slot of the Autotuner Object
+#'
+#' @param Autotuner An AutoTuner object.
+#'
+#' @return The content of the peaks slot
+#'
+#' @export
+#'
+#' @examples
+#' Autotuner <- readRDS(system.file("extdata/Autotuner.rds",
+#' package="Autotuner"))
+#' intensity <- getAutoPeaks(Autotuner)
+getAutoPeaks <- function(Autotuner) {
+
+    return(Autotuner@peaks)
+
+}
+
+
+#' @title getAutoPeak_table
+#'
+#' @description This function returns the data.frame stored within
+#' the 'peak_table' slot of the Autotuner Object
+#'
+#' @param Autotuner An AutoTuner object.
+#'
+#' @return The content of the peak_table slot
+#'
+#' @export
+#'
+#' @examples
+#' Autotuner <- readRDS(system.file("extdata/Autotuner.rds",
+#' package="Autotuner"))
+#' intensity <- getAutoPeak_table(Autotuner)
+getAutoPeak_table <- function(Autotuner) {
+
+    return(Autotuner@peak_table)
+
+}
+
+#' @title getAutoPeak_difference
+#'
+#' @description This function returns the data.frame stored within
+#' the 'peak_difference' slot of the Autotuner Object
+#'
+#' @param Autotuner An AutoTuner object.
+#'
+#' @return The content of the peak_difference slot
+#'
+#' @export
+#'
+#' @examples
+#' Autotuner <- readRDS(system.file("extdata/Autotuner.rds",
+#' package="Autotuner"))
+#' intensity <- getAutoPeak_difference(Autotuner)
+getAutoPeak_difference <- function(Autotuner) {
+
+    return(Autotuner@peak_difference)
+
+}
+
+
+#' @title getAutoMetadata
+#'
+#' @description This function returns the data.frame stored within
+#' the 'meatadata' slot of the Autotuner Object
+#'
+#' @param Autotuner An AutoTuner object.
+#'
+#' @return The content of the meatadata slot
+#'
+#' @export
+#'
+#' @examples
+#' Autotuner <- readRDS(system.file("extdata/Autotuner.rds",
+#' package="Autotuner"))
+#' intensity <- getAutoMetadata(Autotuner)
+getAutoMetadata <- function(Autotuner) {
+
+    return(Autotuner@metadata)
+
+}
+
+#' @title getAutoFile_paths
+#'
+#' @description This function returns the character string stored within
+#' the 'file_paths' slot of the Autotuner Object
+#'
+#' @param Autotuner An AutoTuner object.
+#'
+#' @return The content of the file_paths slot
+#'
+#' @export
+#'
+#' @examples
+#' Autotuner <- readRDS(system.file("extdata/Autotuner.rds",
+#' package="Autotuner"))
+#' intensity <- getAutoFile_paths(Autotuner)
+getAutoFile_paths <- function(Autotuner) {
+
+    return(Autotuner@file_paths)
+
+}
+
+
+#' @title getAutoFile_col
+#'
+#' @description This function returns the character string stored within
+#' the 'file_col' slot of the Autotuner Object
+#'
+#' @param Autotuner An AutoTuner object.
+#'
+#' @return The content of the file_col slot
+#'
+#' @export
+#'
+#' @examples
+#' Autotuner <- readRDS(system.file("extdata/Autotuner.rds",
+#' package="Autotuner"))
+#' intensity <- getAutoFile_col(Autotuner)
+getAutoFile_col <- function(Autotuner) {
+
+    return(Autotuner@file_col)
+
+}
+
+#' @title getAutoFactorCol
+#'
+#' @description This function returns the character string stored within
+#' the 'factorCol' slot of the Autotuner Object
+#'
+#' @param Autotuner An AutoTuner object.
+#'
+#' @return The content of the factorCol slot
+#'
+#' @export
+#'
+#' @examples
+#' Autotuner <- readRDS(system.file("extdata/Autotuner.rds",
+#' package="Autotuner"))
+#' intensity <- getAutoFactorCol(Autotuner)
+getAutoFactorCol <- function(Autotuner) {
+
+    return(Autotuner@factorCol)
+
+}
+
