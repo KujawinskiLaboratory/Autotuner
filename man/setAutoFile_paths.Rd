@@ -21,6 +21,6 @@ object.
 \examples{
 Autotuner <- readRDS(system.file("extdata/Autotuner.rds",
 package="Autotuner"))
-file_paths <- getAutoFile_path(Autotuner)
-Autotuner <- setAutoFile_paths(file_paths, Autotuner)
+file_paths <- getAutoFile_paths(Autotuner)
+Autotuner <- setAutoFile_paths(file_paths = file_paths, Autotuner)
 }
