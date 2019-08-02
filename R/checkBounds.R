@@ -88,7 +88,7 @@ checkBounds <- function(mass,
 
     # checking if there is a match in the boundary ----------------------------
     massSpectraMatch <- vector(mode = "numeric", length = length(peakMatrix$mz))
-    for(i in 1:length(peakMatrix$mz)) {
+    for(i in seq_along(peakMatrix$mz)) {
         massSpectraMatch[i] <- estimatePPM(first = peakMatrix$mz[i],
                                             second = mass)
     }
