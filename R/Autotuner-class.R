@@ -186,6 +186,10 @@ createAutotuner <- function(data_paths, runfile, file_col, factorCol) {
     return(Autotuner)
 }
 
+
+# accesor methods for slots -----------------------------------------------
+
+
 #' @title getAutoIntensity
 #'
 #' @description This function is designed to return the list intensities
@@ -380,4 +384,230 @@ getAutoFactorCol <- function(Autotuner) {
     return(Autotuner@factorCol)
 
 }
+
+
+
+# Set methods for slots ---------------------------------------------------
+
+#' @title setAutoIntensity
+#'
+#' @description This function fills the "intensity" slot within an Autotuner
+#' object.
+#'
+#' @param Autotuner An AutoTuner object.
+#' @param intensity A list of numeric values representing intensity
+#'
+#' @return An Autotuner object with a filled intensity slot
+#'
+#' @export
+#'
+#' @examples
+#' Autotuner <- readRDS(system.file("extdata/Autotuner.rds",
+#' package="Autotuner"))
+#' intensity <- getAutoIntensity(Autotuner)
+#' Autotuner <- setAutoIntensity(intensity, Autotuner)
+setAutoIntensity <- function(intensity, Autotuner) {
+
+    Autotuner@intensity <- intensity
+    return(Autotuner)
+
+}
+
+
+#' @title setAutoTime
+#'
+#' @description This function fills the "time" slot within an Autotuner object.
+#'
+#' @param Autotuner An AutoTuner object.
+#' @param time A list of numeric values representing time
+#'
+#' @return An Autotuner object with a filled time slot
+#'
+#' @export
+#'
+#' @examples
+#' Autotuner <- readRDS(system.file("extdata/Autotuner.rds",
+#' package="Autotuner"))
+#' time <- getAutoTime(Autotuner)
+#' Autotuner <- setAutoTime(time, Autotuner)
+setAutoTime <- function(time, Autotuner) {
+
+    Autotuner@time <- time
+    return(Autotuner)
+
+}
+
+
+#' @title setAutoPeaks
+#'
+#' @description This function fills the peaks slot within an Autotuner object.
+#'
+#' @param Autotuner An AutoTuner object.
+#' @param peaks A list of numeric values representing peaks
+#'
+#' @return An Autotuner object with a filled peaks slot
+#'
+#' @export
+#'
+#' @examples
+#' Autotuner <- readRDS(system.file("extdata/Autotuner.rds",
+#' package="Autotuner"))
+#' peaks <- getAutoPeaks(Autotuner)
+#' Autotuner <- setAutoPeaks(peaks, Autotuner)
+setAutoPeaks <- function(peaks, Autotuner) {
+
+    Autotuner@peaks <- peaks
+    return(Autotuner)
+
+}
+
+
+#' @title setAutoPeak_table
+#'
+#' @description This function fills the peak_table slot within an Autotuner
+#' object.
+#'
+#' @param Autotuner An AutoTuner object.
+#' @param peak_table A data.frame representing peak_table
+#'
+#' @return An Autotuner object with a filled peak_table slot
+#'
+#' @export
+#'
+#' @examples
+#' Autotuner <- readRDS(system.file("extdata/Autotuner.rds",
+#' package="Autotuner"))
+#' peak_table <- getAutoPeak_table(Autotuner)
+#' Autotuner <- setAutoPeak_table(peak_table, Autotuner)
+setAutoPeak_table <- function(peak_table, Autotuner) {
+
+    Autotuner@peak_table <- peak_table
+    return(Autotuner)
+
+}
+
+#' @title setAutoPeak_difference
+#'
+#' @description This function fills the peak_difference slot within an
+#' Autotuner object.
+#'
+#' @param Autotuner An AutoTuner object.
+#' @param peak_difference A data.frame representing peak_difference
+#'
+#' @return An Autotuner object with a filled peak_difference slot
+#'
+#' @export
+#'
+#' @examples
+#' Autotuner <- readRDS(system.file("extdata/Autotuner.rds",
+#' package="Autotuner"))
+#' peak_difference <- getAutoPeak_table(Autotuner)
+#' Autotuner <- setAutoPeak_difference(peak_difference, Autotuner)
+setAutoPeak_difference <- function(peak_difference, Autotuner) {
+
+    Autotuner@peak_difference <- peak_difference
+    return(Autotuner)
+
+}
+
+
+#' @title setAutoMetadata
+#'
+#' @description This function fills the metadata slot within an Autotuner
+#' object.
+#'
+#' @param Autotuner An AutoTuner object.
+#' @param metadata A data.frame representing metadata
+#'
+#' @return An Autotuner object with a filled metadata slot
+#'
+#' @export
+#'
+#' @examples
+#' Autotuner <- readRDS(system.file("extdata/Autotuner.rds",
+#' package="Autotuner"))
+#' metadata <- getAutoMetadata(Autotuner)
+#' Autotuner <- setAutoMetadata(metadata, Autotuner)
+setAutoMetadata <- function(metadata, Autotuner) {
+
+    Autotuner@metadata <- metadata
+    return(Autotuner)
+
+}
+
+#' @title setAutoFile_paths
+#'
+#' @description This function fills the file_paths slot within an Autotuner
+#' object.
+#'
+#' @param Autotuner An AutoTuner object.
+#' @param file_paths A character vector representing file_paths
+#'
+#' @return An Autotuner object with a filled file_paths slot
+#'
+#' @export
+#'
+#' @examples
+#' Autotuner <- readRDS(system.file("extdata/Autotuner.rds",
+#' package="Autotuner"))
+#' file_paths <- getAutoFile_path(Autotuner)
+#' Autotuner <- setAutoFile_paths(file_paths, Autotuner)
+setAutoFile_paths <- function(file_paths, Autotuner) {
+
+    Autotuner@file_paths <- file_paths
+    return(Autotuner)
+
+}
+
+
+#' @title setAutoFile_col
+#'
+#' @description This function fills the file_col slot within an Autotuner
+#' object.
+#'
+#' @param Autotuner An AutoTuner object.
+#' @param file_col A character vector representing file_col
+#'
+#' @return An Autotuner object with a filled file_col slot
+#'
+#' @export
+#'
+#' @examples
+#' Autotuner <- readRDS(system.file("extdata/Autotuner.rds",
+#' package="Autotuner"))
+#' file_col <- getAutoFile_col(Autotuner)
+#' Autotuner <- setAutoFile_col(file_col, Autotuner)
+setAutoFile_col <- function(file_col, Autotuner) {
+
+    Autotuner@file_col <- file_col
+    return(Autotuner)
+
+}
+
+#' @title setAutoFactorCol
+#'
+#' @description This function fills the factorCol slot within an Autotuner
+#' object.
+#'
+#' @param Autotuner An AutoTuner object.
+#' @param factorCol A character vector representing factorCol
+#'
+#' @return An Autotuner object with a filled factorCol slot
+#'
+#' @export
+#'
+#' @examples
+#' Autotuner <- readRDS(system.file("extdata/Autotuner.rds",
+#' package="Autotuner"))
+#' factorCol <- getAutoFactorCol(Autotuner)
+#' Autotuner <- setAutoFactorCol(factorCol, Autotuner)
+setAutoFactorCol <- function(factorCol, Autotuner) {
+
+    Autotuner@factorCol <- factorCol
+    return(Autotuner)
+
+}
+
+
+
 
