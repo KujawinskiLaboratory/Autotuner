@@ -42,9 +42,9 @@ plot_peaks <- function(Autotuner, boundary = 10, peak) {
         dplyr::filter(.data$index == peak)
     #peak_table <- peak_table
     sample_names <- unlist(metadata[,factorCol])
-    sample_names <- paste(sample_names, 1:length(sample_names))
+    sample_names <- paste(sample_names, seq_along(sample_names))
 
-    colors <- 1:length(unique(peak_table$Sample))
+    colors <- seq_along(unique(peak_table$Sample))
 
     row <- 1
     peak_counter <- 1
@@ -53,7 +53,7 @@ plot_peaks <- function(Autotuner, boundary = 10, peak) {
     sample_index <- peak_table$Sample[checkPeaks]
 
     ## ploting the peaks
-    lapply(1:length(checkPeaks), function(row_index) {
+    lapply(seq_along(checkPeaks), function(row_index) {
 
         ## renaming info for clarity
         current_row <- checkPeaks[row_index]
