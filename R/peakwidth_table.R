@@ -41,7 +41,7 @@ peakwidth_table <- function(Autotuner, returned_peaks = 10) {
         # generating peak widths for each returned peak ------------------------
         # returns a data frame with estimated sample peakwidths
         peakIndexTable <- data.frame()
-        for(peakColIndex in 1:ncol(peaks)) {
+        for(peakColIndex in seq_len(ncol(peaks))) {
 
             tempPeakWidthEst <- peakwidth_est(peak_vector =
                                                   peaks[,peakColIndex],
