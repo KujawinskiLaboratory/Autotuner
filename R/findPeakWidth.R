@@ -71,7 +71,7 @@ findPeakWidth <- function(approvScorePeaks,
         checkVals <- checkTable$meanMZ
 
         if(length(checkVals) > 50) {
-            checkVals <- checkVals[1:50]
+            checkVals <- checkVals[seq_len(50)]
         }
 
 

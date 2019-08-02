@@ -25,13 +25,16 @@
 #' @export
 isolatePeaks <- function(Autotuner, returned_peaks, signals) {
 
-    Autotuner@peaks <- extract_peaks(Autotuner,
-                                     returned_peaks,
-                                     signals)
+    peaks <- extract_peaks(Autotuner,returned_peaks,signals)
+    Autotuner <- setAutoPeaks(peaks = peaks,Autotuner = Autotuner)
 
-    Autotuner@peak_table <- peakwidth_table(Autotuner, returned_peaks)
+    peak_table <- peakwidth_table(Autotuner, returned_peaks)
+    Autotuner <- setAutoPeak_table(peak_table = peak_table,
+                                   Autotuner = Autotuner)
 
-    Autotuner@peak_difference <- peak_time_difference(Autotuner)
+    peak_difference <- peak_time_difference(Autotuner)
+    Autotuner <- setAutoPeak_difference(peak_difference = peak_difference,
+                           Autotuner = Autotuner)
 
     return(Autotuner)
 

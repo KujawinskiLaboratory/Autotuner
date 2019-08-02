@@ -120,12 +120,17 @@ setMethod(f = "initialize", signature = "Autotuner",
                 }
 
                 message("~~~ Storing Everything in Autotuner Object ~~~ \n")
-                .Object@time <- time
-                .Object@intensity <- intensity
-                .Object@metadata <- runfile
-                .Object@file_paths <- data_paths
-                .Object@file_col <- file_col
-                .Object@factorCol <- factorCol
+                .Object <- setAutoTime(time = time, Autotuner = .Object)
+                .Object <- setAutoIntensity(intensity = intensity,
+                                            Autotuner = .Object)
+                .Object <- setAutoMetadata(metadata = runfile,
+                                                    Autotuner = .Object)
+                .Object <- setAutoFile_paths(file_paths = data_paths,
+                                                        Autotuner = .Object)
+                .Object <- setAutoFile_col(file_col = file_col,
+                                                    Autotuner = .Object)
+                .Object <- setAutoFactorCol(factorCol = factorCol,
+                                            Autotuner = .Object)
 
                 message("~~~ The Autotuner Object has been Created ~~~ \n")
                 return(.Object)

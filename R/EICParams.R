@@ -30,7 +30,7 @@ EICparams <- function(Autotuner, massThresh, useGap = TRUE,
                       varExpThresh = 0.8, returnPpmPlots = TRUE,
                       plotDir = ".", verbose = TRUE) {
 
-    peak_table <- Autotuner@peak_table
+    peak_table <- getAutoPeak_table(Autotuner)
 
     # Checking input ----------------------------------------------------------
     assertthat::assert_that(nrow(peak_table) > 0,

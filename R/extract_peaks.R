@@ -18,8 +18,8 @@ extract_peaks <- function(Autotuner,
                           signals) {
 
 
-    factorCol <- Autotuner@factorCol
-    metadata <- Autotuner@metadata
+    factorCol <- getAutoFactorCol(Autotuner)
+    metadata <- getAutoMetadata(Autotuner)
 
     assertthat::assert_that(is.character(factorCol),
                           msg = "Make sure factorCol is a string object.")

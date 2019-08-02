@@ -32,10 +32,10 @@ plot_peaks <- function(Autotuner, boundary = 10, peak) {
 
 
     # extracting relevant values from input args ------------------------------
-    factorCol <- Autotuner@factorCol
-    metadata <- Autotuner@metadata
-    peak_difference <- Autotuner@peak_difference
-    peak_table <- Autotuner@peak_table
+    factorCol <- getAutoFactorCol(Autotuner)
+    metadata <- getAutoMetadata(Autotuner)
+    peak_difference <- getAutoPeak_difference(Autotuner)
+    peak_table <- getAutoPeak_table(Autotuner)
 
 
     peak_difference <- peak_difference %>%
@@ -62,8 +62,8 @@ plot_peaks <- function(Autotuner, boundary = 10, peak) {
         ## extracting relevant info to plot figures
         bdd_names <- peak_table[current_row,] %>%
             dplyr::select(dplyr::contains("name"))
-        time <- Autotuner@time[[sample_index]]
-        intensity <- Autotuner@intensity[[sample_index]]
+        time <- getAutoTime(Autotuner)[[sample_index]]
+        intensity <- getAutoIntensity(Autotuner)[[sample_index]]
         bdd_points <- which(names(time) %in% unlist(bdd_names))
 
 

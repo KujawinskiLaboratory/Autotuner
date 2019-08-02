@@ -36,8 +36,8 @@
 #' @export
 plot_signals <- function(Autotuner, threshold, sample_index, signals) {
 
-    factorCol <- Autotuner@factorCol
-    metadata <- Autotuner@metadata
+    factorCol <- getAutoFactorCol(Autotuner)
+    metadata <- getAutoMetadata(Autotuner)
 
 
     # checking for correct input ----------------------------------------------

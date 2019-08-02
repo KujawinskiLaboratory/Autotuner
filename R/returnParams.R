@@ -22,9 +22,10 @@
 #' @export
 returnParams <- function(eicParamEsts, Autotuner) {
 
-    params <- TIC_params(Autotuner@peak_table, Autotuner@peak_difference)
-    params <- data.frame(descriptions = names(params), estimates =
-                             unlist(params))
+    params <- TIC_params(getAutoPeak_table(Autotuner),
+                         getAutoPeak_difference(Autotuner))
+    params <- data.frame(descriptions = names(params),
+                         estimates = unlist(params))
 
     colNameCheck <- all(c("ppm", "peakCount",
                           "noiseThreshold", "prefilterI",

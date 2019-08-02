@@ -45,11 +45,11 @@ ThresholdingAlgo <- function(y, lag, threshold, influence) {
     }
 
     signals <- rep(0,length(y))
-    filteredY <- y[1:lag]
+    filteredY <- y[seq_len(lag)]
     avgFilter <- NULL
     stdFilter <- NULL
-    avgFilter[lag] <- mean(y[1:lag])
-    stdFilter[lag] <- sd(y[1:lag])
+    avgFilter[lag] <- mean(y[seq_len(lag)])
+    stdFilter[lag] <- sd(y[seq_len(lag)])
 
     for (i in (lag+1):length(y)){
         if (abs(y[i]-avgFilter[i-1]) > threshold*stdFilter[i-1]) {

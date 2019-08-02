@@ -18,10 +18,10 @@
 peak_time_difference <- function(Autotuner) {
 
 
-    peak_table <- Autotuner@peak_table
+    peak_table <- getAutoPeak_table(Autotuner)
 
     # Checking Input ----------------------------------------------------------
-    assertthat::assert_that(nrow(peak_table) > 0,msg =
+    assertthat::assert_that(nrow(peak_table) > 0, msg =
                                 paste("No peakwidth table observed.",
                                       "Check output of peakwidth_table."))
 
