@@ -27,7 +27,7 @@ peak_time_difference <- function(Autotuner) {
 
 
     # Sorting peaks across samples by mid point time --------------------------
-    peak_table$index <- 1:nrow(peak_table)
+    peak_table$index <- seq_len(nrow(peak_table))
     sorted_peakwidths <- peak_table[order(peak_table$Mid_point_time,
                                           decreasing = TRUE),]
 
@@ -184,7 +184,7 @@ peak_time_difference <- function(Autotuner) {
     index_vector <- unlist(index_vector)
     index_vector <- rle(index_vector)
 
-    temp <- lapply(1:length(index_vector$lengths), function(i) {
+    temp <- lapply(seq_along(index_vector$lengths), function(i) {
         rep(i, index_vector$lengths[i])
     })
     matchingPeaks$index <- unlist(temp)
