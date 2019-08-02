@@ -26,7 +26,7 @@ dissectScans <- function(mzDb, observedPeak, header) {
     rm(peakHead,ms1)
 
     peakMassSpectras <- mzDb[scansOfPeak]
-    for(i in 1:length(scansOfPeak)) {
+    for(i in seq_along(scansOfPeak)) {
         peakMassSpectras[[i]] <- cbind(peakMassSpectras[[i]],
                                        scansOfPeak[i],
                                        scanID[i])

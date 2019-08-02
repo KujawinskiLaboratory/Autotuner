@@ -72,7 +72,7 @@ EICparams <- function(Autotuner, massThresh, useGap = TRUE,
 
         # going through each peak from a sample -----------------------------
         pickedParams <- list()
-        for(curPeak in 1:nrow(currentTable)) {
+        for(curPeak in seq_len(nrow(currentTable))) {
 
             message("--- Currently on peak: ", curPeak)
             start <- currentTable[curPeak,"Start_time"]
