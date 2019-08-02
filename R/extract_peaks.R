@@ -30,7 +30,7 @@ extract_peaks <- function(Autotuner,
 
 
     sample_names <- paste(unlist(metadata[,factorCol]),
-                          1:nrow(metadata))
+                          seq_len(nrow(metadata)))
 
     peak_table_list <- list()
 
@@ -125,7 +125,7 @@ extract_peaks <- function(Autotuner,
         peakGroups <- peakGroups[order(peakGroups$length, decreasing = TRUE),]
 
         peak_times <- list()
-        for(j in 1:nrow(peakGroups)) {
+        for(j in seq_len(nrow(peakGroups))) {
 
             peak_times[[j]] <- Autotuner@time[[index]][
                 peakGroups$start[j]:peakGroups$end[j]]
@@ -137,12 +137,13 @@ extract_peaks <- function(Autotuner,
                                       FUN.VALUE = numeric(1)))
         peak_table <- data.frame(matrix(nrow = max_peak_length,
                                             ncol = returned_peaks+1))
-        peak_table[,1] <- 1:max_peak_length
-        colnames(peak_table) <- c("peakLenth", paste("peak", 1:returned_peaks))
+        peak_table[,1] <- seq_len(max_peak_length)
+        colnames(peak_table) <- c("peakLenth",
+                                  paste("peak", seq_len(returned_peaks)))
 
-        for(column in 2:ncol(peak_table)) {
+        for(column in seq(from = 2, to = ncol(peak_table))) {
             peak <- peak_times[[column -1]]
-            peak_table[c(1:length(peak)),column] <- peak
+            peak_table[c(seq_along(peak)),column] <- peak
         }
 
         peak_table$peakLenth <- NULL
