@@ -61,7 +61,7 @@ peakwidth_est <- function(peak_vector,
     # terms for lm
     points <- c(start,start-1,start-2,start-3,end,end+1,end+2,end+3)
     intensityObs <- intensity[points]
-    modelIndex <- 1:length(intensityObs)
+    modelIndex <- seq_along(intensityObs)
 
     # correcting na formation within intensity observation vector
     if(any(is.na(intensityObs))) {
@@ -77,11 +77,11 @@ peakwidth_est <- function(peak_vector,
     if(sum(!is.na(peak_vector)) > 1) {
         splineOut <- smooth.spline(modelIndex, intensityObs)
         splineObs <- splineOut$fit$coef
-        splineIndex <- 1:length(splineObs)
+        splineIndex <- seq_along(splineObs)
     } else {
         splineObs <- intensityObs
     }
-    splineIndex <- 1:length(splineObs)
+    splineIndex <- seq_along(splineObs)
 
     # running a linear model on the outcome of the spline
     chrom_table <- data.frame(splineIndex, splineObs)
