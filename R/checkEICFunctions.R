@@ -45,7 +45,7 @@ filterPeaksfromNoise <- function(matchedMasses) {
     lastTrue <- matchedMasses$values[1]
 
     ## subsets things that have a second mass w/in user error
-    for(rleIndex in 1:length(matchedMasses$values)) {
+    for(rleIndex in seq_along(matchedMasses$values)) {
 
         start <- lengthCounter
 
@@ -73,7 +73,7 @@ filterPeaksfromNoise <- function(matchedMasses) {
     }
 
     if(is.null(truePeaks[[list_length]])) {
-        truePeaks <- truePeaks[1:(list_length - 1)]
+        truePeaks <- truePeaks[seq_len(list_length - 1)]
     }
 
     rm(list_length,truePeakIndex,lastTrue,lengthCounter,start,end,rleIndex)
@@ -106,7 +106,7 @@ estimateSNThresh <- function(no_match, sortedAllEIC, approvedPeaks) {
 
     ## generating index for subseting of fixed noise obj
     scanIntervals <- list()
-    for(peakID in 1:nrow(approvedPeaks)) {
+    for(peakID in seq_len(nrow(approvedPeaks))) {
 
         peakStart <- approvedPeaks[peakID,"startScan"]
         peakEnd <- approvedPeaks[peakID,"endScan"]
@@ -304,7 +304,7 @@ filterPpmError <- function(approvedPeaks, useGap, varExpThresh,
 
     message("-------- Number of ppm value across bins: ", length(ppmObs))
     if(length(ppmObs) > 10000) {
-        ppmObs <- ppmObs[sample(x = 1:length(ppmObs), size = 5000)]
+        ppmObs <- ppmObs[sample(x = seq_along(ppmObs), size = 5000)]
     }
 
     if(length(ppmObs) > 750) {
