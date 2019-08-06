@@ -24,22 +24,6 @@ knitr::opts_chunk$set(
 )
 ```
 
-# Table of Contents
-
-- [Introduction](#Introduction)
-- [Installation](#Installation)
-  * [Dev Version](#Dev Version)
-  * [Bioconductor Release](#Bioconductor Release)
-- [Autotuner](#Autotuner)
-  * [Set Up](#Set Up)
-    + [Input - Raw Data](#Input - Raw Data)
-    + [Input - Raw Data](#Input - Metadata)
-  * [Creating AutoTuner Object](#Creating AutoTuner Object)
-  * [Part 1:](#Part 1:)
-  * [Part 2:](#Part 2:)
-  * [Part 3:](#Part 3:)
-- [Session Info](#Session Info)
-
 # Introduction
 
 AutoTuner is a parameter tuning algorithm for XCMS, MZmine2, and other 
@@ -191,9 +175,11 @@ chromatography:
 
 Lag - The number of chromatographic scan points used to test if next point is
 significance (ie the size number of points making up the moving average). 
+
 Threshold - A numerical constant representing how many times greater the 
 intensity of an adjacent scan has to be from the scans in the sliding window
 to be considered significant. 
+
 Influence - A numerical factor used to scale the magnitude of a significant scan
 once it has been added to the sliding window. 
 

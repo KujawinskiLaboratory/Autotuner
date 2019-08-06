@@ -1,4 +1,10 @@
-Changes in version 0.99.8 (Release data: 2019-08-02)
+Changes in version 0.99.9 (Release date: 2019-08-06)
++ Added changes to satisfy second round of bioc review
+  o Fixed source path for mzDb data object
+  o Removed redundant table of contents
+  o Removed non used redundant data object eicParamEsts.rds
+
+Changes in version 0.99.8 (Release date: 2019-08-02)
 + Added changes to fix warnings
   o Replaced class == to is().
   o Added corrections to dependencies regarding xcms.

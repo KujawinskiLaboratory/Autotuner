@@ -6,7 +6,7 @@
 \title{mzDb}
 \format{A list with length 926}
 \source{
-inst/script-raw/makeAutotunerTestData.R
+inst/script/makeAutotunerTestData.R
 }
 \usage{
 mzDb

@@ -5,7 +5,7 @@
 #' files used for examples, tests, and vignettes in this package.
 #'
 #' @format A list with length 926
-#' @source inst/script-raw/makeAutotunerTestData.R
+#' @source inst/script/makeAutotunerTestData.R
 "mzDb"
 
 #' observedPeak
