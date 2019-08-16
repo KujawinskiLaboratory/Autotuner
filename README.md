@@ -14,8 +14,6 @@ Currently, AutoTuner requires R version 3.6 or greater.
 
 For input, AutoTuner requires at least 3 samples of raw data converted from proprietary instrument formats (eg .mzML, .mzXML, or .CDF). It also requires a spreadsheet containing at least two columns. One column must match the raw data samples by name, and the other must describe the different experimental factors each sample belongs to. 
 
-Please see vignettes/intro.Rmd for a tutorial on how to use AutoTuner within R. 
-
 ## AutoTuner Installation
 
 AutoTuner is now available through [bioconductor](https://bioconductor.org/packages/devel/bioc/html/Autotuner.html). The current released version of the package may be installed by running the following code:
