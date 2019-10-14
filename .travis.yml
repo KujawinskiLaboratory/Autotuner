@@ -8,10 +8,9 @@ latex: false
 apt_packages:
   - libnetcdf-dev
   - netcdf-bin 
-  - libgit2-dev # git2r
+  - libhdf5-dev
   - texlive-latex-recommended
   - texlive-fonts-extra
-  - libhdf5-dev
 
 ## adding this - because there were issues installing mzR
 before_install:
