@@ -45,7 +45,9 @@ findPeakWidth <- function(approvScorePeaks,
     # ms convert file
     # 2019-06-18 - ISSUE HERE REGARDING MATCHING SCANS TO IDS -
     # ALSO RELATED TO DISSECT SCANS FUNCTION
-    allScansInData <- as.numeric(sub(".*scan=", "", header$spectrumId))
+    allScansInData <- as.numeric(sub("(.* )?scan=|(.* )?scanId=",
+                                     "",
+                                     header$spectrumId))
 
     if(length(allScansInData) == 0) {
         stop(paste("Error during findPeakWidth. allScansInData var is length",

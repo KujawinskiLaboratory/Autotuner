@@ -21,7 +21,7 @@ dissectScans <- function(mzDb, observedPeak, header) {
 
     ## removing if statement here since everything is entered as MS1 spectra
     ## from the get go 2019-06-19
-    scanID <- as.numeric(sub("(.* )?scan=", "", peakHead$spectrumId[ms1]))
+    scanID <- as.numeric(sub("(.* )?scan=|(.* )?scanId=", "", peakHead$spectrumId[ms1]))
 
     rm(peakHead,ms1)
 
