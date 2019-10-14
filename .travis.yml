@@ -11,6 +11,7 @@ apt_packages:
   - libgit2-dev # git2r
   - texlive-latex-recommended
   - texlive-fonts-extra
+  - libhdf5-dev
 
 ## adding this - because there were issues installing mzR
 before_install:
