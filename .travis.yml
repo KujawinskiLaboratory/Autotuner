@@ -17,6 +17,11 @@ apt_packages:
   - texlive-latex-recommended
   - texlive-fonts-extra
 
+
+bioc_packages:
+  - mzR
+  - MSnbase
+
 ## adding this - because there were issues installing mzR
 after_success:
    - Rscript -e 'covr::codecov()'
