@@ -23,6 +23,8 @@ addons:
       - texlive-fonts-extra
 
 
+before_install:
+  - if [[ "$TRAVIS_R_VERSION_STRING" = 'bioc-devel' ]]; then mkdir ~/.R && echo 'CXX1X=g++ -std=c++0x -g -O2 -fPIC' > ~/.R/Makevars; fi
 
 ## adding this - because there were issues installing mzR
 after_success:
