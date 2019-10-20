@@ -9,12 +9,15 @@ Description: This package is designed to help faciliate data processing in
     best set of parameters to process the raw data. 
 License: MIT + file LICENSE
 Encoding: UTF-8
-Depends: R (>= 3.6)
+Depends:
+  R (>= 3.6)
+  methods,
+  Biobase,
+  MSnbase (>= 2.9.3)
 LazyData: false 
 RoxygenNote: 6.1.1
 biocViews: MassSpectrometry, Metabolomics
 Imports: 
-    MSnbase,
     devtools,
     RColorBrewer,
     dplyr,
