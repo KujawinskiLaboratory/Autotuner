@@ -26,7 +26,6 @@ Imports:
     mzR,
     assertthat,
     scales,
-    methods,
     entropy,
     cluster,
     grDevices,

@@ -20,6 +20,8 @@
 #' @param header A data.fame containing metadata on the sample like
 #' spectra type (MS1 vs MS2), retention time, and scan count.
 #'
+#' @import Biobase methods
+#'
 #' @return This function returns the last index the feature is detected.
 checkBounds <- function(mass,
                         upper = TRUE,
