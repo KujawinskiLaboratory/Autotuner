@@ -84,6 +84,10 @@ setMethod(f = "initialize", signature = "Autotuner",
 
                 message("~~~ Autotuner: Initializator ~~~ \n")
                 message("~~~ Parsing Raw Data into R ~~~ \n")
+                if(!all(file.exists(data_paths))) {
+                    stop("One or more of the file paths do not exist.")
+                }
+
                 raw <- suppressMessages(MSnbase::readMSData(data_paths,
                                                             msLevel. = 1,
                                                             mode = "onDisk"))
