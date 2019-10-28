@@ -39,12 +39,6 @@ findPeakWidth <- function(approvScorePeaks,
                                                 sortedAllEIC$scan][1]
 
     checkBoundaries <- filteredRange %in% boundaries
-    #header <- header[header$msLevel == 1L,]
-
-    # Added this on 2019-03-24 for cases where ms2 data is not within the
-    # ms convert file
-    # 2019-06-18 - ISSUE HERE REGARDING MATCHING SCANS TO IDS -
-    # ALSO RELATED TO DISSECT SCANS FUNCTION
     allScansInData <- as.numeric(sub("(.* )?scan=|(.* )?scanId=",
                                      "",
                                      header$spectrumId))
@@ -53,14 +47,6 @@ findPeakWidth <- function(approvScorePeaks,
         stop(paste("Error during findPeakWidth. allScansInData var is length",
                    "0. Check structure of raw data header file."))
     }
-
-    ## CENSORED THIS 2019-06-19
-    ## adding this bandaid here to solve a problem I got with the FT data.
-    ##
-    #if(max(filteredRange) > max(scans)) {
-    #    scans <- sub("(.* )?scan=", "", header$spectrumId) %>% as.numeric()
-    #}
-
 
     ## case 1 - there is a mz value spaning the range of the peak
     if(any(checkBoundaries)) {
@@ -94,7 +80,6 @@ findPeakWidth <- function(approvScorePeaks,
                                           scans = allScansInData,
                                           origBound = filteredRange[2],
                                           header = header)
-                names(upperBound) <- "upper_bound"
                 lowerBound <- checkBounds(mass = mass,
                                           upper = FALSE,
                                           mzDb = mzDb,
@@ -103,7 +88,18 @@ findPeakWidth <- function(approvScorePeaks,
                                           scans = allScansInData,
                                           origBound = filteredRange[1],
                                           header = header)
+
+                ## Replacing with peakwidth determined by TIC estimation
+                if(upperBound == "Runaway Peak") {
+                    upperBound <- filteredRange[2]
+                }
+
+                if(lowerBound == "Runaway Peak") {
+                    lowerBound <- filteredRange[1]
+                }
+                names(upperBound) <- "upper_bound"
                 names(lowerBound) <- "lower_bound"
+
                 peakBounds[[massIndex]] <- data.frame(lowerBound,
                                              upperBound,
                                              total = (upperBound - lowerBound),
@@ -125,6 +121,10 @@ findPeakWidth <- function(approvScorePeaks,
                                             origBound = filteredRange[2],
                                             scans = allScansInData)
                     lowerBound <- checkTable$startMatch[massIndex]
+                    if(upperBound == "Runaway Peak") {
+                        upperBound <- filteredRange[2]
+                    }
+
 
                   ## case 2 - it is bounded from below
                 } else {
@@ -139,6 +139,9 @@ findPeakWidth <- function(approvScorePeaks,
                                             header = header,
                                             origBound = filteredRange[1],
                                             scans = allScansInData)
+                    if(lowerBound == "Runaway Peak") {
+                        lowerBound <- filteredRange[1]
+                    }
                     upperBound <- checkTable$endMatch[massIndex]
 
                 }
@@ -166,15 +169,18 @@ findPeakWidth <- function(approvScorePeaks,
 
             checkThisBound <- peakBounds[which.max(peakBounds$total)[1],]
 
-            rtUpper <- header$retentionTime[grep(paste0("scan=","\\b",
-                                                checkThisBound$upperBound,
-                                                                "\\b"),
-                                                         header$spectrumId)]
-            rtLower <- header$retentionTime[grep(paste0("scan=","\\b",
-                                                checkThisBound$lowerBound,
-                                                                "\\b"),
-                                                         header$spectrumId)]
+
+            upperString  <- paste0("scan=","\\b",checkThisBound$upperBound,"\\b",
+                   "|scanId=","\\b",checkThisBound$upperBound,"\\b")
+            lowerString <- paste0("scan=","\\b",checkThisBound$lowerBound,"\\b",
+                                  "|scanId=","\\b",checkThisBound$lowerBound,"\\b")
+
+            rtUpper <- header$retentionTime[grep(upperString,header$spectrumId)]
+            rtLower <- header$retentionTime[grep(lowerString,header$spectrumId)]
             maxPw <- rtUpper - rtLower
+            if(length(maxPw) == 0) {
+                stop("maxPw length is zero. Check how scans are being matched.")
+            }
         }
 
 

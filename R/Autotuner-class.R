@@ -84,9 +84,7 @@ setMethod(f = "initialize", signature = "Autotuner",
 
                 message("~~~ Autotuner: Initializator ~~~ \n")
                 message("~~~ Parsing Raw Data into R ~~~ \n")
-                if(!all(file.exists(data_paths))) {
-                    stop("One or more of the file paths do not exist.")
-                }
+
 
                 raw <- suppressMessages(MSnbase::readMSData(data_paths,
                                                             msLevel. = 1,
@@ -183,6 +181,14 @@ createAutotuner <- function(data_paths, runfile, file_col, factorCol) {
     if(nrow(runfile) == 0) {
         stop(paste('The entered metadata file does not contain any rows.',
                     'Check the input.'))
+    }
+
+    if(!all(file.exists(data_paths))) {
+        stop("One or more of the file paths do not exist.")
+    }
+
+    if(nrow(runfile) != length(data_paths)) {
+        stop("Number of file paths and metadata entries do not match. Check input.")
     }
 
     Autotuner <- methods::new(Class="Autotuner", data_paths,

@@ -54,7 +54,7 @@ checkBounds <- function(mass,
     }
 
     if(runawayPeak) {
-        return(NA)
+        return("Runaway Peak")
     }
 
     # initializing storage objects --------------------------------------------

@@ -128,13 +128,12 @@ checkEICPeaks <- function(mzDb,
     scanEst <- min(approvScorePeaks$scanCount)
 
     ### Noise Intensity Estimate
-    noiseEst <- min(approvScorePeaks$minIntensity) - 100
-    if(noiseEst < 0) {
-        noiseEst <- min(approvScorePeaks$minIntensity) + 10
-    }
+    noiseEst <- min(approvScorePeaks$minIntensity) -
+        min(approvScorePeaks$minIntensity)*.1
 
     ### Prefilter Intensity Estimate
-    intensityEst <- min(approvScorePeaks$Intensity)/sqrt(2)
+    intensityEst <- min(approvScorePeaks$Intensity) -
+        min(approvScorePeaks$Intensity)*0.1
 
     ### peakWidth Estimate
     maxPw <- findPeakWidth(approvScorePeaks = approvScorePeaks,
@@ -143,6 +142,13 @@ checkEICPeaks <- function(mzDb,
                            sortedAllEIC = sortedAllEIC,
                            boundaries = boundaries,
                            ppmEst = ppmEst)
+
+
+    if(length(maxPw) == 0) {
+
+        stop("Something went wrong with findPeakWidth Function...",
+             " Please report this error to github issues.")
+    }
 
     minPw <- scanEst * rate
 
