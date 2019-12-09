@@ -21,25 +21,25 @@ runfile <- runfile[runfile$File.Name %in% sub(pattern = ".mzML", "",
                                               basename(mmetspFiles)),]
 
 ## Loading Autotuner
-Autotuner <- createAutotuner(mmetspFiles,
+AutotunerObj <- createAutotuner(mmetspFiles,
                                 runfile,
                                 file_col = "File.Name",
                                 factorCol = "Sample.Type")
 
-#saveRDS(object = Autotuner, file = here::here("data/preSignalAuto.rds"))
+#saveRDS(object = AutotunerObj, file = here::here("data/preSignalAuto.rds"))
 
 lag <- 20
 threshold<- 3
 influence <- 0.1
-signals <- lapply(getAutoIntensity(Autotuner),
+signals <- lapply(getAutoIntensity(AutotunerObj),
                     ThresholdingAlgo, lag, threshold, influence)
 
 
-Autotuner <- isolatePeaks(Autotuner, returned_peaks = 10, signals)
+AutotunerObj <- isolatePeaks(AutotunerObj, returned_peaks = 10, signals)
 
 
 ## object used to test whole dataset parameter return function
-eicParamsEsts <- EICparams(Autotuner = Autotuner,
+eicParamsEsts <- EICparams(Autotuner = AutotunerObj,
                             massThresh = .005,
                             verbose = FALSE,
                             returnPpmPlots = FALSE,

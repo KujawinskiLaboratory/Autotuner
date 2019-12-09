@@ -4,8 +4,17 @@
 \alias{checkBounds}
 \title{checkBounds}
 \usage{
-checkBounds(mass, upper = TRUE, mzDb, currentIndex, intensityStorage,
-  ppmEst, scans, origBound, header)
+checkBounds(
+  mass,
+  upper = TRUE,
+  mzDb,
+  currentIndex,
+  intensityStorage,
+  ppmEst,
+  scans,
+  origBound,
+  header
+)
 }
 \arguments{
 \item{mass}{Specific mass being checked against adjacent scans.}

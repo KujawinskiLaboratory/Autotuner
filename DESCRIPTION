@@ -15,12 +15,11 @@ Depends:
   Biobase,
   MSnbase (>= 2.9.3)
 LazyData: false 
-RoxygenNote: 6.1.1
+RoxygenNote: 7.0.2
 biocViews: MassSpectrometry, Metabolomics
 Imports: 
     devtools,
     RColorBrewer,
-    dplyr,
     rlang,
     plyr,
     mzR,

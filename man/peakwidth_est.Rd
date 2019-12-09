@@ -4,8 +4,14 @@
 \alias{peakwidth_est}
 \title{peakwidth_est}
 \usage{
-peakwidth_est(peak_vector, time, intensity, start = NULL, end = NULL,
-  old_r2 = NULL)
+peakwidth_est(
+  peak_vector,
+  time,
+  intensity,
+  start = NULL,
+  end = NULL,
+  old_r2 = NULL
+)
 }
 \arguments{
 \item{peak_vector}{A numeric vector with names of specific time points of the

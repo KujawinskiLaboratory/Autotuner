@@ -4,8 +4,7 @@
 \alias{findPeakWidth}
 \title{findPeakWidth}
 \usage{
-findPeakWidth(approvScorePeaks, mzDb, header, sortedAllEIC, boundaries,
-  ppmEst)
+findPeakWidth(approvScorePeaks, mzDb, header, sortedAllEIC, boundaries, ppmEst)
 }
 \arguments{
 \item{approvScorePeaks}{A data.frame containing information on the

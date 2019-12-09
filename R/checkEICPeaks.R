@@ -108,7 +108,8 @@ checkEICPeaks <- function(mzDb,
 
     noisyBin <- lapply(ppmObs, function(ppm) {
         any(ppm > ppmEst)
-    }) %>% unlist()
+    })
+    noisyBin <- unlist(noisyBin)
     approvScorePeaks <- approvedPeaks[!noisyBin,]
 
     # Estimating PeakPicking Parameters ---------------------------------------

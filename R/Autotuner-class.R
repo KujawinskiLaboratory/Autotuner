@@ -4,7 +4,7 @@
 #' through out Autoutuner.
 #'
 #' @description This object is a generic object designed to run the different
-#' functions of the ms2sweeper package. The slots represent content or data
+#' functions of the Autotuner package. The slots represent content or data
 #' that the package uses throughout the different functions.
 #'
 #' @slot time A list containing vectors of scan time points

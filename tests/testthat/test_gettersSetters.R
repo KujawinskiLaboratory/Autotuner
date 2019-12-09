@@ -1,6 +1,6 @@
 context("Testing Accessor Functions")
 
-Autotuner <- readRDS(system.file("extdata/Autotuner.rds", package="Autotuner"))
+Autotuner <- readRDS(system.file("extdata/AutotunerObj.rds", package="Autotuner"))
 
 intensity <- getAutoIntensity(Autotuner)
 time <- getAutoTime(Autotuner)

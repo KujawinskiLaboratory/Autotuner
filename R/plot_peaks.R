@@ -17,7 +17,6 @@
 #' @importFrom rlang .data
 #' @import mzR
 #' @import devtools
-#' @import plyr
 #'
 #' @return This function outputs plots that are meant to go into the peakVis
 #' UI.
@@ -38,8 +37,8 @@ plot_peaks <- function(Autotuner, boundary = 10, peak) {
     peak_table <- getAutoPeak_table(Autotuner)
 
 
-    peak_difference <- peak_difference %>%
-        dplyr::filter(.data$index == peak)
+    peak_difference <- peak_difference
+    peak_difference <- peak_difference[peak_difference$index == peak,]
     #peak_table <- peak_table
     sample_names <- unlist(metadata[,factorCol])
     sample_names <- paste(sample_names, seq_along(sample_names))
@@ -60,8 +59,8 @@ plot_peaks <- function(Autotuner, boundary = 10, peak) {
         sample_index <- peak_table$Sample[current_row]
 
         ## extracting relevant info to plot figures
-        bdd_names <- peak_table[current_row,] %>%
-            dplyr::select(dplyr::contains("name"))
+        bdd_names <- peak_table[current_row,]
+        bdd_names <- bdd_names[,grep("name", colnames(bdd_names))]
         time <- getAutoTime(Autotuner)[[sample_index]]
         intensity <- getAutoIntensity(Autotuner)[[sample_index]]
         bdd_points <- which(names(time) %in% unlist(bdd_names))

@@ -4,8 +4,17 @@
 \alias{checkEICPeaks}
 \title{checkEICPeaks}
 \usage{
-checkEICPeaks(mzDb, header, observedPeak, massThresh = 0.005, useGap,
-  varExpThresh, returnPpmPlots, plotDir, filename)
+checkEICPeaks(
+  mzDb,
+  header,
+  observedPeak,
+  massThresh = 0.005,
+  useGap,
+  varExpThresh,
+  returnPpmPlots,
+  plotDir,
+  filename
+)
 }
 \arguments{
 \item{mzDb}{A list of data.frames containing the m/z and intensity values

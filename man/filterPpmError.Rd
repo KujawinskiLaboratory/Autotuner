@@ -4,8 +4,15 @@
 \alias{filterPpmError}
 \title{filterPpmError}
 \usage{
-filterPpmError(approvedPeaks, useGap, varExpThresh, returnPpmPlots,
-  plotDir, observedPeak, filename)
+filterPpmError(
+  approvedPeaks,
+  useGap,
+  varExpThresh,
+  returnPpmPlots,
+  plotDir,
+  observedPeak,
+  filename
+)
 }
 \arguments{
 \item{approvedPeaks}{This is a data.frame with information on bins retained

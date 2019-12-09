@@ -148,6 +148,6 @@ test_that(desc = "checking EICparams function",
           code = {
               expect_equal(class(eicParamEsts), "data.frame")
               expect_equal(length(unique(eicParamEsts$sampleID)), 3)
-              expect_equal(max(eicParamEsts$ppm) > 10, TRUE)
+              expect_equal(max(eicParamEsts$ppm) > 5, TRUE)
               expect_equal(max(eicParamEsts$maxPw) < 30, TRUE)
           })

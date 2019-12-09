@@ -7,7 +7,6 @@
 #' @param first Numeric of length 1 respresenting the first mass entered
 #' @param second Numeric of length 1 representing second mass entered
 #'
-#' @importFrom dplyr "%>%"
 #' @importFrom grDevices "boxplot.stats"
 #' @importFrom graphics "abline" "legend" "lines" "par" "plot"
 #' @importFrom stats "acf" "cor" "dist" "filter" "kmeans" "lm" "median"
@@ -290,9 +289,9 @@ filterPpmError <- function(approvedPeaks, useGap, varExpThresh,
                             filename) {
 
     ppmObs <- approvedPeaks$meanPPM
-    ppmObs <- strsplit(split = ";", x = as.character(ppmObs)) %>%
-        lapply(function(x) {as.numeric(x)}) %>%
-        unlist()
+    ppmObs <- strsplit(split = ";", x = as.character(ppmObs))
+    ppmObs <- lapply(ppmObs, as.numeric)
+    ppmObs <- unlist(ppmObs)
 
     ## 2019-06-19
     ## corner case when all error measurements are identical.
@@ -385,7 +384,9 @@ filterPpmError <- function(approvedPeaks, useGap, varExpThresh,
     }
 
     ## cluster which contains smallest ppm values
-    clusterSize <- table(kmeansPPM$cluster) %>% sort(decreasing = TRUE)
+    clusterSize <- table(kmeansPPM$cluster)
+    clusterSize <- sort(clusterSize, decreasing = TRUE)
+
     maxCluster <- names(clusterSize)[1]
     minCluster <- which(kmeansPPM$cluster == maxCluster)
     rm(clusterSize)

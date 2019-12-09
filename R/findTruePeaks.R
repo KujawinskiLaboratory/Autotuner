@@ -29,7 +29,8 @@ findTruePeaks <- function(truePeaks, sortedAllEIC) {
         }
 
         ## checking to make sure features comes from adjacent scans
-        scanDiff <- sort(unique(peakData$scan)) %>% diff()
+        scanDiff <- sort(unique(peakData$scan))
+        scanDiff <- diff(scanDiff)
 
         ## checking that binned peaks:
         # are being picked up within consecutive scans
@@ -72,12 +73,14 @@ findTruePeaks <- function(truePeaks, sortedAllEIC) {
                     initialState <- vapply(X = seq_along(errorNext),
                                            FUN = function(x) {
                         errorNext[[x]][checkMins[x]]
-                    }, FUN.VALUE = numeric(1)) %>% which.min()
+                    }, FUN.VALUE = numeric(1))
+                    initialState <- which.min(initialState)
 
                     scanStates <- scanStates[initialState,]
                 }
 
-                nextStateIndex <- vapply(X = scanStates$mz, FUN = function(x) {
+                nextStateIndex <- vapply(X = scanStates$mz,
+                                         FUN = function(x) {
 
                     obsError <- abs(x - nextStates$mz)/x * 10^6
 
@@ -102,7 +105,9 @@ findTruePeaks <- function(truePeaks, sortedAllEIC) {
                         intensityProb
                     return(max(nextStateProb/sum(nextStateProb)))
 
-                }, FUN.VALUE = numeric(1)) %>% which.max()
+                },
+                FUN.VALUE = numeric(1))
+                nextStateIndex <- which.max(nextStateIndex)
 
                 nextStates <- nextStates[nextStateIndex,]
 

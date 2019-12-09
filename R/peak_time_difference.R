@@ -43,14 +43,20 @@ peak_time_difference <- function(Autotuner) {
     ## this is the same as in the "extract_peaks" function
     ## using median as the soft threshold since it is statistically robust.
     ## Now estimating it from all ordered quantities within the data.
-    threshold <- peak_table %>%
-        split(f = peak_table$Sample) %>%
-        lapply(function(df) {
+    threshold <- peak_table
+    threshold <- split(x = threshold, f = peak_table$Sample)
+    threshold <- lapply(X = threshold, FUN = function(df) {
 
         if(nrow(df) > 1) {
-            startDiff <- sort(notZero(df$Start_time)) %>% diff() %>% min()
-            endDiff <- sort(notZero(df$End_time)) %>% diff() %>% min()
-            maxDiff <- sort(notZero(df$Maxima_time)) %>% diff() %>% min()
+            startDiff <- sort(notZero(df$Start_time))
+            startDiff <- diff(startDiff)
+            startDiff <- min(startDiff)
+            endDiff <- sort(notZero(df$End_time))
+            endDiff <- diff(endDiff)
+            endDiff <- min(endDiff)
+            maxDiff <- sort(notZero(df$Maxima_time))
+            maxDiff <- diff(maxDiff)
+            maxDiff <- min(maxDiff)
         } else {
             startDiff <- notZero(df$Start_time)
             endDiff <- notZero(df$End_time)
@@ -58,8 +64,9 @@ peak_time_difference <- function(Autotuner) {
         }
 
         return(list(startDiff, endDiff, maxDiff))
-    }) %>% unlist() %>% median()
-
+    })
+    threshold <- unlist(threshold)
+    threshold <- median(threshold)
 
     # initializing storage objects --------------------------------------------
     ## initializing storage data
@@ -180,7 +187,7 @@ peak_time_difference <- function(Autotuner) {
 
 
     # organizing and exporting matches ----------------------------------------
-    index_vector <- dplyr::select(matchingPeaks, .data$cur_row)
+    index_vector <- matchingPeaks$cur_row
     index_vector <- unlist(index_vector)
     index_vector <- rle(index_vector)
 

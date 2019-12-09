@@ -4,8 +4,15 @@
 \alias{EICparams}
 \title{EICparams}
 \usage{
-EICparams(Autotuner, massThresh, useGap = TRUE, varExpThresh = 0.8,
-  returnPpmPlots = TRUE, plotDir = ".", verbose = TRUE)
+EICparams(
+  Autotuner,
+  massThresh,
+  useGap = TRUE,
+  varExpThresh = 0.8,
+  returnPpmPlots = TRUE,
+  plotDir = ".",
+  verbose = TRUE
+)
 }
 \arguments{
 \item{Autotuner}{An Autotuner objected containing sample specific raw
