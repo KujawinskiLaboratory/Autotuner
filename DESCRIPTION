@@ -20,7 +20,6 @@ biocViews: MassSpectrometry, Metabolomics
 Imports: 
     devtools,
     RColorBrewer,
-    plyr,
     mzR,
     assertthat,
     scales,
