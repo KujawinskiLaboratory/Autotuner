@@ -14,7 +14,6 @@
 #' @param peak A Numeric index obtained from UI that indicates which peak
 #' should be visualized.
 #'
-#' @importFrom rlang .data
 #' @import mzR
 #' @import devtools
 #'
