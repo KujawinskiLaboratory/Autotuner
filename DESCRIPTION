@@ -18,7 +18,6 @@ LazyData: false
 RoxygenNote: 7.0.2
 biocViews: MassSpectrometry, Metabolomics
 Imports: 
-    devtools,
     RColorBrewer,
     mzR,
     assertthat,
@@ -32,6 +31,7 @@ Imports:
 Suggests: 
     testthat (>= 2.1.0),
     covr,
+    devtools,
     knitr,
     rmarkdown,
     mtbls2

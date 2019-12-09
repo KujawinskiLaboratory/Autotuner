@@ -15,7 +15,6 @@
 #' should be visualized.
 #'
 #' @import mzR
-#' @import devtools
 #'
 #' @return This function outputs plots that are meant to go into the peakVis
 #' UI.

@@ -1,6 +1,6 @@
 # This script can be run to generate the files "Autouner" and "eicParamEsts"
 
-library(devtools)
+# library(devtools)
 if(!require("mmetspData")) {
     devtools::install_github("crmclean/mmetspData")
 }
