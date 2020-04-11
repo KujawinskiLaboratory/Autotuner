@@ -442,10 +442,23 @@ filterPpmError <- function(approvedPeaks, useGap, varExpThresh,
             bw <- .1
         }
 
+        ## feature added on 2020-04-11
+        ## making the density plots from KDE easier to read
+        ## by reducing the range space on the x-axis visualized
+        ## used to estimate ppm
+
+        if(max(ppmObs) > ppmEst*10) {
+            plotBound <- ppmEst*10
+        } else {
+            plotBound <- max(ppmObs)
+        }
+
+
         plot(stats::density(ppmObs,bw = bw),
             main = title,
             cex.main = 1.2, cex.lab = 1.3, cex.axis = 1.2,
-            xlab = "ppm Values") #+
+            xlab = "ppm Values",
+            xlim = c(0, plotBound)) #+
         abline(v = maxX, lty = 2, col = "red") +
         abline(v = ppmEst, lty = 3, col = "blue")
         legend("topright",

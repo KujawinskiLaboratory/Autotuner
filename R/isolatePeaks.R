@@ -25,6 +25,15 @@
 #' @export
 isolatePeaks <- function(Autotuner, returned_peaks, signals) {
 
+    for(i in seq_along(signals)) {
+        nameCheck <- all(unique(names(signals[[i]])) %in%
+                             c("signals","avgFilter","stdFilter"))
+        if(!nameCheck) {
+            stop("Parameter signals input is incorrect. Check slinding window.")
+        }
+
+    }
+
     peaks <- extract_peaks(Autotuner,returned_peaks,signals)
     Autotuner <- setAutoPeaks(peaks = peaks,Autotuner = Autotuner)
 

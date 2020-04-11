@@ -27,6 +27,10 @@
 #' @export
 plot_peaks <- function(Autotuner, boundary = 10, peak) {
 
+    if(class(Autotuner) != "Autotuner") {
+        stop("Check the input of parameter Autotuner.")
+    }
+
 
     # extracting relevant values from input args ------------------------------
     factorCol <- getAutoFactorCol(Autotuner)
