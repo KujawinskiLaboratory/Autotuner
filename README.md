@@ -6,9 +6,10 @@
   [![Codecov test coverage](https://codecov.io/gh/crmclean/Autotuner/branch/master/graph/badge.svg)](https://codecov.io/gh/crmclean/Autotuner?branch=master)
   <!-- badges: end -->
 
-## Our Paper is Out
+## Our Paper is Out!
 
 If you use AutoTuner, please cite us at:
+
 McLean C. & Kujawinski L. B. (2020). "AutoTuner: High Fidelity and Robust Parameter Selection for Metabolomics Data Processing." _Analytical Chemistry_ https://doi.org/10.1021/acs.analchem.9b04804 
 
 ## Introduction
