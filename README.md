@@ -6,6 +6,11 @@
   [![Codecov test coverage](https://codecov.io/gh/crmclean/Autotuner/branch/master/graph/badge.svg)](https://codecov.io/gh/crmclean/Autotuner?branch=master)
   <!-- badges: end -->
 
+## Our Paper is Out
+
+If you use AutoTuner, please cite us at:
+McLean C. & Kujawinski L. B. (2020). "AutoTuner: High Fidelity and Robust Parameter Selection for Metabolomics Data Processing." _Analytical Chemistry_ https://doi.org/10.1021/acs.analchem.9b04804 
+
 ## Introduction
 
 This repo contains the code needed to run the R package AutoTuner. AutoTuner is used to identify dataset specific parameters to process untargeted metabolomics data. So far, AutoTuner has been tested on untargeted data generated on qTOF, orbitrap and Fourier transform ion cyclotron resonance mass analyzers. 
@@ -16,16 +21,19 @@ For input, AutoTuner requires at least 3 samples of raw data converted from prop
 
 ## AutoTuner Installation
 
-AutoTuner is now available through [bioconductor](https://bioconductor.org/packages/devel/bioc/html/Autotuner.html). The current released version of the package may be installed by running the following code:
+AutoTuner is now available through [bioconductor](https://bioconductor.org/packages/devel/bioc/html/Autotuner.html). The current released version of the package may be installed by running the following code. Please use the devel version of the package to obtain the most up to date version of the code. 
 
 ```r
 if (!requireNamespace("BiocManager", quietly = TRUE))
     install.packages("BiocManager")
 
+# The following initializes usage of Bioc devel
+BiocManager::install(version='devel')
+
 BiocManager::install("Autotuner")
 ```
 
-The development version of the package may be downloaded using devtools. This can be accomplished by running the following code. 
+The development version of the package may also be downloaded using devtools. This can be accomplished by running the following code. 
 
 ```r
 library(devtools)
