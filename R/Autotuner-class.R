@@ -183,12 +183,17 @@ createAutotuner <- function(data_paths, runfile, file_col, factorCol) {
                     'Check the input.'))
     }
 
+
     if(!all(file.exists(data_paths))) {
         stop("One or more of the file paths do not exist.")
     }
 
     if(nrow(runfile) != length(data_paths)) {
         stop("Number of file paths and metadata entries do not match. Check input.")
+    }
+
+    if(!all(factorCol %in% colnames(runfile))) {
+        stop("The string used in factorCol arguement did not match any of the columns of the runfile arguement.")
     }
 
     Autotuner <- methods::new(Class="Autotuner", data_paths,
