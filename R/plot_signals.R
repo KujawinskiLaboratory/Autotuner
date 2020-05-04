@@ -46,7 +46,7 @@ plot_signals <- function(Autotuner, threshold, sample_index, signals) {
     }
 
     if(!(factorCol %in% colnames(metadata))) {
-        stop("factorCol is not within the MSest metadata.")
+        stop("factorCol was not found within AutoTuner metadata.")
     }
 
     if(length(signals) == 0) {
