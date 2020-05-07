@@ -136,7 +136,8 @@ computations will be contained within this object.
 
 The file_col argument corresponds to the string column of the metadata that 
 matches raw data samples by name. The factorCol argument corresponds to the 
-specific factor column. 
+metadata column containing information about which experimental factor each
+sample belongs to. 
 
 ```{r}
 Autotuner <- createAutotuner(rawPaths,

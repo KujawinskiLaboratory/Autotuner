@@ -192,7 +192,7 @@ createAutotuner <- function(data_paths, runfile, file_col, factorCol) {
         stop("Number of file paths and metadata entries do not match. Check input.")
     }
 
-    if(!all(factorCol %in% colnames(runfile))) {
+    if(!(factorCol %in% colnames(runfile))) {
         stop("The string used in factorCol arguement did not match any of the columns of the runfile arguement.")
     }
 
