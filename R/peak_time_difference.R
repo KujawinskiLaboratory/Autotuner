@@ -155,7 +155,8 @@ peak_time_difference <- function(Autotuner) {
     # Checking performance of peak matching -----------------------------------
     if(nrow(matchingPeaks) == 0) {
         stop(paste("No peaks were matched across samples.",
-                   "Consider asking extract_peaks to return more peaks."))
+                   "Consider increasing the value of the arguement",
+                   "returned_peaks from the function isolatePeaks."))
     }
     matchingPeaks$index <- 0
 
