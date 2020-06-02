@@ -1,3 +1,8 @@
+Changes in version 1.1.4 (Release date: 2020-0x-xx)
++ Introduced warnings and errors regarding mass threshold parameter for users with dense data
+  o Warning first determines if over 75% of the detected binned regions of interest are below the ppm error.
+  o New flag is returned within the S/N threshold estimation step to show that no bins made it past this step.
+
 Changes in version 1.1.2
 + Updated ploting function of DKE to make it easier to evaluate the results.
   o Added a new xlim filter to DKE ploting function
