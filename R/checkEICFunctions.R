@@ -157,6 +157,10 @@ estimateSNThresh <- function(no_match, sortedAllEIC, approvedPeaks) {
     }
     fixedNoiseList <- Reduce(rbind, fixedNoiseList)
 
+    if(length(scanIntervals) == 0) {
+        stop("Scan interval length is zero. Issue w/in estimateSNThresh fun.")
+    }
+
     ## calculating the sd and mean for each group
     noiseIntDb <- list()
     counter <- 1
@@ -209,11 +213,17 @@ estimateSNThresh <- function(no_match, sortedAllEIC, approvedPeaks) {
 
     }
 
+    ### noiseIntDb is NULL
+
     noiseIntDb <- Reduce(rbind, noiseIntDb)
     noiseIntDb$key <- apply(noiseIntDb[,c(1,2)], 1, paste, collapse = " ")
     rm(curStatDb, eX2, groupSd, groupVar, groupMean,
         curRow, fixedNoiseList)
 
+
+    if(length(scanID) == 0) {
+        stop("Scan ID length is zero. Issue w/in estimateSNThresh fun.")
+    }
 
     SN <- list()
     counter <- 1
@@ -249,6 +259,10 @@ estimateSNThresh <- function(no_match, sortedAllEIC, approvedPeaks) {
             next()
 
         }
+    }
+
+    if(length(unlist(SN)) == 0) {
+        stop("Something went wrong. No scans available to estimate SN Threshold.")
     }
 
     if(!exists("SN")) {

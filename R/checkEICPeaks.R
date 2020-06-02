@@ -110,11 +110,18 @@ checkEICPeaks <- function(mzDb,
         any(ppm > ppmEst)
     })
     noisyBin <- unlist(noisyBin)
+
+    if(sum(noisyBin) > length(noisyBin)*.75) {
+        warning("Consider decreasing massThresh value. Most of the things being grouped are considered to be noise.")
+    }
+
     approvScorePeaks <- approvedPeaks[!noisyBin,]
 
     # Estimating PeakPicking Parameters ---------------------------------------
     SNest <- estimateSNThresh(no_match,
-                              sortedAllEIC, approvScorePeaks)
+                              sortedAllEIC,
+                              approvScorePeaks)
+
     SNest <- min(SNest)
 
     if(is.infinite(SNest)) {
