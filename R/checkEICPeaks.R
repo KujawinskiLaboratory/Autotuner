@@ -112,7 +112,7 @@ checkEICPeaks <- function(mzDb,
     noisyBin <- unlist(noisyBin)
 
     if(sum(noisyBin) > length(noisyBin)*.75) {
-        warning("Consider decreasing massThresh value. Most of the things being grouped are considered to be noise.")
+        message("Consider decreasing massThresh value. Most of the things being grouped are considered to be noise.\n")
     }
 
     approvScorePeaks <- approvedPeaks[!noisyBin,]
