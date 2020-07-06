@@ -43,6 +43,10 @@ findPeakWidth <- function(approvScorePeaks,
                                      "",
                                      header$spectrumId))
 
+    if(all(is.na(allScansInData))) {
+        allScansInData <- as.numeric(header$spectrum)
+    }
+
     if(length(allScansInData) == 0) {
         stop(paste("Error during findPeakWidth. allScansInData var is length",
                    "0. Check structure of raw data header file."))

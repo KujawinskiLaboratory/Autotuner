@@ -23,6 +23,10 @@ dissectScans <- function(mzDb, observedPeak, header) {
     ## from the get go 2019-06-19
     scanID <- as.numeric(sub("(.* )?scan=|(.* )?scanId=", "", peakHead$spectrumId[ms1]))
 
+    if(all(is.na(scanID))) {
+        scanID <- as.numeric(peakHead$spectrum[ms1])
+    }
+
     rm(peakHead,ms1)
 
     peakMassSpectras <- mzDb[scansOfPeak]
