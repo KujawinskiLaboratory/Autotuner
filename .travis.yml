@@ -5,7 +5,6 @@ r: bioc-devel
 cache:
   packages: true
 sudo: required
-dist: trusty
 warnings_are_errors: false
 
 # unfortunately apt packages are not cached
