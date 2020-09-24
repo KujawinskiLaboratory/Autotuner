@@ -13,6 +13,8 @@
 #' visualize it.
 #' @param peak A Numeric index obtained from UI that indicates which peak
 #' should be visualized.
+#' @param showLegend A boolean dictating if a legend should be shown or not.
+#' Resolves issue where legend can cover chromatographic data
 #'
 #' @import mzR
 #'
@@ -25,7 +27,7 @@
 #' plot_peaks(Autotuner = Autotuner, boundary = 100, peak = 1)
 #'
 #' @export
-plot_peaks <- function(Autotuner, boundary = 10, peak) {
+plot_peaks <- function(Autotuner, boundary = 10, peak, showLegend = TRUE) {
 
     if(class(Autotuner) != "Autotuner") {
         stop("Check the input of parameter Autotuner.")
@@ -112,12 +114,14 @@ plot_peaks <- function(Autotuner, boundary = 10, peak) {
 
     sampleIds <- peak_table$Sample[checkPeaks]
 
+    if(showLegend == TRUE){
     legend("topleft",
            legend = sample_names[sampleIds],
            col = colors[sampleIds],
            cex = 0.75,
            fill = which(sample_names %in%
                             sample_names[peak_table$Sample[checkPeaks]]))
+    }
 
 
 }
