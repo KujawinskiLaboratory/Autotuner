@@ -4,7 +4,9 @@
 \name{eicParamsEsts}
 \alias{eicParamsEsts}
 \title{eicParamsEsts}
-\format{A data.frame representing the output of the EICparams function.}
+\format{
+A data.frame representing the output of the EICparams function.
+}
 \source{
 inst/script/makeTestData.R
 }

@@ -4,7 +4,9 @@
 \name{mzDb}
 \alias{mzDb}
 \title{mzDb}
-\format{A list with length 926}
+\format{
+A list with length 926
+}
 \source{
 inst/script/makeAutotunerTestData.R
 }

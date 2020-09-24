@@ -4,11 +4,13 @@
 \name{observedPeak}
 \alias{observedPeak}
 \title{observedPeak}
-\format{A list with length 2
+\format{
+A list with length 2
 \describe{
   \item{start}{56.18}
   \item{end}{97.73}
-}}
+}
+}
 \source{
 inst/script/makeAutotunerTestData.R
 }

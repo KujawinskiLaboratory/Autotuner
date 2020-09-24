@@ -4,7 +4,7 @@
 \alias{plot_peaks}
 \title{@title plot_peaks}
 \usage{
-plot_peaks(Autotuner, boundary = 10, peak)
+plot_peaks(Autotuner, boundary = 10, peak, showLegend = TRUE)
 }
 \arguments{
 \item{Autotuner}{An Autotuner objected containing sample specific raw
@@ -15,6 +15,9 @@ visualize it.}
 
 \item{peak}{A Numeric index obtained from UI that indicates which peak
 should be visualized.}
+
+\item{showLegend}{A boolean dictating if a legend should be shown or not.
+Resolves issue where legend can cover chromatographic data}
 }
 \value{
 This function outputs plots that are meant to go into the peakVis
