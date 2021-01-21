@@ -444,6 +444,7 @@ filterPpmError <- function(approvedPeaks, useGap, varExpThresh,
 
         output <- file.path(plotDir,paste0(gsub(" ", "_", title), ".pdf"))
         output <- sub(":", "", output)
+        output <- sub("\n", "", output)
 
         ## error here...
         par(mar=c(1,1,1,1))
